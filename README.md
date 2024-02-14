@@ -6,9 +6,10 @@
 
 ### Authors
 
++ Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
++ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
 + Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
 + Stefano Zaghi, [stefano.zaghi@cnr.it](stefano.zaghi@cnr.it)
-+ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
 
 ### Features
 
