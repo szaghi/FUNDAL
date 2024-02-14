@@ -1,0 +1,33 @@
+[modes]
+modes = oafml-test-nvf
+
+# main modes
+[oafml-test-nvf]
+help     = Build OAFML tests
+template = template-base-nvf
+
+[template-base-nvf]
+preproc   = -D_NVF
+compiler  = nvfortran
+cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=accel
+lflags    = -acc -gpu=cc70 -fast -Minfo=accel
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+src       = ./src/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+# aux rules
+[rule-makedoc]
+help   = Build documentation from source files
+rule_1 = rm -rf doc/html/*
+rule_2 = ford doc/main_page.md --debug
+rule_3 = cp -r doc/html/publish/* doc/html/
+rule_4 = rm -rf doc/html/publish
+
+[rule-deldoc]
+help = Delete documentation
+rule = rm -rf doc/html/*
