@@ -73,7 +73,7 @@ contains
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    sizes = ubounds - lbounds_ + 1
-   bytes = int(storage_size(fptr_src,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   bytes = int(storage_size(fptr_dev,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    cptr_dev = acc_malloc_f(bytes)
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
