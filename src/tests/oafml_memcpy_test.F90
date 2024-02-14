@@ -30,7 +30,7 @@ do i = 1, n
    a(i) = i
 enddo
 
-! allocate host and device memory
+! allocate device memory
 call oac_alloc(fptr_dev=a_dev, ubounds=[n], ierr=error)
 if (error /= 0) then
    print*, 'error: a_dev not allocated!'
