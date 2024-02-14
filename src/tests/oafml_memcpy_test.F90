@@ -15,10 +15,6 @@ integer(I4P)                   :: error            !< Error status.
 integer(I4P)                   :: n                !< Number of elements of arrays.
 character(10)                  :: nstr             !< Number of elements of arrays, stringified.
 integer(I4P)                   :: i                !< Counter.
-integer(I4P)                   :: n, i, j, k, errs, argcount, l
-integer(I4P)                   :: argcount, l
-integer(I4P)                   :: argcount, l
-integer(I4P)                   :: argcount, l
 
 ! get arrays dimension
 n = 1000
