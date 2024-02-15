@@ -60,12 +60,38 @@ endinterface oac_alloc
 
 interface oac_memcpy_from_device
    !< Copy memory from device.
-   module procedure oac_memcpy_from_device_R8P_1D
+   module procedure oac_memcpy_from_device_R8P_1D,&
+                    oac_memcpy_from_device_R8P_2D,&
+                    oac_memcpy_from_device_R8P_3D,&
+                    oac_memcpy_from_device_R8P_4D,&
+                    oac_memcpy_from_device_R8P_5D,&
+                    oac_memcpy_from_device_R8P_6D,&
+                    oac_memcpy_from_device_R8P_7D,&
+                    oac_memcpy_from_device_R4P_1D,&
+                    oac_memcpy_from_device_R4P_2D,&
+                    oac_memcpy_from_device_R4P_3D,&
+                    oac_memcpy_from_device_R4P_4D,&
+                    oac_memcpy_from_device_R4P_5D,&
+                    oac_memcpy_from_device_R4P_6D,&
+                    oac_memcpy_from_device_R4P_7D
 endinterface oac_memcpy_from_device
 
 interface oac_memcpy_to_device
    !< Copy memory to device.
-   module procedure oac_memcpy_to_device_R8P_1D
+   module procedure oac_memcpy_to_device_R8P_1D,&
+                    oac_memcpy_to_device_R8P_2D,&
+                    oac_memcpy_to_device_R8P_3D,&
+                    oac_memcpy_to_device_R8P_4D,&
+                    oac_memcpy_to_device_R8P_5D,&
+                    oac_memcpy_to_device_R8P_6D,&
+                    oac_memcpy_to_device_R8P_7D,&
+                    oac_memcpy_to_device_R4P_1D,&
+                    oac_memcpy_to_device_R4P_2D,&
+                    oac_memcpy_to_device_R4P_3D,&
+                    oac_memcpy_to_device_R4P_4D,&
+                    oac_memcpy_to_device_R4P_5D,&
+                    oac_memcpy_to_device_R4P_6D,&
+                    oac_memcpy_to_device_R4P_7D
 endinterface oac_memcpy_to_device
 
 interface bytes_size
@@ -88,6 +114,7 @@ endinterface bytes_size
 
 contains
    ! OpeanACC runtime memory rutines
+   ! acc_malloc
    subroutine oac_alloc_R8P_1D(fptr_dev, ubounds, ierr, lbounds, init_value)
    !< Allocate real array, R8P kind, rank 1.
    real(R8P),    intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
@@ -648,6 +675,7 @@ contains
    endif
    endsubroutine oac_alloc_R4P_7D
 
+   ! acc_memcpy_from_device
    subroutine oac_memcpy_from_device_R8P_1D(fptr_src, fptr_dst)
    !< Copy real array from device, R8P kind, rank 1.
    real(R8P), intent(in),  target :: fptr_src(:) !< Source memory (device memory).
@@ -658,6 +686,137 @@ contains
    call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
    endsubroutine oac_memcpy_from_device_R8P_1D
 
+   subroutine oac_memcpy_from_device_R8P_2D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 2.
+   real(R8P), intent(in),  target :: fptr_src(:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes         !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_2D
+
+   subroutine oac_memcpy_from_device_R8P_3D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 3.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes           !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_3D
+
+   subroutine oac_memcpy_from_device_R8P_4D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 4.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes             !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_4D
+
+   subroutine oac_memcpy_from_device_R8P_5D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 5.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes               !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_5D
+
+   subroutine oac_memcpy_from_device_R8P_6D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 6.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes                 !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_6D
+
+   subroutine oac_memcpy_from_device_R8P_7D(fptr_src, fptr_dst)
+   !< Copy real array from device, R8P kind, rank 7.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:,:,:) !< Source memory (device memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes                   !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R8P_7D
+
+   subroutine oac_memcpy_from_device_R4P_1D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 1.
+   real(R4P), intent(in),  target :: fptr_src(:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes       !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_1D
+
+   subroutine oac_memcpy_from_device_R4P_2D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 2.
+   real(R4P), intent(in),  target :: fptr_src(:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes         !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_2D
+
+   subroutine oac_memcpy_from_device_R4P_3D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 3.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes           !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_3D
+
+   subroutine oac_memcpy_from_device_R4P_4D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 4.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes             !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_4D
+
+   subroutine oac_memcpy_from_device_R4P_5D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 5.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes               !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_5D
+
+   subroutine oac_memcpy_from_device_R4P_6D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 6.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes                 !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_6D
+
+   subroutine oac_memcpy_from_device_R4P_7D(fptr_src, fptr_dst)
+   !< Copy real array from device, R4P kind, rank 7.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:,:,:) !< Source memory (device memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
+   integer(c_size_t)              :: bytes                   !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_from_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_from_device_R4P_7D
+
+   ! acc_memcpy_to_device
    subroutine oac_memcpy_to_device_R8P_1D(fptr_src, fptr_dst)
    !< Copy real array to device, R8P kind, rank 1.
    real(R8P), intent(in),  target :: fptr_src(:) !< Source memory (host memory).
@@ -667,6 +826,136 @@ contains
    bytes = bytes_size(a=fptr_src)
    call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
    endsubroutine oac_memcpy_to_device_R8P_1D
+
+   subroutine oac_memcpy_to_device_R8P_2D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 2.
+   real(R8P), intent(in),  target :: fptr_src(:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes         !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_2D
+
+   subroutine oac_memcpy_to_device_R8P_3D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 3.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes           !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_3D
+
+   subroutine oac_memcpy_to_device_R8P_4D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 4.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes             !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_4D
+
+   subroutine oac_memcpy_to_device_R8P_5D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 5.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes               !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_5D
+
+   subroutine oac_memcpy_to_device_R8P_6D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 6.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes                 !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_6D
+
+   subroutine oac_memcpy_to_device_R8P_7D(fptr_src, fptr_dst)
+   !< Copy real array to device, R8P kind, rank 7.
+   real(R8P), intent(in),  target :: fptr_src(:,:,:,:,:,:,:) !< Source memory (host memory).
+   real(R8P), intent(out), target :: fptr_dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes                   !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R8P_7D
+
+   subroutine oac_memcpy_to_device_R4P_1D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 1.
+   real(R4P), intent(in),  target :: fptr_src(:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes       !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_1D
+
+   subroutine oac_memcpy_to_device_R4P_2D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 2.
+   real(R4P), intent(in),  target :: fptr_src(:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes         !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_2D
+
+   subroutine oac_memcpy_to_device_R4P_3D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 3.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes           !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_3D
+
+   subroutine oac_memcpy_to_device_R4P_4D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 4.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes             !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_4D
+
+   subroutine oac_memcpy_to_device_R4P_5D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 5.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes               !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_5D
+
+   subroutine oac_memcpy_to_device_R4P_6D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 6.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes                 !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_6D
+
+   subroutine oac_memcpy_to_device_R4P_7D(fptr_src, fptr_dst)
+   !< Copy real array to device, R4P kind, rank 7.
+   real(R4P), intent(in),  target :: fptr_src(:,:,:,:,:,:,:) !< Source memory (host memory).
+   real(R4P), intent(out), target :: fptr_dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
+   integer(c_size_t)              :: bytes                   !< Bytes of memory copied.
+
+   bytes = bytes_size(a=fptr_src)
+   call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
+   endsubroutine oac_memcpy_to_device_R4P_7D
 
    ! auxiliary rutines
    function bytes_size_R8P_1D(a, sizes) result(bytes)
