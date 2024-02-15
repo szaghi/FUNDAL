@@ -28,13 +28,27 @@
 
 ---
 
-| [What is OAFML?](#what-is-oafml) | [Copyrights](#copyrights) | [Documentation](#documentation) | [Install](#install) |
+| [What is OAFML?](#what-is-oafml) | [Status](#status) | [Copyrights](#copyrights) | [A taste of OAFML](#a-taste-of-oafml) | [Documentation](#documentation) | [Install](#install) |
 
 ---
 
 ## What is OAFML?
 
-To be written.
+OpenACC allows to manage device memory by means of runtime rutines, e.g. allocate and copy to/from device. These routines,
+in general, handles C's pointers: OAFML provides a convenient fortran API to use OpenACC runtime routines handling C's data
+in background simplifying end-user experience.
+
+Go to [Top](#top)
+
+## Status
+
+Status of implemented API:
+
++ [x] acc_malloc
++ [x] acc_memcpy_to_device
++ [x] acc_memcpy_from_device
++ [ ] acc_free
++ [ ] acc_device
 
 Go to [Top](#top)
 
@@ -54,6 +68,13 @@ Anyone is interest to use, to develop or to contribute is welcome, feel free to 
 More details can be found on [wiki](https://github.com/szaghi/OAFML/wiki/Copyrights).
 
 Go to [Top](#top)
+
+## A taste of OAFML
+
+To be written.
+
+Go to [Top](#top)
+
 ## Documentation
 
 To be written.
