@@ -1,5 +1,5 @@
 !< OAFML, device memory alloc test.
-program oafml_alloc_test
+program oafml_alloc_free_test
 !< OAFML, device memory alloc test.
 
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
@@ -79,6 +79,7 @@ integer(I1P), pointer :: a7_I1(:,:,:,:,:,:,:)=>null() !< Array on device memory,
 integer(I1P), pointer :: b7_I1(:,:,:,:,:,:,:)=>null() !< Array on device memory, lbound=[-1,-2,-3,-4,-5,-6,-7].
 integer(I4P)          :: ierr                         !< Error status.
 
+print '(A)', 'test oac_alloc'
 ! kind R8P
 call oac_alloc(fptr_dev=a1_R8,                               ubounds=[1            ],ierr=ierr);call error_print(ierr,'a1_R8')
 call oac_alloc(fptr_dev=b1_R8,lbounds=[-1                  ],ubounds=[1            ],ierr=ierr);call error_print(ierr,'b1_R8')
@@ -225,6 +226,43 @@ print '("b6_I1 bounds: [",6(i2,X),"]/[",6(i2,X),"]")', lbound(b6_I1), ubound(b6_
 print '("a7_I1 bounds: [",7(i2,X),"]/[",7(i2,X),"]")', lbound(a7_I1), ubound(a7_I1)
 print '("b7_I1 bounds: [",7(i2,X),"]/[",7(i2,X),"]")', lbound(b7_I1), ubound(b7_I1)
 
+print '(A)', 'test oac_free'
+call oac_free(a1_R8)
+call oac_free(a2_R8)
+call oac_free(a3_R8)
+call oac_free(a4_R8)
+call oac_free(a5_R8)
+call oac_free(a6_R8)
+call oac_free(a7_R8)
+call oac_free(a1_R4)
+call oac_free(a2_R4)
+call oac_free(a3_R4)
+call oac_free(a4_R4)
+call oac_free(a5_R4)
+call oac_free(a6_R4)
+call oac_free(a7_R4)
+call oac_free(a1_I8)
+call oac_free(a2_I8)
+call oac_free(a3_I8)
+call oac_free(a4_I8)
+call oac_free(a5_I8)
+call oac_free(a6_I8)
+call oac_free(a7_I8)
+call oac_free(a1_I4)
+call oac_free(a2_I4)
+call oac_free(a3_I4)
+call oac_free(a4_I4)
+call oac_free(a5_I4)
+call oac_free(a6_I4)
+call oac_free(a7_I4)
+call oac_free(a1_I1)
+call oac_free(a2_I1)
+call oac_free(a3_I1)
+call oac_free(a4_I1)
+call oac_free(a5_I1)
+call oac_free(a6_I1)
+call oac_free(a7_I1)
+
 print '(A)', 'test passed'
 
 contains
@@ -238,4 +276,4 @@ contains
       stop
    endif
    endsubroutine error_print
-endprogram oafml_alloc_test
+endprogram oafml_alloc_free_test
