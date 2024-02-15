@@ -47,7 +47,7 @@ Status of implemented API:
 + [x] acc_malloc
 + [x] acc_memcpy_to_device
 + [x] acc_memcpy_from_device
-+ [ ] acc_free
++ [x] acc_free
 + [ ] acc_device
 
 Go to [Top](#top)
