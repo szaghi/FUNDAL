@@ -10,12 +10,50 @@ implicit none
 private
 public :: oac_alloc
 public :: oac_free
+public :: oac_get_device_num
+public :: oac_get_num_devices
+public :: oac_init_device
 public :: oac_memcpy_from_device
 public :: oac_memcpy_to_device
+public :: oac_set_device_num
 
 integer(I4P), parameter, public :: OAFML_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
 
 interface
+   ! public
+   function oac_get_device_num(dev_type) bind(c, name="acc_get_device_num")
+   use, intrinsic :: iso_fortran_env, only : I4P=>int32
+   use openacc
+   implicit none
+   integer(I4P)             :: oac_get_device_num
+   integer(acc_device_kind) :: dev_type
+   endfunction oac_get_device_num
+
+   function oac_get_num_devices(dev_type) bind(c, name="acc_get_num_devices")
+   use, intrinsic :: iso_fortran_env, only : I4P=>int32
+   use openacc
+   implicit none
+   integer(I4P)             :: oac_get_num_devices
+   integer(acc_device_kind) :: dev_type
+   endfunction oac_get_num_devices
+
+   subroutine oac_init_device(dev_num, dev_type) bind(c, name="acc_init_device")
+   use, intrinsic :: iso_fortran_env, only : I4P=>int32
+   use openacc
+   implicit none
+   integer(I4P)             :: dev_num
+   integer(acc_device_kind) :: dev_type
+   endsubroutine oac_init_device
+
+   subroutine oac_set_device_num(dev_num, dev_type) bind(c, name="acc_set_device_num")
+   use, intrinsic :: iso_fortran_env, only : I4P=>int32
+   use openacc
+   implicit none
+   integer(I4P)             :: dev_num
+   integer(acc_device_kind) :: dev_type
+   endsubroutine oac_set_device_num
+
+   ! private
    ! interface to C runtime routines
    subroutine acc_free_f(dev_ptr) bind(c, name="acc_free")
    use iso_c_binding, only : c_ptr
