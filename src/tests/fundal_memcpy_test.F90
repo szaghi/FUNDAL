@@ -1,9 +1,9 @@
-!< OAFML, device memory copy test.
-program oafml_memcpy_test
-!< OAFML, device memory copy test.
+!< FUNDAL, device memory copy test.
+program fundal_memcpy_test
+!< FUNDAL, device memory copy test.
 
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use oafml
+use fundal
 
 implicit none
 
@@ -669,4 +669,4 @@ contains
       stop
    endif
    endsubroutine error_print
-endprogram oafml_memcpy_test
+endprogram fundal_memcpy_test

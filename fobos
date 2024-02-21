@@ -1,9 +1,9 @@
 [modes]
-modes = oafml-test-nvf
+modes = fundal-test-nvf
 
 # main modes
-[oafml-test-nvf]
-help     = Build OAFML tests
+[fundal-test-nvf]
+help     = Build FUNDAL tests
 template = template-base-nvf
 
 [template-base-nvf]

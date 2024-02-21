@@ -1,6 +1,6 @@
-!< OAFML, runtime memory library module.
-module oafml
-!< OAFML, runtime memory library module.
+!< FUNDAL, runtime memory library module.
+module fundal
+!< FUNDAL, runtime memory library module.
 use openacc
 use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
@@ -17,7 +17,7 @@ public :: oac_memcpy_from_device
 public :: oac_memcpy_to_device
 public :: oac_set_device_num
 
-integer(I4P), parameter, public :: OAFML_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
+integer(I4P), parameter, public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
 
 interface
    ! public
@@ -313,7 +313,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_1D
 
@@ -349,7 +349,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_2D
 
@@ -387,7 +387,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_3D
 
@@ -427,7 +427,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_4D
 
@@ -469,7 +469,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_5D
 
@@ -513,7 +513,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_6D
 
@@ -559,7 +559,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R8P_7D
 
@@ -593,7 +593,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_1D
 
@@ -629,7 +629,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_2D
 
@@ -667,7 +667,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_3D
 
@@ -707,7 +707,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_4D
 
@@ -749,7 +749,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_5D
 
@@ -793,7 +793,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_6D
 
@@ -839,7 +839,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_R4P_7D
 
@@ -873,7 +873,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_1D
 
@@ -909,7 +909,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_2D
 
@@ -947,7 +947,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_3D
 
@@ -987,7 +987,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_4D
 
@@ -1029,7 +1029,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_5D
 
@@ -1073,7 +1073,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_6D
 
@@ -1101,14 +1101,14 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) deviceptr(fptr_dev)
-         do i6=lbounds_(7), ubounds(7)
+         do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
-            fptr_dev(i1,i2,i3,i4,i5,i6) = init_value
+            fptr_dev(i1,i2,i3,i4,i5,i6,i7) = init_value
          enddo
          enddo
          enddo
@@ -1119,7 +1119,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I8P_7D
 
@@ -1153,7 +1153,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_1D
 
@@ -1189,7 +1189,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_2D
 
@@ -1227,7 +1227,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_3D
 
@@ -1267,7 +1267,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_4D
 
@@ -1309,7 +1309,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_5D
 
@@ -1353,7 +1353,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_6D
 
@@ -1381,14 +1381,14 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) deviceptr(fptr_dev)
-         do i6=lbounds_(7), ubounds(7)
+         do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
-            fptr_dev(i1,i2,i3,i4,i5,i6) = init_value
+            fptr_dev(i1,i2,i3,i4,i5,i6,i7) = init_value
          enddo
          enddo
          enddo
@@ -1399,7 +1399,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I4P_7D
 
@@ -1433,7 +1433,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_1D
 
@@ -1469,7 +1469,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_2D
 
@@ -1507,7 +1507,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_3D
 
@@ -1547,7 +1547,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_4D
 
@@ -1589,7 +1589,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_5D
 
@@ -1633,7 +1633,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_6D
 
@@ -1661,14 +1661,14 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) deviceptr(fptr_dev)
-         do i6=lbounds_(7), ubounds(7)
+         do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
-            fptr_dev(i1,i2,i3,i4,i5,i6) = init_value
+            fptr_dev(i1,i2,i3,i4,i5,i6,i7) = init_value
          enddo
          enddo
          enddo
@@ -1679,7 +1679,7 @@ contains
       endif
    else
       fptr_dev => null()
-      ierr = OAFML_ERR_FPTR_DEV_NOT_ALLOCATED
+      ierr = FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
    endif
    endsubroutine oac_alloc_I1P_7D
 
@@ -3087,4 +3087,4 @@ contains
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
    endif
    endfunction bytes_size_I1P_7D
-endmodule oafml
+endmodule fundal

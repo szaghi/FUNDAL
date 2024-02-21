@@ -1,9 +1,9 @@
-!< OAFML, device memory copy into derived type test.
-program oafml_derived_type_memcpy_test
-!< OAFML, device memory copy into derived type test.
+!< FUNDAL, device memory copy into derived type test.
+program fundal_derived_type_memcpy_test
+!< FUNDAL, device memory copy into derived type test.
 
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use oafml
+use fundal
 
 implicit none
 
@@ -69,4 +69,4 @@ do i=1, dt%n
    endif
 enddo
 print*, 'no errors happen'
-endprogram oafml_derived_type_memcpy_test
+endprogram fundal_derived_type_memcpy_test

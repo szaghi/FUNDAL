@@ -1,8 +1,8 @@
 <a name="top"></a>
 
-# OAFML
+# FUNDAL
 
-> OpenACC Fortran Memory Library
+> Fortran UNified Device Acceleration Library
 
 ### Authors
 
@@ -14,13 +14,15 @@
 ### Features
 
 + KISS, keep it simple and stupid;
-+ easy handling OpenACC memory offloading on devices (GPU);
++ easy handling OpenACC memory offloading on (higly parallel) accelerated devices (GPU);
++ easy handling OpenMP memory offloading on (higly parallel) accelerated devices (GPU);
++ MPI enabled for multi-devices clusters;
 + Fortran 2003+ with OpenACC directives standard compliant ;
 + Free, Open Source Project.
 
 #### Issues
 
-[![GitHub issues](https://img.shields.io/github/issues/szaghi/OAFML.svg)]()
+[![GitHub issues](https://img.shields.io/github/issues/szaghi/FUNDAL.svg)]()
 
 #### Compiler Support
 
@@ -28,14 +30,14 @@
 
 ---
 
-| [What is OAFML?](#what-is-oafml) | [Status](#status) | [Copyrights](#copyrights) | [A taste of OAFML](#a-taste-of-oafml) | [Documentation](#documentation) | [Install](#install) |
+| [What is FUNDAL?](#what-is-fundal) | [Status](#status) | [Copyrights](#copyrights) | [A taste of FUNDAL](#a-taste-of-fundal) | [Documentation](#documentation) | [Install](#install) |
 
 ---
 
-## What is OAFML?
+## What is FUNDAL?
 
-OpenACC allows to manage device memory by means of runtime rutines, e.g. allocate and copy to/from device. These routines,
-in general, handles C's pointers: OAFML provides a convenient fortran API to use OpenACC runtime routines handling C's data
+OpenACC/OpenMP allows to manage (highly parallel, accelerated ) device memory by means of runtime rutines, e.g. allocate and copy to/from device.
+These routines, in general, handles C's pointers: FUNDAL provides a convenient fortran API to use OpenMP/OpenACC runtime routines handling C's data
 in background simplifying end-user experience.
 
 Go to [Top](#top)
@@ -54,7 +56,7 @@ Go to [Top](#top)
 
 ## Copyrights
 
-OAFML is an open source project, it is distributed under a multi-licensing system:
+FUNDAL is an open source project, it is distributed under a multi-licensing system:
 
 + for FOSS projects:
   - [GPL v3](http://www.gnu.org/licenses/gpl-3.0.html);
@@ -65,11 +67,11 @@ OAFML is an open source project, it is distributed under a multi-licensing syste
 
 Anyone is interest to use, to develop or to contribute is welcome, feel free to select the license that best matches your soul!
 
-More details can be found on [wiki](https://github.com/szaghi/OAFML/wiki/Copyrights).
+More details can be found on [wiki](https://github.com/szaghi/FUNDAL/wiki/Copyrights).
 
 Go to [Top](#top)
 
-## A taste of OAFML
+## A taste of FUNDAL
 
 To be written.
 

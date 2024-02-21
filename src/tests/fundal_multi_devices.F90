@@ -1,9 +1,9 @@
-!< OAFML, multi devices test.
-program oafml_multi_devices_test
-!< OAFML, multi devices test.
+!< FUNDAL, multi devices test.
+program fundal_multi_devices_test
+!< FUNDAL, multi devices test.
 use, intrinsic :: iso_fortran_env, only : I4P=>int32
 use openacc
-use oafml
+use fundal
 
 implicit none
 
@@ -23,5 +23,4 @@ do i=0, devs_number - 1
    mydev = oac_get_device_num(dev_type=acc_device_nvidia)
    print '("init device id =",i3)', mydev
 enddo
-endprogram oafml_multi_devices_test
-
+endprogram fundal_multi_devices_test

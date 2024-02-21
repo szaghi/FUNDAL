@@ -1,9 +1,9 @@
-!< OAFML, array access test.
-program oafml_array_access_test
-!< OAFML, array access test.
+!< FUNDAL, array access test.
+program fundal_array_access_test
+!< FUNDAL, array access test.
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use openacc
-use oafml
+use fundal
 
 implicit none
 
@@ -157,5 +157,5 @@ contains
       stop
    endif
    endsubroutine error_print
-endprogram oafml_array_access_test
+endprogram fundal_array_access_test
 
