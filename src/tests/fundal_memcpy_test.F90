@@ -393,7 +393,11 @@ call dev_memcpy_to_device(fptr_src=a7_I1, fptr_dst=a7_dev_I1)
 
 ! do some operation on device
 print '(A)', 'compute on device'
-!$acc parallel loop deviceptr(a1_dev_R8, b1_dev_R8)
+!$acc parallel loop independent deviceptr(a1_dev_R8, b1_dev_R8, &
+!$acc&                          a1_dev_R4, b1_dev_R4, &
+!$acc&                          a1_dev_I8, b1_dev_I8, &
+!$acc&                          a1_dev_I4, b1_dev_I4, &
+!$acc&                          a1_dev_I1, b1_dev_I1)
 do i1 = 1, n
    b1_dev_R8(i1) = a1_dev_R8(i1) + 10
    b1_dev_R4(i1) = a1_dev_R4(i1) + 10
@@ -401,8 +405,13 @@ do i1 = 1, n
    b1_dev_I4(i1) = a1_dev_I4(i1) + 10
    b1_dev_I1(i1) = a1_dev_I1(i1) + 10
 enddo
-!$acc parallel loop deviceptr(a2_dev_R8, b2_dev_R8)
+!$acc parallel loop independent deviceptr(a2_dev_R8, b2_dev_R8, &
+!$acc&                                    a2_dev_R4, b2_dev_R4, &
+!$acc&                                    a2_dev_I8, b2_dev_I8, &
+!$acc&                                    a2_dev_I4, b2_dev_I4, &
+!$acc&                                    a2_dev_I1, b2_dev_I1)
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b2_dev_R8(i1,i2) = a2_dev_R8(i1,i2) + 10
    b2_dev_R4(i1,i2) = a2_dev_R4(i1,i2) + 10
@@ -411,9 +420,15 @@ do i1 = 1, n
    b2_dev_I1(i1,i2) = a2_dev_I1(i1,i2) + 10
 enddo
 enddo
-!$acc parallel loop deviceptr(a3_dev_R8, b3_dev_R8)
+!$acc parallel loop independent deviceptr(a3_dev_R8, b3_dev_R8, &
+!$acc&                                    a3_dev_R4, b3_dev_R4, &
+!$acc&                                    a3_dev_I8, b3_dev_I8, &
+!$acc&                                    a3_dev_I4, b3_dev_I4, &
+!$acc&                                    a3_dev_I1, b3_dev_I1)
 do i3 = 1, n
+!$acc loop
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b3_dev_R8(i1,i2,i3) = a3_dev_R8(i1,i2,i3) + 10
    b3_dev_R4(i1,i2,i3) = a3_dev_R4(i1,i2,i3) + 10
@@ -423,10 +438,17 @@ do i1 = 1, n
 enddo
 enddo
 enddo
-!$acc parallel loop deviceptr(a4_dev_R8, b4_dev_R8)
+!$acc parallel loop independent deviceptr(a4_dev_R8, b4_dev_R8, &
+!$acc&                                    a4_dev_R4, b4_dev_R4, &
+!$acc&                                    a4_dev_I8, b4_dev_I8, &
+!$acc&                                    a4_dev_I4, b4_dev_I4, &
+!$acc&                                    a4_dev_I1, b4_dev_I1)
 do i4 = 1, n
+!$acc loop
 do i3 = 1, n
+!$acc loop
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b4_dev_R8(i1,i2,i3,i4) = a4_dev_R8(i1,i2,i3,i4) + 10
    b4_dev_R4(i1,i2,i3,i4) = a4_dev_R4(i1,i2,i3,i4) + 10
@@ -437,11 +459,19 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop deviceptr(a5_dev_R8, b5_dev_R8)
+!$acc parallel loop independent deviceptr(a5_dev_R8, b5_dev_R8, &
+!$acc&                                    a5_dev_R4, b5_dev_R4, &
+!$acc&                                    a5_dev_I8, b5_dev_I8, &
+!$acc&                                    a5_dev_I4, b5_dev_I4, &
+!$acc&                                    a5_dev_I1, b5_dev_I1)
 do i5 = 1, n
+!$acc loop
 do i4 = 1, n
+!$acc loop
 do i3 = 1, n
+!$acc loop
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b5_dev_R8(i1,i2,i3,i4,i5) = a5_dev_R8(i1,i2,i3,i4,i5) + 10
    b5_dev_R4(i1,i2,i3,i4,i5) = a5_dev_R4(i1,i2,i3,i4,i5) + 10
@@ -453,12 +483,21 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop deviceptr(a6_dev_R8, b6_dev_R8)
+!$acc parallel loop independent deviceptr(a6_dev_R8, b6_dev_R8, &
+!$acc&                                    a6_dev_R4, b6_dev_R4, &
+!$acc&                                    a6_dev_I8, b6_dev_I8, &
+!$acc&                                    a6_dev_I4, b6_dev_I4, &
+!$acc&                                    a6_dev_I1, b6_dev_I1)
 do i6 = 1, n
+!$acc loop
 do i5 = 1, n
+!$acc loop
 do i4 = 1, n
+!$acc loop
 do i3 = 1, n
+!$acc loop
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b6_dev_R8(i1,i2,i3,i4,i5,i6) = a6_dev_R8(i1,i2,i3,i4,i5,i6) + 10
    b6_dev_R4(i1,i2,i3,i4,i5,i6) = a6_dev_R4(i1,i2,i3,i4,i5,i6) + 10
@@ -471,13 +510,23 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop deviceptr(a7_dev_R8, b7_dev_R8)
+!$acc parallel loop independent deviceptr(a7_dev_R8, b7_dev_R8, &
+!$acc&                                    a7_dev_R4, b7_dev_R4, &
+!$acc&                                    a7_dev_I8, b7_dev_I8, &
+!$acc&                                    a7_dev_I4, b7_dev_I4, &
+!$acc&                                    a7_dev_I1, b7_dev_I1)
 do i7 = 1, n
+!$acc loop
 do i6 = 1, n
+!$acc loop
 do i5 = 1, n
+!$acc loop
 do i4 = 1, n
+!$acc loop
 do i3 = 1, n
+!$acc loop
 do i2 = 1, n
+!$acc loop
 do i1 = 1, n
    b7_dev_R8(i1,i2,i3,i4,i5,i6,i7) = a7_dev_R8(i1,i2,i3,i4,i5,i6,i7) + 10
    b7_dev_R4(i1,i2,i3,i4,i5,i6,i7) = a7_dev_R4(i1,i2,i3,i4,i5,i6,i7) + 10

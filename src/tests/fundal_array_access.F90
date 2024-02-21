@@ -22,7 +22,7 @@ call get_n_cli
 print '("n1,n2,n3,n4 = ",4I5)', n1,n2,n3,n4
 
 ! initialize device
-call oac_init_device(dev_num=0, dev_type=acc_device_nvidia)
+call dev_init_device(dev_num=0, dev_type=acc_device_nvidia)
 
 ! allocate device memory
 call dev_alloc(fptr_dev=a_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'a_dev')
@@ -35,7 +35,7 @@ allocate(b(n1,n2,n3,n4))
 allocate(c(n1,n2,n3,n4))
 
 ! initialize data on device
-!$acc parallel loop collapse(4) deviceptr(a_dev,b_dev)
+!$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev)
 do i4=1, n4
 do i3=1, n3
 do i2=1, n2
@@ -62,7 +62,7 @@ enddo
 ! profile device
 print '(A)', 'device timing'
 call cpu_time(tictoc(1))
-!$acc parallel loop collapse(4) deviceptr(a_dev,b_dev,c_dev)
+!$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev,c_dev)
 do i4=1, n4
 do i3=1, n3
 do i2=1, n2
@@ -76,7 +76,7 @@ call cpu_time(tictoc(2))
 print '("i4,i3,i2,i1-collapse(4) order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
 
 call cpu_time(tictoc(1))
-!$acc parallel loop collapse(4) deviceptr(a_dev,b_dev,c_dev)
+!$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev,c_dev)
 do i1=1, n1
 do i2=1, n2
 do i3=1, n3
@@ -90,10 +90,11 @@ call cpu_time(tictoc(2))
 print '("i1,i2,i3,i4-collapse(4) order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
 
 call cpu_time(tictoc(1))
-!$acc parallel loop collapse(3) deviceptr(a_dev,b_dev,c_dev)
+!$acc parallel loop independent collapse(3) deviceptr(a_dev,b_dev,c_dev)
 do i3=1, n3
 do i2=1, n2
 do i1=1, n1
+!$acc loop
 do i4=1, n4
    c_dev(i1,i2,i3,i4) = sqrt(a_dev(i1,i2,i3,i4) * b_dev(i1,i2,i3,i4)**3)
 enddo
@@ -104,10 +105,11 @@ call cpu_time(tictoc(2))
 print '("i3,i2,i1,i4-collapse(3) order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
 
 call cpu_time(tictoc(1))
-!$acc parallel loop collapse(3) deviceptr(a_dev,b_dev,c_dev)
+!$acc parallel loop independent collapse(3) deviceptr(a_dev,b_dev,c_dev)
 do i1=1, n1
 do i2=1, n2
 do i3=1, n3
+!$acc loop
 do i4=1, n4
    c_dev(i1,i2,i3,i4) = sqrt(a_dev(i1,i2,i3,i4) * b_dev(i1,i2,i3,i4)**3)
 enddo
