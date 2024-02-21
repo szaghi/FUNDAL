@@ -7,8 +7,8 @@ help     = Build FUNDAL tests
 template = template-base-nvf
 
 [template-base-nvf]
-preproc   = -D_NVF
 compiler  = nvfortran
+preproc   = -D_DEV_OAC
 cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=accel
 lflags    = -acc -gpu=cc70 -fast -Minfo=accel
 mod_dir   = ./mod/

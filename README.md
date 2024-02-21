@@ -38,7 +38,8 @@
 
 OpenACC/OpenMP allows to manage (highly parallel, accelerated ) device memory by means of runtime rutines, e.g. allocate and copy to/from device.
 These routines, in general, handles C's pointers: FUNDAL provides a convenient fortran API to use OpenMP/OpenACC runtime routines handling C's data
-in background simplifying end-user experience.
+in background simplifying end-user experience. FUNDAL API is designed to (seamless) unify OpenACC and OpenMP runtime routines calling in order to minimize
+end-user's effort in developing device-offloaded applications.
 
 Go to [Top](#top)
 
@@ -46,11 +47,18 @@ Go to [Top](#top)
 
 Status of implemented API:
 
-+ [x] acc_malloc
-+ [x] acc_memcpy_to_device
-+ [x] acc_memcpy_from_device
-+ [x] acc_free
-+ [ ] acc_device
+* OpenaCC backend:
+  + [x] acc_malloc
+  + [x] acc_memcpy_to_device
+  + [x] acc_memcpy_from_device
+  + [x] acc_free
+  + [ ] acc_device
+* OpenaMP backend:
+  + [ ] omp_malloc
+  + [ ] omp_memcpy_to_device
+  + [ ] omp_memcpy_from_device
+  + [ ] omp_free
+  + [ ] omp_device
 
 Go to [Top](#top)
 

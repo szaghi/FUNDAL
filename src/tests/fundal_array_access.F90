@@ -25,9 +25,9 @@ print '("n1,n2,n3,n4 = ",4I5)', n1,n2,n3,n4
 call oac_init_device(dev_num=0, dev_type=acc_device_nvidia)
 
 ! allocate device memory
-call oac_alloc(fptr_dev=a_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'a_dev')
-call oac_alloc(fptr_dev=b_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'b_dev')
-call oac_alloc(fptr_dev=c_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'c_dev')
+call dev_alloc(fptr_dev=a_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'a_dev')
+call dev_alloc(fptr_dev=b_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'b_dev')
+call dev_alloc(fptr_dev=c_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'c_dev')
 
 ! allocate host memory
 allocate(a(n1,n2,n3,n4))
@@ -158,4 +158,3 @@ contains
    endif
    endsubroutine error_print
 endprogram fundal_array_access_test
-

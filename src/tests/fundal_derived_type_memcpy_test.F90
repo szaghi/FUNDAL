@@ -34,12 +34,12 @@ do i = 1, dt%n
 enddo
 
 ! allocate device memory
-call oac_alloc(fptr_dev=dt%a_dev, ubounds=[dt%n], ierr=error)
+call dev_alloc(fptr_dev=dt%a_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
    print*, 'error: a_dev not allocated!'
    stop
 endif
-call oac_alloc(fptr_dev=dt%b_dev, ubounds=[dt%n], ierr=error)
+call dev_alloc(fptr_dev=dt%b_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
    print*, 'error: b_dev not allocated!'
    stop
@@ -47,7 +47,7 @@ endif
 
 ! copy host memory to device one
 print*, 'copy a to a_dev'
-call oac_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
+call dev_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
 
 ! do some operation on device
 print*, 'compute b_dev on device'
@@ -58,7 +58,7 @@ enddo
 
 ! copy dev memory to host one
 print*, 'copy b_dev to b'
-call oac_memcpy_from_device(fptr_src=dt%b_dev, fptr_dst=dt%b)
+call dev_memcpy_from_device(fptr_src=dt%b_dev, fptr_dst=dt%b)
 
 ! check results
 print*, 'chek results'
