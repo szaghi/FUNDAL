@@ -5,7 +5,6 @@ use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 
 implicit none
-
 private
 public :: bytes_size
 

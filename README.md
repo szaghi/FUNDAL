@@ -52,13 +52,19 @@ Status of implemented API:
   + [x] acc_memcpy_to_device
   + [x] acc_memcpy_from_device
   + [x] acc_free
-  + [ ] acc_device
+  + [ ] device handling:
+     * dev_get_device_num
+     * dev_get_num_devices
+     * dev_get_property_string
+     * dev_init_device
 * OpenaMP backend:
-  + [ ] omp_malloc
-  + [ ] omp_memcpy_to_device
-  + [ ] omp_memcpy_from_device
-  + [ ] omp_free
-  + [ ] omp_device
+  + [x] omp_malloc
+  + [x] omp_memcpy
+  + [x] omp_free
+  + [ ] device handling:
+     * dev_get_device_num
+     * dev_get_num_devices
+     * dev_get_host_num
 
 Go to [Top](#top)
 
@@ -88,6 +94,31 @@ Go to [Top](#top)
 ## Documentation
 
 To be written.
+
+### Compile and Run tests
+
+#### OpenACC
+
+```shell
+FoBiS.py build -mode fundal-test-nvf
+tree exe/
+exe/
+├── fundal_alloc_free_test
+├── fundal_array_access
+├── fundal_derived_type_memcpy_test
+├── fundal_devices_handling
+├── fundal_memcpy_test
+├── fundal_use_test
+```
+
+#### OpenMP
+
+```shell
+FoBiS.py build -mode fundal-test-ifx
+tree exe/
+exe/
+├── fundal_alloc_free_test
+```
 
 Go to [Top](#top)
 
