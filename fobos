@@ -1,5 +1,5 @@
 [modes]
-modes = fundal-test-nvf
+modes = fundal-test-nvf fundal-test-nvf-debug
         fundal-test-ifx
 
 # main modes
@@ -7,16 +7,34 @@ modes = fundal-test-nvf
 help     = Build FUNDAL tests with OpenACC-NVF
 template = template-base-nvf
 
+[fundal-test-nvf-debug]
+help     = Build FUNDAL tests with OpenACC-NVF
+template = template-base-nvf
+
 [fundal-test-ifx]
 help     = Build FUNDAL tests with OpenMP-IFX
 template = template-base-ifx
-target   = fundal_alloc_free_test.F90
 
+# templates
 [template-base-nvf]
 compiler  = nvfortran
 preproc   = -DDEV_OAC
 cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=accel
 lflags    = -acc -gpu=cc70 -fast -Minfo=accel
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+src       = ./src/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+[template-base-nvf-debug]
+compiler  = nvfortran
+preproc   = -DDEV_OAC
+cflags    = -cpp -c -acc -gpu=cc70 -Minfo=accel -C -g
+lflags    = -acc -gpu=cc70 -Minfo=accel -C -g
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 src       = ./src/

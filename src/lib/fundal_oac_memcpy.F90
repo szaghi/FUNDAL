@@ -4,12 +4,18 @@ module fundal_oac_memcpy
 use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: openacc
+use            :: fundal_env,      only : mydev, myhos
 use            :: fundal_utilities
 
 implicit none
 private
 public :: oac_memcpy_from_device
 public :: oac_memcpy_to_device
+
+interface oac_memcpy
+   !< Copy memory from/to device.
+   module procedure oac_memcpy_R8P_1D!,&
+endinterface oac_memcpy
 
 interface oac_memcpy_from_device
    !< Copy memory from device.
@@ -809,4 +815,25 @@ contains
    bytes = bytes_size(a=fptr_src)
    call acc_memcpy_to_device_f(c_loc(fptr_dst), c_loc(fptr_src), bytes)
    endsubroutine oac_memcpy_to_device_I1P_7D
+
+   ! unified API with OpenMP memcpy from/to device
+   function oac_memcpy_R8P_1D(fptr_dst, fptr_src, off_dst, off_src, dev_dst, dev_src) result(ierr)
+   !< Copy real array from/to device, R8P kind, rank 1.
+   !< Note: this is added for unified seamless API with OpenMP, however it has the overhead of "if" evaluation with respect the
+   !< memcpy_from/to OpenACC native alternative.
+   real(R8P),    intent(out), target :: fptr_dst(:) !< Destination memory.
+   real(R8P),    intent(in),  target :: fptr_src(:) !< Source memory.
+   integer(I4P), intent(in)          :: off_dst     !< Destination memory offset.
+   integer(I4P), intent(in)          :: off_src     !< Source memory offset.
+   integer(I4P), intent(in)          :: dev_dst     !< Destination device ID.
+   integer(I4P), intent(in)          :: dev_src     !< Source device ID.
+   integer(I4P)                      :: ierr        !< Error status.
+
+   ierr = 0_I4P
+   if (dev_dst==myhos) then
+      call oac_memcpy_from_device(fptr_dst=fptr_dst, fptr_src=fptr_src)
+   else
+      call oac_memcpy_to_device(fptr_dst=fptr_dst, fptr_src=fptr_src)
+   endif
+   endfunction oac_memcpy_R8P_1D
 endmodule fundal_oac_memcpy

@@ -20,6 +20,11 @@ integer(I4P)    :: error !< Error status.
 character(10)   :: nstr  !< Number of elements of arrays, stringified.
 integer(I4P)    :: i     !< Counter.
 
+! initialize device
+myhos = dev_get_host_num()
+mydev = dev_get_device_num()
+call dev_init_device(dev_num=mydev)
+
 ! get arrays dimension
 if (command_argument_count() >= 1) then
    call get_command_argument(1, nstr)
@@ -36,37 +41,39 @@ enddo
 ! allocate device memory
 call dev_alloc(fptr_dev=dt%a_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
-   print*, 'error: a_dev not allocated!'
+   print '(A)', 'error: a_dev not allocated!'
    stop
 endif
 call dev_alloc(fptr_dev=dt%b_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
-   print*, 'error: b_dev not allocated!'
+   print '(A)', 'error: b_dev not allocated!'
    stop
 endif
 
 ! copy host memory to device one
-print*, 'copy a to a_dev'
+print '(A)', 'copy a to a_dev'
 call dev_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
 
 ! do some operation on device
-print*, 'compute b_dev on device'
+print '(A)', 'compute b_dev on device'
 !$acc parallel loop deviceptr(dt%a_dev, dt%b_dev)
+!$omp target teams distribute parallel do has_device_addr(dt%a_dev, dt%b_dev)
 do i = 1, dt%n
    dt%b_dev(i) = dt%a_dev(i) + 10
 enddo
 
 ! copy dev memory to host one
-print*, 'copy b_dev to b'
+print '(A)', 'copy b_dev to b'
 call dev_memcpy_from_device(fptr_src=dt%b_dev, fptr_dst=dt%b)
 
 ! check results
-print*, 'chek results'
+print '(A)', 'chek results'
 do i=1, dt%n
    if ((dt%b(i) - dt%a(i)) /= 10) then
-      print*, 'error: something is not working...'
+      print '(A)', 'error: something is not working...'
       stop
    endif
 enddo
-print*, 'no errors happen'
+
+print '(A)', 'test passed'
 endprogram fundal_derived_type_memcpy_test

@@ -2,7 +2,6 @@
 program fundal_array_access_test
 !< FUNDAL, array access test.
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use openacc
 use fundal
 
 implicit none
@@ -18,11 +17,13 @@ integer(I4P)           :: n1,n2,n3,n4            !< Sizes.
 integer(I4P)           :: i1,i2,i3,i4            !< Counter.
 integer(I4P)           :: ierr                   !< Error status.
 
+! initialize device
+myhos = dev_get_host_num()
+mydev = dev_get_device_num()
+call dev_init_device(dev_num=mydev)
+
 call get_n_cli
 print '("n1,n2,n3,n4 = ",4I5)', n1,n2,n3,n4
-
-! initialize device
-call dev_init_device(dev_num=0, dev_type=acc_device_nvidia)
 
 ! allocate device memory
 call dev_alloc(fptr_dev=a_dev, ubounds=[n1,n2,n3,n4],ierr=ierr);call error_print(ierr,'a_dev')
@@ -36,6 +37,7 @@ allocate(c(n1,n2,n3,n4))
 
 ! initialize data on device
 !$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev)
+!$omp target teams distribute parallel do collapse(4) has_device_addr(a_dev,b_dev)
 do i4=1, n4
 do i3=1, n3
 do i2=1, n2
@@ -63,6 +65,7 @@ enddo
 print '(A)', 'device timing'
 call cpu_time(tictoc(1))
 !$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev,c_dev)
+!$omp target teams distribute parallel do collapse(4) has_device_addr(a_dev,b_dev,c_dev)
 do i4=1, n4
 do i3=1, n3
 do i2=1, n2
@@ -77,6 +80,7 @@ print '("i4,i3,i2,i1-collapse(4) order time = ",f12.9," seconds.")', (tictoc(2) 
 
 call cpu_time(tictoc(1))
 !$acc parallel loop independent collapse(4) deviceptr(a_dev,b_dev,c_dev)
+!$omp target teams distribute parallel do collapse(4) has_device_addr(a_dev,b_dev,c_dev)
 do i1=1, n1
 do i2=1, n2
 do i3=1, n3
@@ -91,6 +95,7 @@ print '("i1,i2,i3,i4-collapse(4) order time = ",f12.9," seconds.")', (tictoc(2) 
 
 call cpu_time(tictoc(1))
 !$acc parallel loop independent collapse(3) deviceptr(a_dev,b_dev,c_dev)
+!$omp target teams distribute parallel do collapse(3) has_device_addr(a_dev,b_dev,c_dev)
 do i3=1, n3
 do i2=1, n2
 do i1=1, n1
@@ -106,6 +111,7 @@ print '("i3,i2,i1,i4-collapse(3) order time = ",f12.9," seconds.")', (tictoc(2) 
 
 call cpu_time(tictoc(1))
 !$acc parallel loop independent collapse(3) deviceptr(a_dev,b_dev,c_dev)
+!$omp target teams distribute parallel do collapse(3) has_device_addr(a_dev,b_dev,c_dev)
 do i1=1, n1
 do i2=1, n2
 do i3=1, n3
@@ -133,6 +139,8 @@ enddo
 enddo
 call cpu_time(tictoc(2))
 print '("i4,i3,i2,i1 order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
+
+print '(A)', 'test passed'
 
 contains
    subroutine get_n_cli
