@@ -97,9 +97,9 @@ integer(I4P)       :: ierr                 ! error status
 integer(I4P)       :: i, j, k              ! counter
 
 ! initialize device
-myhos = dev_get_host_num()          ! get host ID
-mydev = dev_get_device_num()        ! get device ID
-call dev_init_device(dev_num=mydev) ! initialize device
+call dev_set_device_num(0)   ! initialize device
+mydev = dev_get_device_num() ! get device ID
+myhos = dev_get_host_num()   ! get host ID
 
 ! allocate device memory
 call dev_alloc(fptr_dev=a_dev,lbounds=[-1,-2,-3],ubounds=[1,2,3],ierr=ierr,dev_id=mydev)
@@ -185,6 +185,39 @@ exe/
 ├── fundal_device_handling_test
 ├── fundal_memcpy_test
 ├── fundal_use_test
+```
+
+#### Run tests
+
+All test can be executed without any argument and a successful execution produces a `test passed` output.
+Test can also be executed all with a single script:
+
+```shell
+utils/run_test.sh
+```
+
+Moreover, the tests can be built and executed by means of [FoBiS.py](https://github.com/szaghi/FoBiS):
+
+```shell
+# only execution
+FoBiS.py rule -ex run-tests
+Executing rule "run-tests"
+   Command => utils/run_tests.sh
+...
+# build and execution with OpenACC-NVF
+FoBiS.py rule -ex build-run-tests-nvf
+Executing rule "build-run-tests-nvf"
+   Command => FoBiS.py clean
+   Command => FoBiS.py build -mode fundal-test-nvf
+   Command => FoBiS.py rule -ex run-tests
+...
+# build and execution with OpenMP-IFX
+FoBiS.py rule -ex build-run-tests-ifx
+Executing rule "build-run-tests-ifx"
+   Command => FoBiS.py clean
+   Command => FoBiS.py build -mode fundal-test-ifx
+   Command => FoBiS.py rule -ex run-tests
+...
 ```
 
 Go to [Top](#top)
