@@ -8,8 +8,8 @@ help     = Build FUNDAL tests with OpenACC-NVF
 template = template-base-nvf
 
 [fundal-test-nvf-debug]
-help     = Build FUNDAL tests with OpenACC-NVF
-template = template-base-nvf
+help     = Build FUNDAL tests with OpenACC-NVF in debug mode
+template = template-base-nvf-debug
 
 [fundal-test-ifx]
 help     = Build FUNDAL tests with OpenMP-IFX
@@ -61,6 +61,22 @@ log             = True
 jobs            = 4
 
 # aux rules
+[rule-run-tests]
+help   = Run all tests
+rule_1 = utils/run_tests.sh
+
+[rule-build-run-tests-nvf]
+help   = Build and Run all tests with OpenACC-NVF
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-test-nvf
+rule_3 = FoBiS.py rule -ex run-tests
+
+[rule-build-run-tests-ifx]
+help   = Build and Run all tests with OpenMP-IFX
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-test-ifx
+rule_3 = FoBiS.py rule -ex run-tests
+
 [rule-makedoc]
 help   = Build documentation from source files
 rule_1 = rm -rf doc/html/*

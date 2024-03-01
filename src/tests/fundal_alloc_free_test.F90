@@ -8,9 +8,9 @@ use            :: fundal
 implicit none
 
 ! initialize device
-myhos = dev_get_host_num()
+call dev_set_device_num(0)
 mydev = dev_get_device_num()
-call dev_init_device(dev_num=mydev)
+myhos = dev_get_host_num()
 
 call test_R8P
 call test_R8P(init_value=8._R8P)

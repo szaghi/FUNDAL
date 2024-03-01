@@ -14,9 +14,9 @@ myhos = dev_get_host_num()
 print '("current thread host ID =",i3)', myhos
 devs_number = dev_get_num_devices()
 print '("total number of devices available =",i3)', devs_number
-do i=1, devs_number
+do i=0, devs_number - 1
+   call dev_set_device_num(i)
    mydev = dev_get_device_num()
-   call dev_init_device(dev_num=mydev)
    print '("   current thread device ID       =",i3)', mydev
    call dev_get_property_string(dev_num=mydev, string=property_string, prefix='      ')
    print '("   current thread device property = ",A)', new_line('a')//trim(property_string)

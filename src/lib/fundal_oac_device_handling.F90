@@ -2,7 +2,17 @@
 module fundal_oac_device_handling
 !< FUNDAL, device handling module, OpenACC backend.
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use            :: openacc
+use            :: openacc,         only : acc_get_device_num,       &
+                                          acc_get_num_devices,      &
+                                          acc_get_property,         &
+                                          acc_set_device_num,       &
+                                          acc_device_nvidia,        &
+                                          acc_device_host,          &
+                                          acc_property_memory,      &
+                                          acc_property_free_memory, &
+                                          acc_property_name,        &
+                                          acc_property_vendor,      &
+                                          acc_property_driver
 
 implicit none
 private
@@ -10,7 +20,7 @@ public :: oac_get_device_num
 public :: oac_get_host_num
 public :: oac_get_num_devices
 public :: oac_get_property_string
-public :: oac_init_device
+public :: oac_set_device_num
 
 contains
    function oac_get_device_num() result(device_num)
@@ -64,11 +74,11 @@ contains
    string = trim(string)//prefix_//'driver     : '//trim(adjustl(string_))
    endsubroutine oac_get_property_string
 
-   subroutine oac_init_device(dev_num)
-   !< initialize the runtime for the specified device type and device number.
-   !< This can be used to isolate any initialization cost from the computational cost.
-   integer, value, intent(in) :: dev_num  !< Device ID.
+   subroutine oac_set_device_num(dev_num)
+   !< Set the runtime for the specified device type and device number.
+   !< Note: currently only nvidia devices are supported.
+   integer, value, intent(in) :: dev_num !< Device ID.
 
-   call acc_init_device(dev_num, acc_device_nvidia)
-   endsubroutine oac_init_device
+   call acc_set_device_num(dev_num, acc_device_nvidia)
+   endsubroutine oac_set_device_num
 endmodule fundal_oac_device_handling

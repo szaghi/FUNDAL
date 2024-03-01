@@ -18,9 +18,9 @@ integer(I4P)           :: i1,i2,i3,i4            !< Counter.
 integer(I4P)           :: ierr                   !< Error status.
 
 ! initialize device
-myhos = dev_get_host_num()
+call dev_set_device_num(0)
 mydev = dev_get_device_num()
-call dev_init_device(dev_num=mydev)
+myhos = dev_get_host_num()
 
 call get_n_cli
 print '("n1,n2,n3,n4 = ",4I5)', n1,n2,n3,n4

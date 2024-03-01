@@ -3,7 +3,8 @@ module fundal_omp_alloc
 !< FUNDAL, memory allocation routines module for OpenMP backend.
 use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use            :: omp_lib, only : omp_target_alloc, omp_target_free, omp_target_is_present, omp_target_memcpy, omp_get_default_device
+use            :: omp_lib,         only : omp_target_alloc, omp_target_free
+use            :: fundal_env
 use            :: fundal_utilities
 
 implicit none
@@ -57,21 +58,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
-   integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id      !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value  !< Optional initial value.
    real(R8P), pointer                 :: fptr(:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_     !< Device ID, local variable.
    integer(c_size_t)                  :: bytes       !< Bytes of memory allocated.
    integer(I4P)                       :: i1          !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
@@ -92,21 +95,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
-   integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id        !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value    !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_       !< Device ID, local variable.
    integer(c_size_t)                  :: bytes         !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2         !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
@@ -129,21 +134,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
-   integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id          !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value      !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_         !< Device ID, local variable.
    integer(c_size_t)                  :: bytes           !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
@@ -168,21 +175,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
-   integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id            !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value        !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_           !< Device ID, local variable.
    integer(c_size_t)                  :: bytes             !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
@@ -209,21 +218,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
-   integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id              !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value          !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_             !< Device ID, local variable.
    integer(c_size_t)                  :: bytes               !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
@@ -252,21 +263,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value            !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_               !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                 !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
@@ -297,21 +310,23 @@ contains
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                  !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    real(R8P),    intent(in), optional :: init_value              !< Optional initial value.
    real(R8P), pointer                 :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_                 !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                   !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
@@ -344,21 +359,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
-   integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id      !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value  !< Optional initial value.
    real(R4P), pointer                 :: fptr(:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_     !< Device ID, local variable.
    integer(c_size_t)                  :: bytes       !< Bytes of memory allocated.
    integer(I4P)                       :: i1          !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
@@ -379,21 +396,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
-   integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id        !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value    !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_       !< Device ID, local variable.
    integer(c_size_t)                  :: bytes         !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2         !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
@@ -416,21 +435,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
-   integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id          !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value      !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_         !< Device ID, local variable.
    integer(c_size_t)                  :: bytes           !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
@@ -455,21 +476,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
-   integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id            !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value        !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_           !< Device ID, local variable.
    integer(c_size_t)                  :: bytes             !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
@@ -496,21 +519,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
-   integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id              !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value          !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_             !< Device ID, local variable.
    integer(c_size_t)                  :: bytes               !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
@@ -539,21 +564,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value            !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_               !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                 !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
@@ -584,21 +611,23 @@ contains
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                  !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    real(R4P),    intent(in), optional :: init_value              !< Optional initial value.
    real(R4P), pointer                 :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_                 !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                   !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
@@ -631,21 +660,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
-   integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id      !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value  !< Optional initial value.
    integer(I8P), pointer              :: fptr(:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_     !< Device ID, local variable.
    integer(c_size_t)                  :: bytes       !< Bytes of memory allocated.
    integer(I4P)                       :: i1          !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
@@ -666,21 +697,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
-   integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id        !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value    !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_       !< Device ID, local variable.
    integer(c_size_t)                  :: bytes         !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2         !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
@@ -703,21 +736,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
-   integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id          !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value      !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_         !< Device ID, local variable.
    integer(c_size_t)                  :: bytes           !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
@@ -742,21 +777,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
-   integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id            !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value        !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_           !< Device ID, local variable.
    integer(c_size_t)                  :: bytes             !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
@@ -783,21 +820,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
-   integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id              !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value          !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_             !< Device ID, local variable.
    integer(c_size_t)                  :: bytes               !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
@@ -826,21 +865,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value            !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_               !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                 !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
@@ -871,21 +912,23 @@ contains
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                  !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    integer(I8P), intent(in), optional :: init_value              !< Optional initial value.
    integer(I8P), pointer              :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_                 !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                   !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
@@ -918,21 +961,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
-   integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id      !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value  !< Optional initial value.
    integer(I4P), pointer              :: fptr(:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_     !< Device ID, local variable.
    integer(c_size_t)                  :: bytes       !< Bytes of memory allocated.
    integer(I4P)                       :: i1          !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
@@ -953,21 +998,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
-   integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id        !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value    !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_       !< Device ID, local variable.
    integer(c_size_t)                  :: bytes         !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2         !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
@@ -990,21 +1037,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
-   integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id          !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value      !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_         !< Device ID, local variable.
    integer(c_size_t)                  :: bytes           !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
@@ -1029,21 +1078,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
-   integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id            !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value        !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_           !< Device ID, local variable.
    integer(c_size_t)                  :: bytes             !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
@@ -1070,21 +1121,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
-   integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id              !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value          !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_             !< Device ID, local variable.
    integer(c_size_t)                  :: bytes               !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
@@ -1113,21 +1166,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value            !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_               !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                 !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
@@ -1158,21 +1213,23 @@ contains
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                  !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    integer(I4P), intent(in), optional :: init_value              !< Optional initial value.
    integer(I4P), pointer              :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_                 !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                   !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
@@ -1205,21 +1262,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
-   integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id      !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value  !< Optional initial value.
    integer(I1P), pointer              :: fptr(:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_     !< Device ID, local variable.
    integer(c_size_t)                  :: bytes       !< Bytes of memory allocated.
    integer(I4P)                       :: i1          !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
@@ -1240,21 +1299,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
-   integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id        !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value    !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_       !< Device ID, local variable.
    integer(c_size_t)                  :: bytes         !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2         !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
@@ -1277,21 +1338,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
-   integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id          !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value      !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_         !< Device ID, local variable.
    integer(c_size_t)                  :: bytes           !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
@@ -1316,21 +1379,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
-   integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id            !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value        !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_           !< Device ID, local variable.
    integer(c_size_t)                  :: bytes             !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
@@ -1357,21 +1422,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
-   integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id              !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value          !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_             !< Device ID, local variable.
    integer(c_size_t)                  :: bytes               !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
@@ -1400,21 +1467,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value            !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_               !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                 !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
@@ -1445,21 +1514,23 @@ contains
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
-   integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
+   integer(I4P), intent(in), optional :: dev_id                  !< Device ID.
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    integer(I1P), intent(in), optional :: init_value              !< Optional initial value.
    integer(I1P), pointer              :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
+   integer(I4P)                       :: dev_id_                 !< Device ID, local variable.
    integer(c_size_t)                  :: bytes                   !< Bytes of memory allocated.
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    ierr = 0
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
    bytes = bytes_size(a=fptr_dev,sizes=sizes)
-   cptr_dev = omp_target_alloc(bytes, int(dev_id, c_int))
+   cptr_dev = omp_target_alloc(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
