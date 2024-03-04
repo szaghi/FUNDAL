@@ -1,6 +1,7 @@
 [modes]
 modes = fundal-test-nvf fundal-test-nvf-debug
         fundal-test-ifx
+        fundal-test-gnu fundal-test-gnu-debug
 
 # main modes
 [fundal-test-nvf]
@@ -15,10 +16,18 @@ template = template-base-nvf-debug
 help     = Build FUNDAL tests with OpenMP-IFX
 template = template-base-ifx
 
+[fundal-test-gnu]
+help     = Build FUNDAL tests with OpenACC-GNU
+template = template-base-gnu
+
+[fundal-test-gnu-debug]
+help     = Build FUNDAL tests with OpenACC-GNU in debug mode
+template = template-base-gnu-debug
+
 # templates
 [template-base-nvf]
 compiler  = nvfortran
-preproc   = -DDEV_OAC
+preproc   = -DDEV_OAC -DCOMPILER_NVF
 cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=accel
 lflags    = -acc -gpu=cc70 -fast -Minfo=accel
 mod_dir   = ./mod/
@@ -32,7 +41,7 @@ jobs      = 4
 
 [template-base-nvf-debug]
 compiler  = nvfortran
-preproc   = -DDEV_OAC
+preproc   = -DDEV_OAC -DCOMPILER_NVF
 cflags    = -cpp -c -acc -gpu=cc70 -Minfo=accel -C -g
 lflags    = -acc -gpu=cc70 -Minfo=accel -C -g
 mod_dir   = ./mod/
@@ -46,7 +55,7 @@ jobs      = 4
 
 [template-base-ifx]
 compiler        = intel_nextgen
-preproc         = -DDEV_OMP
+preproc         = -DDEV_OMP -DCOMPILER_IFX
 cflags          = -c -cpp
 lflags          = -cpp
 openmp          = True
@@ -59,6 +68,34 @@ colors          = True
 quiet           = False
 log             = True
 jobs            = 4
+
+[template-base-gnu]
+compiler  = gnu
+preproc   = -DDEV_OAC -DCOMPILER_GNU
+cflags    = -cpp -c -fopenacc
+lflags    = -fopenacc
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+src       = ./src/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+[template-base-gnu-debug]
+compiler  = gnu
+preproc   = -DDEV_OAC -DCOMPILER_GNU
+cflags    = -cpp -c -fopenacc -g -fcheck=all -fbacktrace
+lflags    = -fopenacc -g -fcheck=all -fbacktrace
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+src       = ./src/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
 
 # aux rules
 [rule-run-tests]

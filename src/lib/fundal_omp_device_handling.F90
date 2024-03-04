@@ -7,12 +7,21 @@ use            :: omp_lib,         only : omp_get_default_device,omp_get_initial
 implicit none
 private
 public :: omp_get_default_device  ! dev_get_device_num
+public :: omp_get_device_type     ! dev_get_device_type
 public :: omp_get_initial_device  ! dev_get_host_num
 public :: omp_get_num_devices     ! dev_get_num_devices
 public :: omp_get_property_string ! dev_get_property_string
 public :: omp_set_default_device  ! dev_set_device_num
 
 contains
+   function omp_get_device_type() result(devtype)
+   !< Return the device type.
+   !< Note: OpenMP does not provide such a runtime routine, this is added only for seamless unified API with OpenACC purposes.
+   integer(I4P) :: devtype !< Device type.
+
+   devtype = 0_I4P
+   endfunction omp_get_device_type
+
    subroutine omp_get_property_string(dev_num, string, prefix, memory)
    !< Return the value of a device-property for the specified device.
    !< Note: OpenMP does not provide such a runtime routine, this is added only for seamless unified API with OpenACC purposes.

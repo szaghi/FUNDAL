@@ -151,10 +151,11 @@ integer(I4P)                      :: ierr                             !< Error s
 integer(I4P)                      :: n                                !< Number of elements of arrays.
 integer(I4P)                      :: i1,i2,i3,i4,i5,i6,i7             !< Counter.
 
-! initialize device
+! initialize environment global variables
+myhos = dev_get_host_num()
+devtype = dev_get_device_type()
 call dev_set_device_num(0)
 mydev = dev_get_device_num()
-myhos = dev_get_host_num()
 
 call get_n_cli
 

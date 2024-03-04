@@ -6,10 +6,10 @@
 
 ### Authors
 
-+ Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
-+ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
 + Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
 + Stefano Zaghi, [stefano.zaghi@cnr.it](stefano.zaghi@cnr.it)
++ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
++ Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
 
 ### Features
 
@@ -17,12 +17,17 @@
 + easy handling OpenACC memory offloading on (higly parallel) accelerated devices (GPU);
 + easy handling OpenMP memory offloading on (higly parallel) accelerated devices (GPU);
 + MPI enabled for multi-devices clusters;
-+ Fortran 2003+ with OpenACC directives standard compliant ;
 + Free, Open Source Project.
 
 #### Issues
 
 [![GitHub issues](https://img.shields.io/github/issues/szaghi/FUNDAL.svg)]()
+
+#### Compilers support
+
+- NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3;
+- INTEL IFX: fully support OpenMP backend, works on INTEL GPUs, tested with v2024.0.2-20231213;
+- GNU gfortran: partially support OpenACC backend, compile, but does not work, tested with v13.1.0;
 
 ---
 
@@ -43,24 +48,38 @@ Go to [Top](#top)
 
 Status of implemented API:
 
-* OpenaCC backend:
-  + [x] acc_malloc
-  + [x] acc_memcpy_to_device
-  + [x] acc_memcpy_from_device
-  + [x] acc_free
-  + [ ] device handling:
-     * dev_get_device_num
-     * dev_get_num_devices
-     * dev_get_property_string
-     * dev_init_device
-* OpenaMP backend:
-  + [x] omp_malloc
-  + [x] omp_memcpy
-  + [x] omp_free
-  + [ ] device handling:
-     * dev_get_device_num
-     * dev_get_num_devices
-     * dev_get_host_num
+* device memory handling:
+  + [x] dev_malloc
+     + [x] OpenACC
+     + [x] OpenMP
+  + [ ] dev_memcpy
+     + [ ] OpenACC
+     + [x] OpenMP
+  + [x] dev_memcpy_to_device
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_memcpy_from_device
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_free
+     + [x] OpenACC
+     + [x] OpenMP
+* [ ] device handling:
+  + [x] dev_get_device_num
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_get_device_type
+     + [x] OpenACC
+     + [ ] OpenMP
+  + [x] dev_get_host_num
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_get_num_devices
+     + [x] OpenACC
+     + [x] OpenMP
+  + [ ] dev_get_property_string
+     + [x] OpenACC
+     + [ ] OpenMP
 
 Go to [Top](#top)
 
@@ -96,10 +115,11 @@ real(R8P), pointer :: b_hos(:,:,:)=>null() ! host   memory
 integer(I4P)       :: ierr                 ! error status
 integer(I4P)       :: i, j, k              ! counter
 
-! initialize device
-call dev_set_device_num(0)   ! initialize device
-mydev = dev_get_device_num() ! get device ID
-myhos = dev_get_host_num()   ! get host ID
+! initialize environment global variables
+myhos = dev_get_host_num()      ! get host ID
+devtype = dev_get_device_type() ! get device type
+call dev_set_device_num(0)      ! set device ID (in complex scenario this ID is less trivial than 0, e.g. MPI)
+mydev = dev_get_device_num()    ! get device ID
 
 ! allocate device memory
 call dev_alloc(fptr_dev=a_dev,lbounds=[-1,-2,-3],ubounds=[1,2,3],ierr=ierr,dev_id=mydev)
@@ -224,12 +244,192 @@ Go to [Top](#top)
 
 ### API documentation
 
+In the following, the API of each FUNDAL routine is documented in details with also examples.
+
++ Device memory handling
+  - [dev_alloc](#dev_alloc)
+  - [dev_memcpy_from_device](#dev_memcpy_from_device)
+  - [dev_memcpy_to_device](#dev_memcpy_to_device)
+  - [dev_free](#dev_free)
++ Device handling
+  - [dev_get_device_num](#dev_get_device_num)
+  - [dev_get_device_type](#dev_get_device_type)
+  - [dev_get_host_num](#dev_get_host_num)
+  - [dev_get_num_devices](#dev_get_num_devices)
+  - [dev_get_property_string](#dev_get_property_string)
+
+---
+
+### Device memory handling
+Runtime routines to handle memory device.
+
+### `dev_alloc`
+The dev_malloc allocates space in the current device memory. The signature is:
+
+```fortran
+subroutine dev_alloc(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), pointer :: fptr_dev(..) !< Pointer to allocated memory.
+integer(I4P), intent(in)           :: ubounds(:)   !< Array upper bounds.
+integer(I4P), intent(out)          :: ierr         !< Error status.
+```
+
+`fptr_dev` is a pointer array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`ubounds` is an integer array of rank 1 containing the upper bounds of `fptr_dev`.
+
+`ierr` returns the error status of allocation, it is 0 for a successful allocation.
+
+##### optional args
+```fortran
+integer(I4P), intent(in), optional :: dev_id       !< Device ID.
+integer(I4P), intent(in), optional :: lbounds(:)   !< Array lower bounds, 1 if not passed.
+real/integer, intent(in), optional :: init_value   !< Optional initial value.
+```
+
+`dev_id` is the device num (ID) over the allocation happens. For OpenACC it is not used. For OpenMP is set to the environmental global
+variable `mydev` (that must be previously initialized by means of `dev_get_device_num`) if it is not passed.
+
+`lbounds` is an integer array of rank 1 containing the lower bounds of `fptr_dev`. It is set to 1 if it is not passed.
+
+`init_value` is a real/integer scalar (of the same kind of `fptr_dev`): if it is passed it is used to initialized `fptr_dev` with a parallel device loop.
+
+> `dev_alloc` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer :: a(:,:,:)
+integer(I4P)       :: ierr
+...
+call dev_alloc(fptr_dev=a,lbounds=[-1,-2,-3],ubounds=[1,2,3],init_value=1._R8P,ierr=ierr)
+...
+```
+---
+### `dev_memcpy_from_device`
+The `dev_memcpy_from_device` copies data from device memory to local host memory.
+
+```fortran
+subroutine dev_memcpy_from_device(fptr_dst, fptr_src)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
+real/integer, intent(in),  target :: fptr_src(:) !< Source memory (device memory).
+```
+
+`fptr_dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`fptr_src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_from_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_memcpy_from_device(fptr_dst=b, fptr_src=a)
+...
+```
+
+---
+### `dev_memcpy_to_device`
+The `dev_memcpy_to_device` copies data from local host memory to device memory.
+
+```fortran
+subroutine dev_memcpy_to_device(fptr_dst, fptr_src)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (device memory).
+real/integer, intent(in),  target :: fptr_src(:) !< Source memory (host memory).
+```
+
+`fptr_dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`fptr_src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_to_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_memcpy_to_device(fptr_dst=a, fptr_src=b)
+...
+```
+
+---
+### `dev_free`
+The `dev_free` frees memory on the current device.
+
+```fortran
+subroutine dev_free(fptr, dev_id)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), pointer :: fptr_dev(..) !< Pointer to allocated memory.
+```
+
+`fptr_dev` is a pointer array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+##### optional args
+```fortran
+integer(I4P), intent(in), optional :: dev_id       !< Device ID.
+```
+
+`dev_id` is the device num (ID) over the allocation happens. For OpenACC it is not used. For OpenMP is set to the environmental global
+variable `mydev` (that must be previously initialized by means of `dev_get_device_num`) if it is not passed.
+
+> `dev_free` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer :: a(:,:,:)
+...
+call dev_free(fptr_dev=a)
+...
+```
+
+### Device handling
+
+Runtime routines to handle device(s), in particular for complex scenario like MPI programming.
+
+---
+### `dev_get_device_num`
+
 To be written.
 
-#### `dev_alloc`
-#### `dev_free`
-#### `dev_memcpy_from_device`
-#### `dev_memcpy_to_device`
+---
+### `dev_get_device_type`
+
+To be written.
+
+---
+### `dev_get_host_num`
+
+To be written.
+
+---
+### `dev_get_num_devices`
+
+To be written.
+
+---
+### `dev_get_property_string`
+
+To be written.
 
 ## Install
 

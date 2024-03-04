@@ -10,6 +10,7 @@ integer(I4P)   :: devs_number     !< Devices number.
 integer(I4P)   :: i               !< Counter.
 character(999) :: property_string !< Stringified device property.
 
+devtype = dev_get_device_type()
 myhos = dev_get_host_num()
 print '("current thread host ID =",i3)', myhos
 devs_number = dev_get_num_devices()

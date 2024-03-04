@@ -1,9 +1,18 @@
 !< FUNDAL, memory allocation routines module for OpenACC backend.
+
+#ifdef COMPILER_NVF
+#define DEVICEVAR deviceptr
+#elif defined COMPILER_GNU
+#define DEVICEVAR present
+#elif defined COMPILER_IFX
+#define DEVICEVAR has_device_addr
+#endif
+
 module fundal_oac_alloc
 !< FUNDAL, memory allocation routines module for OpenACC backend.
-use, intrinsic :: iso_c_binding
+use, intrinsic :: iso_c_binding,   only : c_size_t, c_ptr, c_associated, c_f_pointer
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use            :: openacc
+use            :: openacc!,         only : acc_malloc
 use            :: fundal_utilities
 
 implicit none
@@ -64,7 +73,7 @@ endinterface
 
 contains
    subroutine oac_alloc_R8P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 1.
+   !< Allocate array, R8P kind, rank 1.
    real(R8P),    intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -87,7 +96,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(1) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -99,7 +108,7 @@ contains
    endsubroutine oac_alloc_R8P_1D
 
    subroutine oac_alloc_R8P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 2.
+   !< Allocate array, R8P kind, rank 2.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -122,7 +131,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(2) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -136,7 +145,7 @@ contains
    endsubroutine oac_alloc_R8P_2D
 
    subroutine oac_alloc_R8P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 3.
+   !< Allocate array, R8P kind, rank 3.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -159,7 +168,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(3) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -175,7 +184,7 @@ contains
    endsubroutine oac_alloc_R8P_3D
 
    subroutine oac_alloc_R8P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 4.
+   !< Allocate array, R8P kind, rank 4.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -198,7 +207,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(4) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -216,7 +225,7 @@ contains
    endsubroutine oac_alloc_R8P_4D
 
    subroutine oac_alloc_R8P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 5.
+   !< Allocate array, R8P kind, rank 5.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -239,7 +248,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(5) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -259,7 +268,7 @@ contains
    endsubroutine oac_alloc_R8P_5D
 
    subroutine oac_alloc_R8P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 6.
+   !< Allocate array, R8P kind, rank 6.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -282,7 +291,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(6) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -304,7 +313,7 @@ contains
    endsubroutine oac_alloc_R8P_6D
 
    subroutine oac_alloc_R8P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R8P kind, rank 7.
+   !< Allocate array, R8P kind, rank 7.
    real(R8P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -327,7 +336,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(7) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -351,7 +360,7 @@ contains
    endsubroutine oac_alloc_R8P_7D
 
    subroutine oac_alloc_R4P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 1.
+   !< Allocate array, R4P kind, rank 1.
    real(R4P),    intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -374,7 +383,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(1) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -386,7 +395,7 @@ contains
    endsubroutine oac_alloc_R4P_1D
 
    subroutine oac_alloc_R4P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 2.
+   !< Allocate array, R4P kind, rank 2.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -409,7 +418,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(2) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -423,7 +432,7 @@ contains
    endsubroutine oac_alloc_R4P_2D
 
    subroutine oac_alloc_R4P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 3.
+   !< Allocate array, R4P kind, rank 3.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -446,7 +455,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(3) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -462,7 +471,7 @@ contains
    endsubroutine oac_alloc_R4P_3D
 
    subroutine oac_alloc_R4P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 4.
+   !< Allocate array, R4P kind, rank 4.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -485,7 +494,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(4) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -503,7 +512,7 @@ contains
    endsubroutine oac_alloc_R4P_4D
 
    subroutine oac_alloc_R4P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 5.
+   !< Allocate array, R4P kind, rank 5.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -526,7 +535,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(5) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -546,7 +555,7 @@ contains
    endsubroutine oac_alloc_R4P_5D
 
    subroutine oac_alloc_R4P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 6.
+   !< Allocate array, R4P kind, rank 6.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -569,7 +578,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(6) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -591,7 +600,7 @@ contains
    endsubroutine oac_alloc_R4P_6D
 
    subroutine oac_alloc_R4P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, R4P kind, rank 7.
+   !< Allocate array, R4P kind, rank 7.
    real(R4P),    intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -614,7 +623,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(7) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -638,7 +647,7 @@ contains
    endsubroutine oac_alloc_R4P_7D
 
    subroutine oac_alloc_I8P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 1.
+   !< Allocate array, I8P kind, rank 1.
    integer(I8P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -661,7 +670,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(1) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -673,7 +682,7 @@ contains
    endsubroutine oac_alloc_I8P_1D
 
    subroutine oac_alloc_I8P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 2.
+   !< Allocate array, I8P kind, rank 2.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -696,7 +705,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(2) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -710,7 +719,7 @@ contains
    endsubroutine oac_alloc_I8P_2D
 
    subroutine oac_alloc_I8P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 3.
+   !< Allocate array, I8P kind, rank 3.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -733,7 +742,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(3) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -749,7 +758,7 @@ contains
    endsubroutine oac_alloc_I8P_3D
 
    subroutine oac_alloc_I8P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 4.
+   !< Allocate array, I8P kind, rank 4.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -772,7 +781,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(4) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -790,7 +799,7 @@ contains
    endsubroutine oac_alloc_I8P_4D
 
    subroutine oac_alloc_I8P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 5.
+   !< Allocate array, I8P kind, rank 5.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -813,7 +822,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(5) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -833,7 +842,7 @@ contains
    endsubroutine oac_alloc_I8P_5D
 
    subroutine oac_alloc_I8P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 6.
+   !< Allocate array, I8P kind, rank 6.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -856,7 +865,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(6) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -878,7 +887,7 @@ contains
    endsubroutine oac_alloc_I8P_6D
 
    subroutine oac_alloc_I8P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I8P kind, rank 7.
+   !< Allocate array, I8P kind, rank 7.
    integer(I8P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -901,7 +910,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(7) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -925,7 +934,7 @@ contains
    endsubroutine oac_alloc_I8P_7D
 
    subroutine oac_alloc_I4P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 1.
+   !< Allocate array, I4P kind, rank 1.
    integer(I4P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -948,7 +957,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(1) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -960,7 +969,7 @@ contains
    endsubroutine oac_alloc_I4P_1D
 
    subroutine oac_alloc_I4P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 2.
+   !< Allocate array, I4P kind, rank 2.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -983,7 +992,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(2) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -997,7 +1006,7 @@ contains
    endsubroutine oac_alloc_I4P_2D
 
    subroutine oac_alloc_I4P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 3.
+   !< Allocate array, I4P kind, rank 3.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -1020,7 +1029,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(3) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -1036,7 +1045,7 @@ contains
    endsubroutine oac_alloc_I4P_3D
 
    subroutine oac_alloc_I4P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 4.
+   !< Allocate array, I4P kind, rank 4.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -1059,7 +1068,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(4) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -1077,7 +1086,7 @@ contains
    endsubroutine oac_alloc_I4P_4D
 
    subroutine oac_alloc_I4P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 5.
+   !< Allocate array, I4P kind, rank 5.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -1100,7 +1109,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(5) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -1120,7 +1129,7 @@ contains
    endsubroutine oac_alloc_I4P_5D
 
    subroutine oac_alloc_I4P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 6.
+   !< Allocate array, I4P kind, rank 6.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -1143,7 +1152,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(6) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -1165,7 +1174,7 @@ contains
    endsubroutine oac_alloc_I4P_6D
 
    subroutine oac_alloc_I4P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I4P kind, rank 7.
+   !< Allocate array, I4P kind, rank 7.
    integer(I4P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -1188,7 +1197,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(7) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -1212,7 +1221,7 @@ contains
    endsubroutine oac_alloc_I4P_7D
 
    subroutine oac_alloc_I1P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 1.
+   !< Allocate array, I1P kind, rank 1.
    integer(I1P), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -1235,7 +1244,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(1) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -1247,7 +1256,7 @@ contains
    endsubroutine oac_alloc_I1P_1D
 
    subroutine oac_alloc_I1P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 2.
+   !< Allocate array, I1P kind, rank 2.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -1270,7 +1279,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(2) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -1284,7 +1293,7 @@ contains
    endsubroutine oac_alloc_I1P_2D
 
    subroutine oac_alloc_I1P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 3.
+   !< Allocate array, I1P kind, rank 3.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -1307,7 +1316,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(3) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -1323,7 +1332,7 @@ contains
    endsubroutine oac_alloc_I1P_3D
 
    subroutine oac_alloc_I1P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 4.
+   !< Allocate array, I1P kind, rank 4.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -1346,7 +1355,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(4) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -1364,7 +1373,7 @@ contains
    endsubroutine oac_alloc_I1P_4D
 
    subroutine oac_alloc_I1P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 5.
+   !< Allocate array, I1P kind, rank 5.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -1387,7 +1396,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(5) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -1407,7 +1416,7 @@ contains
    endsubroutine oac_alloc_I1P_5D
 
    subroutine oac_alloc_I1P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 6.
+   !< Allocate array, I1P kind, rank 6.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -1430,7 +1439,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(6) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -1452,7 +1461,7 @@ contains
    endsubroutine oac_alloc_I1P_6D
 
    subroutine oac_alloc_I1P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
-   !< Allocate real array, I1P kind, rank 7.
+   !< Allocate array, I1P kind, rank 7.
    integer(I1P), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -1475,7 +1484,7 @@ contains
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
-         !$acc parallel loop collapse(7) deviceptr(fptr_dev)
+         !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)

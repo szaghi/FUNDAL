@@ -9,6 +9,7 @@ use            :: fundal_utilities
 
 implicit none
 private
+public :: oac_memcpy
 public :: oac_memcpy_from_device
 public :: oac_memcpy_to_device
 

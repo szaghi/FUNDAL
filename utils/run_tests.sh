@@ -10,7 +10,5 @@ for t in $( find exe/ -executable -type f -name *_test ); do
   if [ "$result" != "test passed" ] ; then
     echo 'error: test failed!'
     exit 1
-  else
-    echo $result
   fi
 done

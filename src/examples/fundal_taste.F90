@@ -8,10 +8,11 @@ real(R8P), pointer :: b_hos(:,:,:)=>null() ! host   memory
 integer(I4P)       :: ierr                 ! error status
 integer(I4P)       :: i, j, k              ! counter
 
-! initialize device
-call dev_set_device_num(0)   ! initialize device
-myhos = dev_get_host_num()   ! get host ID
-mydev = dev_get_device_num() ! get device ID
+! initialize environment global variables
+myhos = dev_get_host_num()      ! get host ID
+devtype = dev_get_device_type() ! get device type
+call dev_set_device_num(0)      ! set device ID (in complex scenario this ID is less trivial than 0, e.g. MPI)
+mydev = dev_get_device_num()    ! get device ID
 
 ! allocate device memory
 call dev_alloc(fptr_dev=a_dev,lbounds=[-1,-2,-3],ubounds=[1,2,3],ierr=ierr,dev_id=mydev)
