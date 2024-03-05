@@ -1,96 +1,136 @@
 [modes]
-modes = fundal-test-nvf fundal-test-nvf-debug
-        fundal-test-ifx
-        fundal-test-gnu fundal-test-gnu-debug
+modes = fundal-test-oac-nvf fundal-test-oac-nvf-debug
+        fundal-test-omp-ifx
+        fundal-test-oac-gnu
+        fundal-void-nvf fundal-void-oac-nvf
+        fundal-void-gnu fundal-void-oac-gnu
 
-# main modes
-[fundal-test-nvf]
+# main modes to build library and tests
+[fundal-test-oac-nvf]
 help     = Build FUNDAL tests with OpenACC-NVF
-template = template-base-nvf
+template = template-oac-nvf
+src      = ./src/
 
-[fundal-test-nvf-debug]
+[fundal-test-oac-nvf-debug]
 help     = Build FUNDAL tests with OpenACC-NVF in debug mode
-template = template-base-nvf-debug
+template = template-oac-nvf-debug
+src      = ./src/
 
-[fundal-test-ifx]
+[fundal-test-omp-ifx]
 help     = Build FUNDAL tests with OpenMP-IFX
-template = template-base-ifx
+template = template-omp-ifx
+src      = ./src/
 
-[fundal-test-gnu]
+[fundal-test-oac-gnu]
 help     = Build FUNDAL tests with OpenACC-GNU
-template = template-base-gnu
+template = template-oac-gnu
+src      = ./src/
 
-[fundal-test-gnu-debug]
-help     = Build FUNDAL tests with OpenACC-GNU in debug mode
-template = template-base-gnu-debug
+# void modes to build a specified target/src (-t/-src must be passed by CLI)
+[fundal-void-nvf]
+help     = Build a specified target/src with NVF (no pragmas)
+template = template-nvf
+
+[fundal-void-oac-nvf]
+help     = Build a specified target/src with OpenACC-NVF
+template = template-oac-nvf
+
+[fundal-void-gnu]
+help     = Build a specified target/src with GNU (no pragmas)
+template = template-gnu
+
+[fundal-void-oac-gnu]
+help     = Build a specified target/src with OpenACC-GNU
+template = template-oac-gnu
 
 # templates
-[template-base-nvf]
+[template-oac-nvf]
 compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
-cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=accel
-lflags    = -acc -gpu=cc70 -fast -Minfo=accel
+cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=all
+lflags    = -acc -gpu=cc70 -fast -Minfo=all
 mod_dir   = ./mod/
 obj_dir   = ./obj/
-src       = ./src/
 build_dir = ./exe/
 colors    = True
 quiet     = False
 log       = True
 jobs      = 4
 
-[template-base-nvf-debug]
+[template-oac-nvf-debug]
 compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
-cflags    = -cpp -c -acc -gpu=cc70 -Minfo=accel -C -g
-lflags    = -acc -gpu=cc70 -Minfo=accel -C -g
+cflags    = -cpp -c -acc -gpu=cc70 -Minfo=all -C -g
+lflags    = -acc -gpu=cc70 -Minfo=all -C -g
 mod_dir   = ./mod/
 obj_dir   = ./obj/
-src       = ./src/
 build_dir = ./exe/
 colors    = True
 quiet     = False
 log       = True
 jobs      = 4
 
-[template-base-ifx]
-compiler        = intel_nextgen
-preproc         = -DDEV_OMP -DCOMPILER_IFX
-cflags          = -c -cpp
-lflags          = -cpp
-openmp          = True
-openmp_offload  = True
-mod_dir         = ./mod/
-obj_dir         = ./obj/
-src             = ./src/
-build_dir       = ./exe/
-colors          = True
-quiet           = False
-log             = True
-jobs            = 4
+[template-nvf]
+compiler  = nvfortran
+preproc   = -DCOMPILER_NVF
+cflags    = -cpp -c -fast -Minfo=all
+lflags    = -Minfo=all
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
 
-[template-base-gnu]
+[template-omp-ifx]
+compiler       = intel_nextgen
+preproc        = -DDEV_OMP -DCOMPILER_IFX
+cflags         = -c -cpp
+lflags         = -cpp
+openmp         = True
+openmp_offload = True
+mod_dir        = ./mod/
+obj_dir        = ./obj/
+build_dir      = ./exe/
+colors         = True
+quiet          = False
+log            = True
+jobs           = 4
+
+[template-oac-gnu]
 compiler  = gnu
 preproc   = -DDEV_OAC -DCOMPILER_GNU
 cflags    = -cpp -c -fopenacc
 lflags    = -fopenacc
 mod_dir   = ./mod/
 obj_dir   = ./obj/
-src       = ./src/
 build_dir = ./exe/
 colors    = True
 quiet     = False
 log       = True
 jobs      = 4
 
-[template-base-gnu-debug]
+[template-oac-gnu-debug]
 compiler  = gnu
 preproc   = -DDEV_OAC -DCOMPILER_GNU
 cflags    = -cpp -c -fopenacc -g -fcheck=all -fbacktrace
 lflags    = -fopenacc -g -fcheck=all -fbacktrace
 mod_dir   = ./mod/
 obj_dir   = ./obj/
-src       = ./src/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+[template-gnu]
+compiler  = gnu
+preproc   = -DCOMPILER_GNU
+cflags    = -cpp -c
+lflags    = -cpp
+mod_dir   = ./mod/
+obj_dir   = ./obj/
 build_dir = ./exe/
 colors    = True
 quiet     = False
@@ -102,17 +142,68 @@ jobs      = 4
 help   = Run all tests
 rule_1 = utils/run_tests.sh
 
-[rule-build-run-tests-nvf]
+[rule-build-run-tests-oac-nvf]
 help   = Build and Run all tests with OpenACC-NVF
 rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-nvf
+rule_2 = FoBiS.py build -mode fundal-test-oac-nvf
 rule_3 = FoBiS.py rule -ex run-tests
 
-[rule-build-run-tests-ifx]
+[rule-build-run-tests-omp-ifx]
 help   = Build and Run all tests with OpenMP-IFX
 rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-ifx
+rule_2 = FoBiS.py build -mode fundal-test-omp-ifx
 rule_3 = FoBiS.py rule -ex run-tests
+
+[rule-build-run-tests-oac-gnu]
+help   = Build and Run all tests with OpenACC-GNU
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-test-oac-gnu
+rule_3 = FoBiS.py rule -ex run-tests
+
+[rule-build-laplace-baseline-nvf]
+help   = Build laplace test with NVF (without pragmas)
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-nvf -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+
+[rule-build-laplace-oac-nvf]
+help   = Build laplace test with OpenACC-NVF
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
+rule_4 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+
+[rule-build-laplace-baseline-ifx]
+help   = Build laplace test with IFX (without pragmas)
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-ifx -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+
+[rule-build-laplace-oac-ifx]
+help   = Build laplace test with OpenMP-ifx
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
+rule_4 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+
+[rule-build-laplace-baseline-gnu]
+help   = Build laplace test with GNU (without pragmas)
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-gnu -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+
+[rule-build-laplace-oac-gnu]
+help   = Build laplace test with OpenACC-GNU
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
+rule_3 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+
+[rule-build-compilers-proofs-oac-nvf]
+help   = Build compilers proofs test with OpenACC-NVF
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t ./compilers_proofs/oac/test_deviceptr.f90
+rule_3 = FoBiS.py build -mode fundal-void-oac-nvf -t ./compilers_proofs/oac/test_present.f90
+
+[rule-build-compilers-proofs-oac-gnu]
+help   = Build compilers proofs test with OpenACC-GNU
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-gnu -t ./compilers_proofs/oac/test_deviceptr.f90
+rule_3 = FoBiS.py build -mode fundal-void-oac-gnu -t ./compilers_proofs/oac/test_present.f90
 
 [rule-makedoc]
 help   = Build documentation from source files

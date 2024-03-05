@@ -6,8 +6,8 @@
 
 ### Authors
 
-+ Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
 + Stefano Zaghi, [stefano.zaghi@cnr.it](stefano.zaghi@cnr.it)
++ Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
 + Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
 + Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
 
@@ -27,7 +27,7 @@
 
 - NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3;
 - INTEL IFX: fully support OpenMP backend, works on INTEL GPUs, tested with v2024.0.2-20231213;
-- GNU gfortran: partially support OpenACC backend, compile, but does not work, tested with v13.1.0;
+- GNU gfortran: partially support OpenACC backend, compile, but does not work with all tests, tested with v13.1.0;
 
 ---
 
@@ -166,21 +166,22 @@ Go to [Top](#top)
 
 ## Documentation
 
-To be completed.
-
 ### Compile and Run tests
 
 FUNDAL is a module-based Fortran library and must be compiled accordingly to the modules' hierarchy.
 A `fobos` file is provided for easy building by means of [FoBiS.py](https://github.com/szaghi/FoBiS) program.
 
-Currently only NVIDIA SDK (NVFortran) and INTEL IFX compilers are supported.
+Currently only NVIDIA SDK (NVFortran) and INTEL IFX compilers are supported. GNU gfortran is only partially supported.
+
+In the following, the bare minimal information to build FUNDAL tests is reported. For a more detailed documentation on tests
+see [tests documentation](src/tests/README.md).
 
 #### OpenACC
 
 To build tests and examples with OpenACC backend by means of NVIDIA sdk type:
 
 ```shell
-FoBiS.py build -mode fundal-test-nvf
+FoBiS.py build -mode fundal-test-oac-nvf
 tree exe/
 exe/
 ├── fundal_alloc_free_test
@@ -196,7 +197,7 @@ exe/
 To build tests and examples with OpenMP backend by means of INTEL sdk type:
 
 ```shell
-FoBiS.py build -mode fundal-test-ifx
+FoBiS.py build -mode fundal-test-omp-ifx
 tree exe/
 exe/
 ├── fundal_alloc_free_test
@@ -225,17 +226,17 @@ Executing rule "run-tests"
    Command => utils/run_tests.sh
 ...
 # build and execution with OpenACC-NVF
-FoBiS.py rule -ex build-run-tests-nvf
-Executing rule "build-run-tests-nvf"
+FoBiS.py rule -ex build-run-tests-oac-nvf
+Executing rule "build-run-tests-oac-nvf"
    Command => FoBiS.py clean
-   Command => FoBiS.py build -mode fundal-test-nvf
+   Command => FoBiS.py build -mode fundal-test-oac-nvf
    Command => FoBiS.py rule -ex run-tests
 ...
 # build and execution with OpenMP-IFX
-FoBiS.py rule -ex build-run-tests-ifx
-Executing rule "build-run-tests-ifx"
+FoBiS.py rule -ex build-run-tests-omp-ifx
+Executing rule "build-run-tests-omp-ifx"
    Command => FoBiS.py clean
-   Command => FoBiS.py build -mode fundal-test-ifx
+   Command => FoBiS.py build -mode fundal-test-omp-ifx
    Command => FoBiS.py rule -ex run-tests
 ...
 ```

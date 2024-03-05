@@ -1,4 +1,13 @@
 !< FUNDAL, device memory copy test.
+
+#ifdef COMPILER_NVF
+#define DEVICEVAR deviceptr
+#elif defined COMPILER_GNU
+#define DEVICEVAR present
+#elif defined COMPILER_IFX
+#define DEVICEVAR has_device_addr
+#endif
+
 program fundal_memcpy_test
 !< FUNDAL, device memory copy test.
 
@@ -399,7 +408,7 @@ call dev_memcpy_to_device(fptr_src=a7_I1, fptr_dst=a7_dev_I1)
 
 ! do some operation on device
 print '(A)', 'compute on device'
-!$acc parallel loop independent deviceptr(a1_dev_R8, b1_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a1_dev_R8, b1_dev_R8, &
 !$acc&                                    a1_dev_R4, b1_dev_R4, &
 !$acc&                                    a1_dev_I8, b1_dev_I8, &
 !$acc&                                    a1_dev_I4, b1_dev_I4, &
@@ -416,7 +425,7 @@ do i1 = 1, n
    b1_dev_I4(i1) = a1_dev_I4(i1) + 10
    b1_dev_I1(i1) = a1_dev_I1(i1) + 10
 enddo
-!$acc parallel loop independent deviceptr(a2_dev_R8, b2_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a2_dev_R8, b2_dev_R8, &
 !$acc&                                    a2_dev_R4, b2_dev_R4, &
 !$acc&                                    a2_dev_I8, b2_dev_I8, &
 !$acc&                                    a2_dev_I4, b2_dev_I4, &
@@ -436,7 +445,7 @@ do i1 = 1, n
    b2_dev_I1(i1,i2) = a2_dev_I1(i1,i2) + 10
 enddo
 enddo
-!$acc parallel loop independent deviceptr(a3_dev_R8, b3_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a3_dev_R8, b3_dev_R8, &
 !$acc&                                    a3_dev_R4, b3_dev_R4, &
 !$acc&                                    a3_dev_I8, b3_dev_I8, &
 !$acc&                                    a3_dev_I4, b3_dev_I4, &
@@ -459,7 +468,7 @@ do i1 = 1, n
 enddo
 enddo
 enddo
-!$acc parallel loop independent deviceptr(a4_dev_R8, b4_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a4_dev_R8, b4_dev_R8, &
 !$acc&                                    a4_dev_R4, b4_dev_R4, &
 !$acc&                                    a4_dev_I8, b4_dev_I8, &
 !$acc&                                    a4_dev_I4, b4_dev_I4, &
@@ -485,7 +494,7 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop independent deviceptr(a5_dev_R8, b5_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a5_dev_R8, b5_dev_R8, &
 !$acc&                                    a5_dev_R4, b5_dev_R4, &
 !$acc&                                    a5_dev_I8, b5_dev_I8, &
 !$acc&                                    a5_dev_I4, b5_dev_I4, &
@@ -514,7 +523,7 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop independent deviceptr(a6_dev_R8, b6_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a6_dev_R8, b6_dev_R8, &
 !$acc&                                    a6_dev_R4, b6_dev_R4, &
 !$acc&                                    a6_dev_I8, b6_dev_I8, &
 !$acc&                                    a6_dev_I4, b6_dev_I4, &
@@ -546,7 +555,7 @@ enddo
 enddo
 enddo
 enddo
-!$acc parallel loop independent deviceptr(a7_dev_R8, b7_dev_R8, &
+!$acc parallel loop independent DEVICEVAR(a7_dev_R8, b7_dev_R8, &
 !$acc&                                    a7_dev_R4, b7_dev_R4, &
 !$acc&                                    a7_dev_I8, b7_dev_I8, &
 !$acc&                                    a7_dev_I4, b7_dev_I4, &
