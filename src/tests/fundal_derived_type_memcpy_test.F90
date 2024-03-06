@@ -1,4 +1,7 @@
 !< FUNDAL, device memory copy into derived type test.
+
+#include "fundal.H"
+
 program fundal_derived_type_memcpy_test
 !< FUNDAL, device memory copy into derived type test.
 
@@ -57,8 +60,12 @@ call dev_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
 
 ! do some operation on device
 print '(A)', 'compute b_dev on device'
-!$acc parallel loop deviceptr(dt%a_dev, dt%b_dev)
-!$omp target teams distribute parallel do has_device_addr(dt%a_dev, dt%b_dev)
+!$acc parallel loop DEVICEVAR(dt%a_dev, dt%b_dev)
+#ifdef DEV_OMP
+!$omp OMPLOOP DEVICEVAR(dt%a_dev, dt%b_dev)
+#else
+!$omp OMPLOOP DEVICEVAR(dt)
+#endif
 do i = 1, dt%n
    dt%b_dev(i) = dt%a_dev(i) + 10
 enddo

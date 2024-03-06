@@ -1,12 +1,6 @@
 !< FUNDAL, device memory copy test.
 
-#ifdef COMPILER_NVF
-#define DEVICEVAR deviceptr
-#elif defined COMPILER_GNU
-#define DEVICEVAR present
-#elif defined COMPILER_IFX
-#define DEVICEVAR has_device_addr
-#endif
+#include "fundal.H"
 
 program fundal_memcpy_test
 !< FUNDAL, device memory copy test.
@@ -413,11 +407,11 @@ print '(A)', 'compute on device'
 !$acc&                                    a1_dev_I8, b1_dev_I8, &
 !$acc&                                    a1_dev_I4, b1_dev_I4, &
 !$acc&                                    a1_dev_I1, b1_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a1_dev_R8, b1_dev_R8, &
-!$omp&                                                    a1_dev_R4, b1_dev_R4, &
-!$omp&                                                    a1_dev_I8, b1_dev_I8, &
-!$omp&                                                    a1_dev_I4, b1_dev_I4, &
-!$omp&                                                    a1_dev_I1, b1_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8, &
+!$omp&                  a1_dev_R4, b1_dev_R4, &
+!$omp&                  a1_dev_I8, b1_dev_I8, &
+!$omp&                  a1_dev_I4, b1_dev_I4, &
+!$omp&                  a1_dev_I1, b1_dev_I1)
 do i1 = 1, n
    b1_dev_R8(i1) = a1_dev_R8(i1) + 10
    b1_dev_R4(i1) = a1_dev_R4(i1) + 10
@@ -430,11 +424,11 @@ enddo
 !$acc&                                    a2_dev_I8, b2_dev_I8, &
 !$acc&                                    a2_dev_I4, b2_dev_I4, &
 !$acc&                                    a2_dev_I1, b2_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a2_dev_R8, b2_dev_R8, &
-!$omp&                                                    a2_dev_R4, b2_dev_R4, &
-!$omp&                                                    a2_dev_I8, b2_dev_I8, &
-!$omp&                                                    a2_dev_I4, b2_dev_I4, &
-!$omp&                                                    a2_dev_I1, b2_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a2_dev_R8, b2_dev_R8, &
+!$omp&                  a2_dev_R4, b2_dev_R4, &
+!$omp&                  a2_dev_I8, b2_dev_I8, &
+!$omp&                  a2_dev_I4, b2_dev_I4, &
+!$omp&                  a2_dev_I1, b2_dev_I1)
 do i2 = 1, n
 !$acc loop
 do i1 = 1, n
@@ -450,11 +444,11 @@ enddo
 !$acc&                                    a3_dev_I8, b3_dev_I8, &
 !$acc&                                    a3_dev_I4, b3_dev_I4, &
 !$acc&                                    a3_dev_I1, b3_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a3_dev_R8, b3_dev_R8, &
-!$omp&                                                    a3_dev_R4, b3_dev_R4, &
-!$omp&                                                    a3_dev_I8, b3_dev_I8, &
-!$omp&                                                    a3_dev_I4, b3_dev_I4, &
-!$omp&                                                    a3_dev_I1, b3_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a3_dev_R8, b3_dev_R8, &
+!$omp&                  a3_dev_R4, b3_dev_R4, &
+!$omp&                  a3_dev_I8, b3_dev_I8, &
+!$omp&                  a3_dev_I4, b3_dev_I4, &
+!$omp&                  a3_dev_I1, b3_dev_I1)
 do i3 = 1, n
 !$acc loop
 do i2 = 1, n
@@ -473,11 +467,11 @@ enddo
 !$acc&                                    a4_dev_I8, b4_dev_I8, &
 !$acc&                                    a4_dev_I4, b4_dev_I4, &
 !$acc&                                    a4_dev_I1, b4_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a4_dev_R8, b4_dev_R8, &
-!$omp&                                                    a4_dev_R4, b4_dev_R4, &
-!$omp&                                                    a4_dev_I8, b4_dev_I8, &
-!$omp&                                                    a4_dev_I4, b4_dev_I4, &
-!$omp&                                                    a4_dev_I1, b4_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a4_dev_R8, b4_dev_R8, &
+!$omp&                  a4_dev_R4, b4_dev_R4, &
+!$omp&                  a4_dev_I8, b4_dev_I8, &
+!$omp&                  a4_dev_I4, b4_dev_I4, &
+!$omp&                  a4_dev_I1, b4_dev_I1)
 do i4 = 1, n
 !$acc loop
 do i3 = 1, n
@@ -499,11 +493,11 @@ enddo
 !$acc&                                    a5_dev_I8, b5_dev_I8, &
 !$acc&                                    a5_dev_I4, b5_dev_I4, &
 !$acc&                                    a5_dev_I1, b5_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a5_dev_R8, b5_dev_R8, &
-!$omp&                                                    a5_dev_R4, b5_dev_R4, &
-!$omp&                                                    a5_dev_I8, b5_dev_I8, &
-!$omp&                                                    a5_dev_I4, b5_dev_I4, &
-!$omp&                                                    a5_dev_I1, b5_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a5_dev_R8, b5_dev_R8, &
+!$omp&                  a5_dev_R4, b5_dev_R4, &
+!$omp&                  a5_dev_I8, b5_dev_I8, &
+!$omp&                  a5_dev_I4, b5_dev_I4, &
+!$omp&                  a5_dev_I1, b5_dev_I1)
 do i5 = 1, n
 !$acc loop
 do i4 = 1, n
@@ -528,11 +522,11 @@ enddo
 !$acc&                                    a6_dev_I8, b6_dev_I8, &
 !$acc&                                    a6_dev_I4, b6_dev_I4, &
 !$acc&                                    a6_dev_I1, b6_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a6_dev_R8, b6_dev_R8, &
-!$omp&                                                    a6_dev_R4, b6_dev_R4, &
-!$omp&                                                    a6_dev_I8, b6_dev_I8, &
-!$omp&                                                    a6_dev_I4, b6_dev_I4, &
-!$omp&                                                    a6_dev_I1, b6_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a6_dev_R8, b6_dev_R8, &
+!$omp&                  a6_dev_R4, b6_dev_R4, &
+!$omp&                  a6_dev_I8, b6_dev_I8, &
+!$omp&                  a6_dev_I4, b6_dev_I4, &
+!$omp&                  a6_dev_I1, b6_dev_I1)
 do i6 = 1, n
 !$acc loop
 do i5 = 1, n
@@ -560,11 +554,11 @@ enddo
 !$acc&                                    a7_dev_I8, b7_dev_I8, &
 !$acc&                                    a7_dev_I4, b7_dev_I4, &
 !$acc&                                    a7_dev_I1, b7_dev_I1)
-!$omp target teams distribute parallel do has_device_addr(a7_dev_R8, b7_dev_R8, &
-!$omp&                                                    a7_dev_R4, b7_dev_R4, &
-!$omp&                                                    a7_dev_I8, b7_dev_I8, &
-!$omp&                                                    a7_dev_I4, b7_dev_I4, &
-!$omp&                                                    a7_dev_I1, b7_dev_I1)
+!$omp OMPLOOP DEVICEVAR(a7_dev_R8, b7_dev_R8, &
+!$omp&                  a7_dev_R4, b7_dev_R4, &
+!$omp&                  a7_dev_I8, b7_dev_I8, &
+!$omp&                  a7_dev_I4, b7_dev_I4, &
+!$omp&                  a7_dev_I1, b7_dev_I1)
 do i7 = 1, n
 !$acc loop
 do i6 = 1, n

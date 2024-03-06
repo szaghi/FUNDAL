@@ -1,15 +1,9 @@
 !< FUNDAL, laplace test, OpenACC inline version.
 
-#ifdef COMPILER_NVF
-#define DEVICEVAR deviceptr
-#elif defined COMPILER_GNU
-#define DEVICEVAR present
-#elif defined COMPILER_IFX
-#define DEVICEVAR has_device_addr
-#endif
+#include "fundal.H"
 
-program fundal_laplace_oac_inline
-!< FUNDAL, laplace test, OpenACC inline version.
+program fundal_laplace_dev_inline
+!< FUNDAL, laplace test, device inline version.
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use            :: fundal
 
@@ -29,10 +23,18 @@ call dev_alloc(fptr_dev=A,   lbounds=[0,0],ubounds=[n-1,m-1],ierr=ierr,init_valu
 call dev_alloc(fptr_dev=Anew,lbounds=[0,0],ubounds=[n-1,m-1],ierr=ierr,init_value=0._R8P)
 
 ! Set B.C.
+#if defined DEV_OMP
+!$omp OMPLOOP DEVICEVAR(A,Anew)
+do j=0,m-1
+   A(   0,j) = 1.0_R8P
+   Anew(0,j) = 1.0_R8P
+enddo
+#else
 !$acc kernels
-A(0,:)    = 1.0_R8P
+A(   0,:) = 1.0_R8P
 Anew(0,:) = 1.0_R8P
 !$acc end kernels
+#endif
 
 write(*,'(a,i5,a,i5,a)') 'Jacobi relaxation Calculation:', n, ' x', m, ' mesh'
 
@@ -40,11 +42,11 @@ call cpu_time(start_time)
 
 iter=0
 
-!$acc data DEVICEVAR(A,Anew)
 do while ( error .gt. tol .and. iter .lt. iter_max )
    error=0.0_R8P
 
-   !$acc parallel loop reduction(max:error)
+   !$acc parallel loop reduction(max:error) DEVICEVAR(A,Anew)
+   !$omp OMPLOOP DEVICEVAR(A,Anew) reduction(max:error)
    do j=1,m-2
       do i=1,n-2
          Anew(i,j) = 0.25_R8P * ( A(i+1,j  ) + A(i-1,j  ) + &
@@ -53,17 +55,17 @@ do while ( error .gt. tol .and. iter .lt. iter_max )
       enddo
    enddo
 
-   if(mod(iter,100).eq.0 ) write(*,'(i5,f10.6)') iter, error
-   iter = iter + 1
-
-   !$acc parallel loop
+   !$acc parallel loop DEVICEVAR(A,Anew)
+   !$omp OMPLOOP DEVICEVAR(A,Anew)
    do j=1,m-2
       do i=1,n-2
          A(i,j) = Anew(i,j)
       enddo
    enddo
+
+   if(mod(iter,100).eq.0 ) write(*,'(i5,f10.6)') iter, error
+   iter = iter + 1
 enddo
-!$acc end data
 
 call cpu_time(stop_time)
 write(*,'(a,f10.3,a)')  ' completed in ', stop_time-start_time, ' seconds'
@@ -71,4 +73,4 @@ call dev_free(A,mydev)
 call dev_free(Anew,mydev)
 
 print '(A)', 'test passed'
-endprogram fundal_laplace_oac_inline
+endprogram fundal_laplace_dev_inline

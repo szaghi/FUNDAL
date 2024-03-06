@@ -1,19 +1,20 @@
 [modes]
-modes = fundal-test-oac-nvf fundal-test-oac-nvf-debug
-        fundal-test-omp-ifx
-        fundal-test-oac-gnu
-        fundal-void-nvf fundal-void-oac-nvf
-        fundal-void-gnu fundal-void-oac-gnu
+modes = fundal-test-oac-nvf fundal-test-nvf
+        fundal-test-omp-ifx fundal-test-ifx
+        fundal-test-oac-gnu fundal-test-gnu
+        fundal-void-oac-nvf fundal-void-nvf
+        fundal-void-omp-nvf fundal-void-ifx
+        fundal-void-oac-gnu fundal-void-gnu
 
-# main modes to build library and tests
+# modes to build library and tests
 [fundal-test-oac-nvf]
 help     = Build FUNDAL tests with OpenACC-NVF
 template = template-oac-nvf
 src      = ./src/
 
-[fundal-test-oac-nvf-debug]
-help     = Build FUNDAL tests with OpenACC-NVF in debug mode
-template = template-oac-nvf-debug
+[fundal-test-nvf]
+help     = Build FUNDAL tests with NVF
+template = template-nvf
 src      = ./src/
 
 [fundal-test-omp-ifx]
@@ -21,27 +22,45 @@ help     = Build FUNDAL tests with OpenMP-IFX
 template = template-omp-ifx
 src      = ./src/
 
+[fundal-test-ifx]
+help     = Build FUNDAL tests with IFX
+template = template-ifx
+src      = ./src/
+
 [fundal-test-oac-gnu]
 help     = Build FUNDAL tests with OpenACC-GNU
 template = template-oac-gnu
 src      = ./src/
 
-# void modes to build a specified target/src (-t/-src must be passed by CLI)
-[fundal-void-nvf]
-help     = Build a specified target/src with NVF (no pragmas)
-template = template-nvf
+[fundal-test-gnu]
+help     = Build FUNDAL tests with GNU
+template = template-gnu
+src      = ./src/
 
+# void modes to build a specified target/src (-t/-src must be passed by CLI)
 [fundal-void-oac-nvf]
 help     = Build a specified target/src with OpenACC-NVF
 template = template-oac-nvf
 
-[fundal-void-gnu]
-help     = Build a specified target/src with GNU (no pragmas)
-template = template-gnu
+[fundal-void-nvf]
+help     = Build a specified target/src with NVF (no pragmas)
+template = template-nvf
+
+[fundal-void-omp-ifx]
+help     = Build a specified target/src with OpenMP-IFX
+template = template-omp-ifx
+
+[fundal-void-ifx]
+help     = Build a specified target/src with IFX (no pragmas)
+template = template-ifx
 
 [fundal-void-oac-gnu]
 help     = Build a specified target/src with OpenACC-GNU
 template = template-oac-gnu
+
+[fundal-void-gnu]
+help     = Build a specified target/src with GNU (no pragmas)
+template = template-gnu
 
 # templates
 [template-oac-nvf]
@@ -49,19 +68,6 @@ compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
 cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=all
 lflags    = -acc -gpu=cc70 -fast -Minfo=all
-mod_dir   = ./mod/
-obj_dir   = ./obj/
-build_dir = ./exe/
-colors    = True
-quiet     = False
-log       = True
-jobs      = 4
-
-[template-oac-nvf-debug]
-compiler  = nvfortran
-preproc   = -DDEV_OAC -DCOMPILER_NVF
-cflags    = -cpp -c -acc -gpu=cc70 -Minfo=all -C -g
-lflags    = -acc -gpu=cc70 -Minfo=all -C -g
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 build_dir = ./exe/
@@ -97,6 +103,20 @@ colors         = True
 quiet          = False
 log            = True
 jobs           = 4
+
+[template-ifx]
+compiler  = intel_nextgen
+preproc   = -DCOMPILER_IFX
+cflags    = -c -cpp
+lflags    = -cpp
+openmp    = True
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
 
 [template-oac-gnu]
 compiler  = gnu

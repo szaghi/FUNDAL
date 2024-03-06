@@ -36,14 +36,14 @@ do while ( error .gt. tol .and. iter .lt. iter_max )
       enddo
    enddo
 
-   if(mod(iter,100).eq.0 ) write(*,'(i5,f10.6)') iter, error
-   iter = iter + 1
-
    do j=1,m-2
       do i=1,n-2
          A(i,j) = Anew(i,j)
       enddo
    enddo
+
+   if(mod(iter,100).eq.0 ) write(*,'(i5,f10.6)') iter, error
+   iter = iter + 1
 enddo
 
 call cpu_time(stop_time)
