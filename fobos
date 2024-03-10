@@ -1,41 +1,65 @@
 [modes]
-modes = fundal-test-oac-nvf fundal-test-nvf
-        fundal-test-omp-ifx fundal-test-ifx
-        fundal-test-oac-gnu fundal-test-gnu
-        fundal-void-oac-nvf fundal-void-nvf
-        fundal-void-omp-nvf fundal-void-ifx
-        fundal-void-oac-gnu fundal-void-gnu
+modes = fundal-test-oac-mpi-nvf fundal-test-oac-nvf fundal-test-nvf
+        fundal-test-omp-mpi-ifx fundal-test-omp-ifx fundal-test-ifx
+        fundal-test-oac-mpi-gnu fundal-test-oac-gnu fundal-test-gnu
+                                fundal-void-oac-nvf fundal-void-nvf
+                                fundal-void-omp-nvf fundal-void-ifx
+                                fundal-void-oac-gnu fundal-void-gnu
 
 # modes to build library and tests
-[fundal-test-oac-nvf]
-help     = Build FUNDAL tests with OpenACC-NVF
+[fundal-test-oac-mpi-nvf]
+help     = Build FUNDAL tests with OpenACC-MPI-NVF
 template = template-oac-nvf
+mpi      = True
 src      = ./src/
 
+[fundal-test-oac-nvf]
+help          = Build FUNDAL tests with OpenACC-NVF
+template      = template-oac-nvf
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
 [fundal-test-nvf]
-help     = Build FUNDAL tests with NVF
-template = template-nvf
+help          = Build FUNDAL tests with NVF
+template      = template-nvf
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
+[fundal-test-omp-mpi-ifx]
+help     = Build FUNDAL tests with OpenMP-MPI-IFX
+template = template-omp-ifx
+mpi      = True
 src      = ./src/
 
 [fundal-test-omp-ifx]
-help     = Build FUNDAL tests with OpenMP-IFX
-template = template-omp-ifx
-src      = ./src/
+help          = Build FUNDAL tests with OpenMP-IFX
+template      = template-omp-ifx
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
 
 [fundal-test-ifx]
-help     = Build FUNDAL tests with IFX
-template = template-ifx
+help          = Build FUNDAL tests with IFX
+template      = template-ifx
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
+[fundal-test-oac-mpi-gnu]
+help     = Build FUNDAL tests with OpenACC-MPI-GNU
+template = template-oac-gnu
+mpi      = True
 src      = ./src/
 
 [fundal-test-oac-gnu]
-help     = Build FUNDAL tests with OpenACC-GNU
-template = template-oac-gnu
-src      = ./src/
+help          = Build FUNDAL tests with OpenACC-GNU
+template      = template-oac-gnu
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
 
 [fundal-test-gnu]
-help     = Build FUNDAL tests with GNU
-template = template-gnu
-src      = ./src/
+help          = Build FUNDAL tests with GNU
+template      = template-gnu
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
 
 # void modes to build a specified target/src (-t/-src must be passed by CLI)
 [fundal-void-oac-nvf]

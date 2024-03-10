@@ -13,12 +13,12 @@ public :: mydev
 public :: myhos
 public :: devtype
 
-integer(I4P)             :: local_comm=0_I4P           !< Local communicator.
-integer(I4P)             :: mydev=0_I4P                !< Device ID.
-integer(I4P)             :: myhos=0_I4P                !< Host ID.
+integer(I4P), target     :: local_comm=0_I4P           !< Local communicator.
+integer(I4P), target     :: mydev=0_I4P                !< Device ID.
+integer(I4P), target     :: myhos=0_I4P                !< Host ID.
 #ifdef DEV_OAC
-integer(acc_device_kind) :: devtype=acc_device_default !< OpenACC device type.
+integer(acc_device_kind), target :: devtype=acc_device_default !< OpenACC device type.
 #else
-integer(I4P)             :: devtype=0_I4P              !< OpenACC device type.
+integer(I4P), target     :: devtype=0_I4P              !< OpenACC device type.
 #endif
 endmodule fundal_env
