@@ -12,6 +12,8 @@ use            :: openacc,         only : acc_device_kind
 use            :: fundal
 
 implicit none
+private
+public :: mpih_object
 
 type :: mpih_object
    !< MPI handler class.
@@ -98,6 +100,7 @@ use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use            :: mpi
 use            :: fundal
 use            :: fundal_mpi_test_mpih_object
+use            :: fundal_mpi_test_unstructured_mem
 
 implicit none
 
@@ -162,13 +165,12 @@ print '(A)', mpih%myrankstr//'test MPI by means of device memory'
 !$acc data DEVICEVAR(a01,a11)
 !$acc host_data use_device(a01,a11)
 !$omp target data use_device_ptr(a01,a11)
-if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 100, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
-if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 100, MPI_COMM_WORLD,              mpih%ierr)
+if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
+if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD,              mpih%ierr)
 call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%ierr)
 !$omp end target data
 !$acc end host_data
 !$acc end data
-
 if (mpih%myrank == 0_I4P) then
    !$acc parallel loop independent collapse(3) DEVICEVAR(a00,a01)
    !$omp OMPLOOP collapse(3) DEVICEVAR(a00,a01)
