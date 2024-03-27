@@ -26,7 +26,7 @@ public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
 integer(I4P), parameter :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
 
 interface dev_alloc
-   !< Allocate device memory OpenACC backend.
+   !< Allocate device memory.
    module procedure dev_alloc_R8P_1D,&
                     dev_alloc_R8P_2D,&
                     dev_alloc_R8P_3D,&

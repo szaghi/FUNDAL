@@ -53,31 +53,48 @@ if (error /= 0) then
    print '(A)', 'error: b_dev not allocated!'
    stop
 endif
+call dev_alloc_unstr(dt%a)
+call dev_alloc_unstr(dt%b)
 
 ! copy host memory to device one
-print '(A)', 'copy a to a_dev'
+print '(A)', 'copy a to device'
 call dev_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
+call dev_memcpy_to_device_unstr(dt%a)
 
 ! do some operation on device
-print '(A)', 'compute b_dev on device'
-!$acc parallel loop DEVICEVAR(dt%a_dev, dt%b_dev)
+print '(A)', 'compute b on device'
+!$acc parallel loop DEVICEVAR(dt%a_dev, dt%b_dev, dt%a, dt%b)
 #ifdef DEV_OMP
-!$omp OMPLOOP DEVICEVAR(dt%a_dev, dt%b_dev)
+!$omp OMPLOOP DEVICEVAR(dt%a_dev, dt%b_dev, dt%a, dt%b)
 #else
 !$omp OMPLOOP DEVICEVAR(dt)
 #endif
 do i = 1, dt%n
    dt%b_dev(i) = dt%a_dev(i) + 10
+   dt%b(    i) = dt%a(    i) + 10
 enddo
 
 ! copy dev memory to host one
-print '(A)', 'copy b_dev to b'
+print '(A)', 'copy b to host'
 call dev_memcpy_from_device(fptr_src=dt%b_dev, fptr_dst=dt%b)
 
 ! check results
 print '(A)', 'chek results'
 do i=1, dt%n
-   if ((dt%b(i) - dt%a(i)) /= 10) then
+   if (int(dt%b(i) - dt%a(i),I4P) /= 10_I4P) then
+      print '(A)', 'error: something is not working...'
+      stop
+   endif
+enddo
+
+! copy dev memory to host one by unstructured approach
+print '(A)', 'copy b to host from unstructured memory'
+call dev_memcpy_from_device_unstr(dt%b)
+
+! check results
+print '(A)', 'chek results'
+do i=1, dt%n
+   if (int(dt%b(i) - dt%a(i),I4P) /= 10_I4P) then
       print '(A)', 'error: something is not working...'
       stop
    endif

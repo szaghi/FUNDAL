@@ -132,7 +132,7 @@ endinterface
 #endif
 
 contains
-   ! acc_memcpy_from_device
+   ! memcpy_from_device
    subroutine dev_memcpy_from_device_R8P_1D(fptr_dst, fptr_src)
    !< Copy array from device, R8P kind, rank 1.
    real(R8P), intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
@@ -448,7 +448,7 @@ contains
    DEVMEMCPY_FROM_DEVICE(fptr_dst, fptr_src, bytes)
    endsubroutine dev_memcpy_from_device_I1P_7D
 
-   ! acc_memcpy_to_device
+   ! memcpy_to_device
    subroutine dev_memcpy_to_device_R8P_1D(fptr_dst, fptr_src)
    !< Copy array to device, R8P kind, rank 1.
    real(R8P), intent(out), target :: fptr_dst(:) !< Destination memory (device memory).

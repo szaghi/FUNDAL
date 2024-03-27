@@ -129,8 +129,30 @@ enddo
 call cpu_time(tictoc(2))
 print '("i1,i2,i3,i4-collapse(3) order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
 
+! profile unstructured approach
+print '(A)', 'device unstructured timing'
+call dev_alloc_unstr(a)
+call dev_alloc_unstr(b)
+call dev_alloc_unstr(c)
+call cpu_time(tictoc(1))
+!$acc parallel loop independent collapse(4) present(a,b,c)
+do i4=1, n4
+do i3=1, n3
+do i2=1, n2
+do i1=1, n1
+   c(i1,i2,i3,i4) = sqrt(a(i1,i2,i3,i4) * b(i1,i2,i3,i4)**3)
+enddo
+enddo
+enddo
+enddo
+call cpu_time(tictoc(2))
+call dev_free_unstr(a)
+call dev_free_unstr(b)
+call dev_free_unstr(c)
+print '("i4,i3,i2,i1-collapse(4) order time = ",f12.9," seconds.")', (tictoc(2) - tictoc(1))
+
 ! profile host for comparison
-print '(A)', 'host timing for reference'
+print '(A)', 'host timing'
 call cpu_time(tictoc(1))
 do i4=1, n4
 do i3=1, n3

@@ -10,149 +10,7 @@ use fundal
 
 implicit none
 
-real(R8P), pointer                :: a1_dev_R8(:)=>null()             !< Array on device memory.
-real(R8P), pointer                :: b1_dev_R8(:)=>null()             !< Array on device memory.
-real(R8P), pointer                :: a2_dev_R8(:,:)=>null()           !< Array on device memory.
-real(R8P), pointer                :: b2_dev_R8(:,:)=>null()           !< Array on device memory.
-real(R8P), pointer                :: a3_dev_R8(:,:,:)=>null()         !< Array on device memory.
-real(R8P), pointer                :: b3_dev_R8(:,:,:)=>null()         !< Array on device memory.
-real(R8P), pointer                :: a4_dev_R8(:,:,:,:)=>null()       !< Array on device memory.
-real(R8P), pointer                :: b4_dev_R8(:,:,:,:)=>null()       !< Array on device memory.
-real(R8P), pointer                :: a5_dev_R8(:,:,:,:,:)=>null()     !< Array on device memory.
-real(R8P), pointer                :: b5_dev_R8(:,:,:,:,:)=>null()     !< Array on device memory.
-real(R8P), pointer                :: a6_dev_R8(:,:,:,:,:,:)=>null()   !< Array on device memory.
-real(R8P), pointer                :: b6_dev_R8(:,:,:,:,:,:)=>null()   !< Array on device memory.
-real(R8P), pointer                :: a7_dev_R8(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-real(R8P), pointer                :: b7_dev_R8(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-real(R8P), allocatable, target    :: a1_R8(:)                         !< Array on host memory.
-real(R8P), allocatable, target    :: b1_R8(:)                         !< Array on host memory.
-real(R8P), allocatable, target    :: a2_R8(:,:)                       !< Array on host memory.
-real(R8P), allocatable, target    :: b2_R8(:,:)                       !< Array on host memory.
-real(R8P), allocatable, target    :: a3_R8(:,:,:)                     !< Array on host memory.
-real(R8P), allocatable, target    :: b3_R8(:,:,:)                     !< Array on host memory.
-real(R8P), allocatable, target    :: a4_R8(:,:,:,:)                   !< Array on host memory.
-real(R8P), allocatable, target    :: b4_R8(:,:,:,:)                   !< Array on host memory.
-real(R8P), allocatable, target    :: a5_R8(:,:,:,:,:)                 !< Array on host memory.
-real(R8P), allocatable, target    :: b5_R8(:,:,:,:,:)                 !< Array on host memory.
-real(R8P), allocatable, target    :: a6_R8(:,:,:,:,:,:)               !< Array on host memory.
-real(R8P), allocatable, target    :: b6_R8(:,:,:,:,:,:)               !< Array on host memory.
-real(R8P), allocatable, target    :: a7_R8(:,:,:,:,:,:,:)             !< Array on host memory.
-real(R8P), allocatable, target    :: b7_R8(:,:,:,:,:,:,:)             !< Array on host memory.
-real(R4P), pointer                :: a1_dev_R4(:)=>null()             !< Array on device memory.
-real(R4P), pointer                :: b1_dev_R4(:)=>null()             !< Array on device memory.
-real(R4P), pointer                :: a2_dev_R4(:,:)=>null()           !< Array on device memory.
-real(R4P), pointer                :: b2_dev_R4(:,:)=>null()           !< Array on device memory.
-real(R4P), pointer                :: a3_dev_R4(:,:,:)=>null()         !< Array on device memory.
-real(R4P), pointer                :: b3_dev_R4(:,:,:)=>null()         !< Array on device memory.
-real(R4P), pointer                :: a4_dev_R4(:,:,:,:)=>null()       !< Array on device memory.
-real(R4P), pointer                :: b4_dev_R4(:,:,:,:)=>null()       !< Array on device memory.
-real(R4P), pointer                :: a5_dev_R4(:,:,:,:,:)=>null()     !< Array on device memory.
-real(R4P), pointer                :: b5_dev_R4(:,:,:,:,:)=>null()     !< Array on device memory.
-real(R4P), pointer                :: a6_dev_R4(:,:,:,:,:,:)=>null()   !< Array on device memory.
-real(R4P), pointer                :: b6_dev_R4(:,:,:,:,:,:)=>null()   !< Array on device memory.
-real(R4P), pointer                :: a7_dev_R4(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-real(R4P), pointer                :: b7_dev_R4(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-real(R4P), allocatable, target    :: a1_R4(:)                         !< Array on host memory.
-real(R4P), allocatable, target    :: b1_R4(:)                         !< Array on host memory.
-real(R4P), allocatable, target    :: a2_R4(:,:)                       !< Array on host memory.
-real(R4P), allocatable, target    :: b2_R4(:,:)                       !< Array on host memory.
-real(R4P), allocatable, target    :: a3_R4(:,:,:)                     !< Array on host memory.
-real(R4P), allocatable, target    :: b3_R4(:,:,:)                     !< Array on host memory.
-real(R4P), allocatable, target    :: a4_R4(:,:,:,:)                   !< Array on host memory.
-real(R4P), allocatable, target    :: b4_R4(:,:,:,:)                   !< Array on host memory.
-real(R4P), allocatable, target    :: a5_R4(:,:,:,:,:)                 !< Array on host memory.
-real(R4P), allocatable, target    :: b5_R4(:,:,:,:,:)                 !< Array on host memory.
-real(R4P), allocatable, target    :: a6_R4(:,:,:,:,:,:)               !< Array on host memory.
-real(R4P), allocatable, target    :: b6_R4(:,:,:,:,:,:)               !< Array on host memory.
-real(R4P), allocatable, target    :: a7_R4(:,:,:,:,:,:,:)             !< Array on host memory.
-real(R4P), allocatable, target    :: b7_R4(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I8P), pointer             :: a1_dev_I8(:)=>null()             !< Array on device memory.
-integer(I8P), pointer             :: b1_dev_I8(:)=>null()             !< Array on device memory.
-integer(I8P), pointer             :: a2_dev_I8(:,:)=>null()           !< Array on device memory.
-integer(I8P), pointer             :: b2_dev_I8(:,:)=>null()           !< Array on device memory.
-integer(I8P), pointer             :: a3_dev_I8(:,:,:)=>null()         !< Array on device memory.
-integer(I8P), pointer             :: b3_dev_I8(:,:,:)=>null()         !< Array on device memory.
-integer(I8P), pointer             :: a4_dev_I8(:,:,:,:)=>null()       !< Array on device memory.
-integer(I8P), pointer             :: b4_dev_I8(:,:,:,:)=>null()       !< Array on device memory.
-integer(I8P), pointer             :: a5_dev_I8(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I8P), pointer             :: b5_dev_I8(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I8P), pointer             :: a6_dev_I8(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I8P), pointer             :: b6_dev_I8(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I8P), pointer             :: a7_dev_I8(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I8P), pointer             :: b7_dev_I8(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I8P), allocatable, target :: a1_I8(:)                         !< Array on host memory.
-integer(I8P), allocatable, target :: b1_I8(:)                         !< Array on host memory.
-integer(I8P), allocatable, target :: a2_I8(:,:)                       !< Array on host memory.
-integer(I8P), allocatable, target :: b2_I8(:,:)                       !< Array on host memory.
-integer(I8P), allocatable, target :: a3_I8(:,:,:)                     !< Array on host memory.
-integer(I8P), allocatable, target :: b3_I8(:,:,:)                     !< Array on host memory.
-integer(I8P), allocatable, target :: a4_I8(:,:,:,:)                   !< Array on host memory.
-integer(I8P), allocatable, target :: b4_I8(:,:,:,:)                   !< Array on host memory.
-integer(I8P), allocatable, target :: a5_I8(:,:,:,:,:)                 !< Array on host memory.
-integer(I8P), allocatable, target :: b5_I8(:,:,:,:,:)                 !< Array on host memory.
-integer(I8P), allocatable, target :: a6_I8(:,:,:,:,:,:)               !< Array on host memory.
-integer(I8P), allocatable, target :: b6_I8(:,:,:,:,:,:)               !< Array on host memory.
-integer(I8P), allocatable, target :: a7_I8(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I8P), allocatable, target :: b7_I8(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I4P), pointer             :: a1_dev_I4(:)=>null()             !< Array on device memory.
-integer(I4P), pointer             :: b1_dev_I4(:)=>null()             !< Array on device memory.
-integer(I4P), pointer             :: a2_dev_I4(:,:)=>null()           !< Array on device memory.
-integer(I4P), pointer             :: b2_dev_I4(:,:)=>null()           !< Array on device memory.
-integer(I4P), pointer             :: a3_dev_I4(:,:,:)=>null()         !< Array on device memory.
-integer(I4P), pointer             :: b3_dev_I4(:,:,:)=>null()         !< Array on device memory.
-integer(I4P), pointer             :: a4_dev_I4(:,:,:,:)=>null()       !< Array on device memory.
-integer(I4P), pointer             :: b4_dev_I4(:,:,:,:)=>null()       !< Array on device memory.
-integer(I4P), pointer             :: a5_dev_I4(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I4P), pointer             :: b5_dev_I4(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I4P), pointer             :: a6_dev_I4(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I4P), pointer             :: b6_dev_I4(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I4P), pointer             :: a7_dev_I4(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I4P), pointer             :: b7_dev_I4(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I4P), allocatable, target :: a1_I4(:)                         !< Array on host memory.
-integer(I4P), allocatable, target :: b1_I4(:)                         !< Array on host memory.
-integer(I4P), allocatable, target :: a2_I4(:,:)                       !< Array on host memory.
-integer(I4P), allocatable, target :: b2_I4(:,:)                       !< Array on host memory.
-integer(I4P), allocatable, target :: a3_I4(:,:,:)                     !< Array on host memory.
-integer(I4P), allocatable, target :: b3_I4(:,:,:)                     !< Array on host memory.
-integer(I4P), allocatable, target :: a4_I4(:,:,:,:)                   !< Array on host memory.
-integer(I4P), allocatable, target :: b4_I4(:,:,:,:)                   !< Array on host memory.
-integer(I4P), allocatable, target :: a5_I4(:,:,:,:,:)                 !< Array on host memory.
-integer(I4P), allocatable, target :: b5_I4(:,:,:,:,:)                 !< Array on host memory.
-integer(I4P), allocatable, target :: a6_I4(:,:,:,:,:,:)               !< Array on host memory.
-integer(I4P), allocatable, target :: b6_I4(:,:,:,:,:,:)               !< Array on host memory.
-integer(I4P), allocatable, target :: a7_I4(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I4P), allocatable, target :: b7_I4(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I1P), pointer             :: a1_dev_I1(:)=>null()             !< Array on device memory.
-integer(I1P), pointer             :: b1_dev_I1(:)=>null()             !< Array on device memory.
-integer(I1P), pointer             :: a2_dev_I1(:,:)=>null()           !< Array on device memory.
-integer(I1P), pointer             :: b2_dev_I1(:,:)=>null()           !< Array on device memory.
-integer(I1P), pointer             :: a3_dev_I1(:,:,:)=>null()         !< Array on device memory.
-integer(I1P), pointer             :: b3_dev_I1(:,:,:)=>null()         !< Array on device memory.
-integer(I1P), pointer             :: a4_dev_I1(:,:,:,:)=>null()       !< Array on device memory.
-integer(I1P), pointer             :: b4_dev_I1(:,:,:,:)=>null()       !< Array on device memory.
-integer(I1P), pointer             :: a5_dev_I1(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I1P), pointer             :: b5_dev_I1(:,:,:,:,:)=>null()     !< Array on device memory.
-integer(I1P), pointer             :: a6_dev_I1(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I1P), pointer             :: b6_dev_I1(:,:,:,:,:,:)=>null()   !< Array on device memory.
-integer(I1P), pointer             :: a7_dev_I1(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I1P), pointer             :: b7_dev_I1(:,:,:,:,:,:,:)=>null() !< Array on device memory.
-integer(I1P), allocatable, target :: a1_I1(:)                         !< Array on host memory.
-integer(I1P), allocatable, target :: b1_I1(:)                         !< Array on host memory.
-integer(I1P), allocatable, target :: a2_I1(:,:)                       !< Array on host memory.
-integer(I1P), allocatable, target :: b2_I1(:,:)                       !< Array on host memory.
-integer(I1P), allocatable, target :: a3_I1(:,:,:)                     !< Array on host memory.
-integer(I1P), allocatable, target :: b3_I1(:,:,:)                     !< Array on host memory.
-integer(I1P), allocatable, target :: a4_I1(:,:,:,:)                   !< Array on host memory.
-integer(I1P), allocatable, target :: b4_I1(:,:,:,:)                   !< Array on host memory.
-integer(I1P), allocatable, target :: a5_I1(:,:,:,:,:)                 !< Array on host memory.
-integer(I1P), allocatable, target :: b5_I1(:,:,:,:,:)                 !< Array on host memory.
-integer(I1P), allocatable, target :: a6_I1(:,:,:,:,:,:)               !< Array on host memory.
-integer(I1P), allocatable, target :: b6_I1(:,:,:,:,:,:)               !< Array on host memory.
-integer(I1P), allocatable, target :: a7_I1(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I1P), allocatable, target :: b7_I1(:,:,:,:,:,:,:)             !< Array on host memory.
-integer(I4P)                      :: ierr                             !< Error status.
-integer(I4P)                      :: n                                !< Number of elements of arrays.
-integer(I4P)                      :: i1,i2,i3,i4,i5,i6,i7             !< Counter.
+integer(I4P) :: n !< Number of elements of arrays.
 
 ! initialize environment global variables
 myhos = dev_get_host_num()
@@ -162,581 +20,11 @@ mydev = dev_get_device_num()
 
 call get_n_cli
 
-! allocate host memory and initialize it
-allocate(a1_R8(n            ),b1_R8(n            ),&
-         a2_R8(n,n          ),b2_R8(n,n          ),&
-         a3_R8(n,n,n        ),b3_R8(n,n,n        ),&
-         a4_R8(n,n,n,n      ),b4_R8(n,n,n,n      ),&
-         a5_R8(n,n,n,n,n    ),b5_R8(n,n,n,n,n    ),&
-         a6_R8(n,n,n,n,n,n  ),b6_R8(n,n,n,n,n,n  ),&
-         a7_R8(n,n,n,n,n,n,n),b7_R8(n,n,n,n,n,n,n),&
-         a1_R4(n            ),b1_R4(n            ),&
-         a2_R4(n,n          ),b2_R4(n,n          ),&
-         a3_R4(n,n,n        ),b3_R4(n,n,n        ),&
-         a4_R4(n,n,n,n      ),b4_R4(n,n,n,n      ),&
-         a5_R4(n,n,n,n,n    ),b5_R4(n,n,n,n,n    ),&
-         a6_R4(n,n,n,n,n,n  ),b6_R4(n,n,n,n,n,n  ),&
-         a7_R4(n,n,n,n,n,n,n),b7_R4(n,n,n,n,n,n,n),&
-         a1_I8(n            ),b1_I8(n            ),&
-         a2_I8(n,n          ),b2_I8(n,n          ),&
-         a3_I8(n,n,n        ),b3_I8(n,n,n        ),&
-         a4_I8(n,n,n,n      ),b4_I8(n,n,n,n      ),&
-         a5_I8(n,n,n,n,n    ),b5_I8(n,n,n,n,n    ),&
-         a6_I8(n,n,n,n,n,n  ),b6_I8(n,n,n,n,n,n  ),&
-         a7_I8(n,n,n,n,n,n,n),b7_I8(n,n,n,n,n,n,n),&
-         a1_I4(n            ),b1_I4(n            ),&
-         a2_I4(n,n          ),b2_I4(n,n          ),&
-         a3_I4(n,n,n        ),b3_I4(n,n,n        ),&
-         a4_I4(n,n,n,n      ),b4_I4(n,n,n,n      ),&
-         a5_I4(n,n,n,n,n    ),b5_I4(n,n,n,n,n    ),&
-         a6_I4(n,n,n,n,n,n  ),b6_I4(n,n,n,n,n,n  ),&
-         a7_I4(n,n,n,n,n,n,n),b7_I4(n,n,n,n,n,n,n),&
-         a1_I1(n            ),b1_I1(n            ),&
-         a2_I1(n,n          ),b2_I1(n,n          ),&
-         a3_I1(n,n,n        ),b3_I1(n,n,n        ),&
-         a4_I1(n,n,n,n      ),b4_I1(n,n,n,n      ),&
-         a5_I1(n,n,n,n,n    ),b5_I1(n,n,n,n,n    ),&
-         a6_I1(n,n,n,n,n,n  ),b6_I1(n,n,n,n,n,n  ),&
-         a7_I1(n,n,n,n,n,n,n),b7_I1(n,n,n,n,n,n,n))
-do i1= 1, n
-   a1_R8(i1) = i1
-   a1_R4(i1) = i1
-   a1_I8(i1) = i1
-   a1_I4(i1) = i1
-   a1_I1(i1) = i1
-enddo
-do i2= 1, n
-do i1= 1, n
-   a2_R8(i1,i2) = i1
-   a2_R4(i1,i2) = i1
-   a2_I8(i1,i2) = i1
-   a2_I4(i1,i2) = i1
-   a2_I1(i1,i2) = i1
-enddo
-enddo
-do i3= 1, n
-do i2= 1, n
-do i1= 1, n
-   a3_R8(i1,i2,i3) = i1
-   a3_R4(i1,i2,i3) = i1
-   a3_I8(i1,i2,i3) = i1
-   a3_I4(i1,i2,i3) = i1
-   a3_I1(i1,i2,i3) = i1
-enddo
-enddo
-enddo
-do i4= 1, n
-do i3= 1, n
-do i2= 1, n
-do i1= 1, n
-   a4_R8(i1,i2,i3,i4) = i1
-   a4_R4(i1,i2,i3,i4) = i1
-   a4_I8(i1,i2,i3,i4) = i1
-   a4_I4(i1,i2,i3,i4) = i1
-   a4_I1(i1,i2,i3,i4) = i1
-enddo
-enddo
-enddo
-enddo
-do i5= 1, n
-do i4= 1, n
-do i3= 1, n
-do i2= 1, n
-do i1= 1, n
-   a5_R8(i1,i2,i3,i4,i5) = i1
-   a5_R4(i1,i2,i3,i4,i5) = i1
-   a5_I8(i1,i2,i3,i4,i5) = i1
-   a5_I4(i1,i2,i3,i4,i5) = i1
-   a5_I1(i1,i2,i3,i4,i5) = i1
-enddo
-enddo
-enddo
-enddo
-enddo
-do i6= 1, n
-do i5= 1, n
-do i4= 1, n
-do i3= 1, n
-do i2= 1, n
-do i1= 1, n
-   a6_R8(i1,i2,i3,i4,i5,i6) = i1
-   a6_R4(i1,i2,i3,i4,i5,i6) = i1
-   a6_I8(i1,i2,i3,i4,i5,i6) = i1
-   a6_I4(i1,i2,i3,i4,i5,i6) = i1
-   a6_I1(i1,i2,i3,i4,i5,i6) = i1
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-do i7= 1, n
-do i6= 1, n
-do i5= 1, n
-do i4= 1, n
-do i3= 1, n
-do i2= 1, n
-do i1= 1, n
-   a7_R8(i1,i2,i3,i4,i5,i6,i7) = i1
-   a7_R4(i1,i2,i3,i4,i5,i6,i7) = i1
-   a7_I8(i1,i2,i3,i4,i5,i6,i7) = i1
-   a7_I4(i1,i2,i3,i4,i5,i6,i7) = i1
-   a7_I1(i1,i2,i3,i4,i5,i6,i7) = i1
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-
-! allocate device memory
-call dev_alloc(fptr_dev=a1_dev_R8, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev_R8')
-call dev_alloc(fptr_dev=b1_dev_R8, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev_R8')
-call dev_alloc(fptr_dev=a2_dev_R8, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev_R8')
-call dev_alloc(fptr_dev=b2_dev_R8, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev_R8')
-call dev_alloc(fptr_dev=a3_dev_R8, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev_R8')
-call dev_alloc(fptr_dev=b3_dev_R8, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev_R8')
-call dev_alloc(fptr_dev=a4_dev_R8, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev_R8')
-call dev_alloc(fptr_dev=b4_dev_R8, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev_R8')
-call dev_alloc(fptr_dev=a5_dev_R8, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev_R8')
-call dev_alloc(fptr_dev=b5_dev_R8, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev_R8')
-call dev_alloc(fptr_dev=a6_dev_R8, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev_R8')
-call dev_alloc(fptr_dev=b6_dev_R8, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev_R8')
-call dev_alloc(fptr_dev=a7_dev_R8, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev_R8')
-call dev_alloc(fptr_dev=b7_dev_R8, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev_R8')
-call dev_alloc(fptr_dev=a1_dev_R4, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev_R4')
-call dev_alloc(fptr_dev=b1_dev_R4, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev_R4')
-call dev_alloc(fptr_dev=a2_dev_R4, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev_R4')
-call dev_alloc(fptr_dev=b2_dev_R4, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev_R4')
-call dev_alloc(fptr_dev=a3_dev_R4, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev_R4')
-call dev_alloc(fptr_dev=b3_dev_R4, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev_R4')
-call dev_alloc(fptr_dev=a4_dev_R4, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev_R4')
-call dev_alloc(fptr_dev=b4_dev_R4, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev_R4')
-call dev_alloc(fptr_dev=a5_dev_R4, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev_R4')
-call dev_alloc(fptr_dev=b5_dev_R4, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev_R4')
-call dev_alloc(fptr_dev=a6_dev_R4, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev_R4')
-call dev_alloc(fptr_dev=b6_dev_R4, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev_R4')
-call dev_alloc(fptr_dev=a7_dev_R4, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev_R4')
-call dev_alloc(fptr_dev=b7_dev_R4, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev_R4')
-call dev_alloc(fptr_dev=a1_dev_I8, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev_I8')
-call dev_alloc(fptr_dev=b1_dev_I8, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev_I8')
-call dev_alloc(fptr_dev=a2_dev_I8, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev_I8')
-call dev_alloc(fptr_dev=b2_dev_I8, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev_I8')
-call dev_alloc(fptr_dev=a3_dev_I8, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev_I8')
-call dev_alloc(fptr_dev=b3_dev_I8, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev_I8')
-call dev_alloc(fptr_dev=a4_dev_I8, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev_I8')
-call dev_alloc(fptr_dev=b4_dev_I8, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev_I8')
-call dev_alloc(fptr_dev=a5_dev_I8, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev_I8')
-call dev_alloc(fptr_dev=b5_dev_I8, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev_I8')
-call dev_alloc(fptr_dev=a6_dev_I8, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev_I8')
-call dev_alloc(fptr_dev=b6_dev_I8, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev_I8')
-call dev_alloc(fptr_dev=a7_dev_I8, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev_I8')
-call dev_alloc(fptr_dev=b7_dev_I8, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev_I8')
-call dev_alloc(fptr_dev=a1_dev_I4, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev_I4')
-call dev_alloc(fptr_dev=b1_dev_I4, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev_I4')
-call dev_alloc(fptr_dev=a2_dev_I4, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev_I4')
-call dev_alloc(fptr_dev=b2_dev_I4, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev_I4')
-call dev_alloc(fptr_dev=a3_dev_I4, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev_I4')
-call dev_alloc(fptr_dev=b3_dev_I4, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev_I4')
-call dev_alloc(fptr_dev=a4_dev_I4, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev_I4')
-call dev_alloc(fptr_dev=b4_dev_I4, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev_I4')
-call dev_alloc(fptr_dev=a5_dev_I4, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev_I4')
-call dev_alloc(fptr_dev=b5_dev_I4, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev_I4')
-call dev_alloc(fptr_dev=a6_dev_I4, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev_I4')
-call dev_alloc(fptr_dev=b6_dev_I4, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev_I4')
-call dev_alloc(fptr_dev=a7_dev_I4, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev_I4')
-call dev_alloc(fptr_dev=b7_dev_I4, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev_I4')
-call dev_alloc(fptr_dev=a1_dev_I1, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev_I1')
-call dev_alloc(fptr_dev=b1_dev_I1, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev_I1')
-call dev_alloc(fptr_dev=a2_dev_I1, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev_I1')
-call dev_alloc(fptr_dev=b2_dev_I1, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev_I1')
-call dev_alloc(fptr_dev=a3_dev_I1, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev_I1')
-call dev_alloc(fptr_dev=b3_dev_I1, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev_I1')
-call dev_alloc(fptr_dev=a4_dev_I1, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev_I1')
-call dev_alloc(fptr_dev=b4_dev_I1, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev_I1')
-call dev_alloc(fptr_dev=a5_dev_I1, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev_I1')
-call dev_alloc(fptr_dev=b5_dev_I1, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev_I1')
-call dev_alloc(fptr_dev=a6_dev_I1, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev_I1')
-call dev_alloc(fptr_dev=b6_dev_I1, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev_I1')
-call dev_alloc(fptr_dev=a7_dev_I1, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev_I1')
-call dev_alloc(fptr_dev=b7_dev_I1, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev_I1')
-
-! copy host memory to device one
-print '(A)', 'copy memory to device'
-call dev_memcpy_to_device(fptr_src=a1_R8, fptr_dst=a1_dev_R8)
-call dev_memcpy_to_device(fptr_src=a2_R8, fptr_dst=a2_dev_R8)
-call dev_memcpy_to_device(fptr_src=a3_R8, fptr_dst=a3_dev_R8)
-call dev_memcpy_to_device(fptr_src=a4_R8, fptr_dst=a4_dev_R8)
-call dev_memcpy_to_device(fptr_src=a5_R8, fptr_dst=a5_dev_R8)
-call dev_memcpy_to_device(fptr_src=a6_R8, fptr_dst=a6_dev_R8)
-call dev_memcpy_to_device(fptr_src=a7_R8, fptr_dst=a7_dev_R8)
-call dev_memcpy_to_device(fptr_src=a1_R4, fptr_dst=a1_dev_R4)
-call dev_memcpy_to_device(fptr_src=a2_R4, fptr_dst=a2_dev_R4)
-call dev_memcpy_to_device(fptr_src=a3_R4, fptr_dst=a3_dev_R4)
-call dev_memcpy_to_device(fptr_src=a4_R4, fptr_dst=a4_dev_R4)
-call dev_memcpy_to_device(fptr_src=a5_R4, fptr_dst=a5_dev_R4)
-call dev_memcpy_to_device(fptr_src=a6_R4, fptr_dst=a6_dev_R4)
-call dev_memcpy_to_device(fptr_src=a7_R4, fptr_dst=a7_dev_R4)
-call dev_memcpy_to_device(fptr_src=a1_I8, fptr_dst=a1_dev_I8)
-call dev_memcpy_to_device(fptr_src=a2_I8, fptr_dst=a2_dev_I8)
-call dev_memcpy_to_device(fptr_src=a3_I8, fptr_dst=a3_dev_I8)
-call dev_memcpy_to_device(fptr_src=a4_I8, fptr_dst=a4_dev_I8)
-call dev_memcpy_to_device(fptr_src=a5_I8, fptr_dst=a5_dev_I8)
-call dev_memcpy_to_device(fptr_src=a6_I8, fptr_dst=a6_dev_I8)
-call dev_memcpy_to_device(fptr_src=a7_I8, fptr_dst=a7_dev_I8)
-call dev_memcpy_to_device(fptr_src=a1_I4, fptr_dst=a1_dev_I4)
-call dev_memcpy_to_device(fptr_src=a2_I4, fptr_dst=a2_dev_I4)
-call dev_memcpy_to_device(fptr_src=a3_I4, fptr_dst=a3_dev_I4)
-call dev_memcpy_to_device(fptr_src=a4_I4, fptr_dst=a4_dev_I4)
-call dev_memcpy_to_device(fptr_src=a5_I4, fptr_dst=a5_dev_I4)
-call dev_memcpy_to_device(fptr_src=a6_I4, fptr_dst=a6_dev_I4)
-call dev_memcpy_to_device(fptr_src=a7_I4, fptr_dst=a7_dev_I4)
-call dev_memcpy_to_device(fptr_src=a1_I1, fptr_dst=a1_dev_I1)
-call dev_memcpy_to_device(fptr_src=a2_I1, fptr_dst=a2_dev_I1)
-call dev_memcpy_to_device(fptr_src=a3_I1, fptr_dst=a3_dev_I1)
-call dev_memcpy_to_device(fptr_src=a4_I1, fptr_dst=a4_dev_I1)
-call dev_memcpy_to_device(fptr_src=a5_I1, fptr_dst=a5_dev_I1)
-call dev_memcpy_to_device(fptr_src=a6_I1, fptr_dst=a6_dev_I1)
-call dev_memcpy_to_device(fptr_src=a7_I1, fptr_dst=a7_dev_I1)
-
-! do some operation on device
-print '(A)', 'compute on device'
-!$acc parallel loop independent DEVICEVAR(a1_dev_R8, b1_dev_R8, &
-!$acc&                                    a1_dev_R4, b1_dev_R4, &
-!$acc&                                    a1_dev_I8, b1_dev_I8, &
-!$acc&                                    a1_dev_I4, b1_dev_I4, &
-!$acc&                                    a1_dev_I1, b1_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8, &
-!$omp&                  a1_dev_R4, b1_dev_R4, &
-!$omp&                  a1_dev_I8, b1_dev_I8, &
-!$omp&                  a1_dev_I4, b1_dev_I4, &
-!$omp&                  a1_dev_I1, b1_dev_I1)
-do i1 = 1, n
-   b1_dev_R8(i1) = a1_dev_R8(i1) + 10
-   b1_dev_R4(i1) = a1_dev_R4(i1) + 10
-   b1_dev_I8(i1) = a1_dev_I8(i1) + 10
-   b1_dev_I4(i1) = a1_dev_I4(i1) + 10
-   b1_dev_I1(i1) = a1_dev_I1(i1) + 10
-enddo
-!$acc parallel loop independent DEVICEVAR(a2_dev_R8, b2_dev_R8, &
-!$acc&                                    a2_dev_R4, b2_dev_R4, &
-!$acc&                                    a2_dev_I8, b2_dev_I8, &
-!$acc&                                    a2_dev_I4, b2_dev_I4, &
-!$acc&                                    a2_dev_I1, b2_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a2_dev_R8, b2_dev_R8, &
-!$omp&                  a2_dev_R4, b2_dev_R4, &
-!$omp&                  a2_dev_I8, b2_dev_I8, &
-!$omp&                  a2_dev_I4, b2_dev_I4, &
-!$omp&                  a2_dev_I1, b2_dev_I1)
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b2_dev_R8(i1,i2) = a2_dev_R8(i1,i2) + 10
-   b2_dev_R4(i1,i2) = a2_dev_R4(i1,i2) + 10
-   b2_dev_I8(i1,i2) = a2_dev_I8(i1,i2) + 10
-   b2_dev_I4(i1,i2) = a2_dev_I4(i1,i2) + 10
-   b2_dev_I1(i1,i2) = a2_dev_I1(i1,i2) + 10
-enddo
-enddo
-!$acc parallel loop independent DEVICEVAR(a3_dev_R8, b3_dev_R8, &
-!$acc&                                    a3_dev_R4, b3_dev_R4, &
-!$acc&                                    a3_dev_I8, b3_dev_I8, &
-!$acc&                                    a3_dev_I4, b3_dev_I4, &
-!$acc&                                    a3_dev_I1, b3_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a3_dev_R8, b3_dev_R8, &
-!$omp&                  a3_dev_R4, b3_dev_R4, &
-!$omp&                  a3_dev_I8, b3_dev_I8, &
-!$omp&                  a3_dev_I4, b3_dev_I4, &
-!$omp&                  a3_dev_I1, b3_dev_I1)
-do i3 = 1, n
-!$acc loop
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b3_dev_R8(i1,i2,i3) = a3_dev_R8(i1,i2,i3) + 10
-   b3_dev_R4(i1,i2,i3) = a3_dev_R4(i1,i2,i3) + 10
-   b3_dev_I8(i1,i2,i3) = a3_dev_I8(i1,i2,i3) + 10
-   b3_dev_I4(i1,i2,i3) = a3_dev_I4(i1,i2,i3) + 10
-   b3_dev_I1(i1,i2,i3) = a3_dev_I1(i1,i2,i3) + 10
-enddo
-enddo
-enddo
-!$acc parallel loop independent DEVICEVAR(a4_dev_R8, b4_dev_R8, &
-!$acc&                                    a4_dev_R4, b4_dev_R4, &
-!$acc&                                    a4_dev_I8, b4_dev_I8, &
-!$acc&                                    a4_dev_I4, b4_dev_I4, &
-!$acc&                                    a4_dev_I1, b4_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a4_dev_R8, b4_dev_R8, &
-!$omp&                  a4_dev_R4, b4_dev_R4, &
-!$omp&                  a4_dev_I8, b4_dev_I8, &
-!$omp&                  a4_dev_I4, b4_dev_I4, &
-!$omp&                  a4_dev_I1, b4_dev_I1)
-do i4 = 1, n
-!$acc loop
-do i3 = 1, n
-!$acc loop
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b4_dev_R8(i1,i2,i3,i4) = a4_dev_R8(i1,i2,i3,i4) + 10
-   b4_dev_R4(i1,i2,i3,i4) = a4_dev_R4(i1,i2,i3,i4) + 10
-   b4_dev_I8(i1,i2,i3,i4) = a4_dev_I8(i1,i2,i3,i4) + 10
-   b4_dev_I4(i1,i2,i3,i4) = a4_dev_I4(i1,i2,i3,i4) + 10
-   b4_dev_I1(i1,i2,i3,i4) = a4_dev_I1(i1,i2,i3,i4) + 10
-enddo
-enddo
-enddo
-enddo
-!$acc parallel loop independent DEVICEVAR(a5_dev_R8, b5_dev_R8, &
-!$acc&                                    a5_dev_R4, b5_dev_R4, &
-!$acc&                                    a5_dev_I8, b5_dev_I8, &
-!$acc&                                    a5_dev_I4, b5_dev_I4, &
-!$acc&                                    a5_dev_I1, b5_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a5_dev_R8, b5_dev_R8, &
-!$omp&                  a5_dev_R4, b5_dev_R4, &
-!$omp&                  a5_dev_I8, b5_dev_I8, &
-!$omp&                  a5_dev_I4, b5_dev_I4, &
-!$omp&                  a5_dev_I1, b5_dev_I1)
-do i5 = 1, n
-!$acc loop
-do i4 = 1, n
-!$acc loop
-do i3 = 1, n
-!$acc loop
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b5_dev_R8(i1,i2,i3,i4,i5) = a5_dev_R8(i1,i2,i3,i4,i5) + 10
-   b5_dev_R4(i1,i2,i3,i4,i5) = a5_dev_R4(i1,i2,i3,i4,i5) + 10
-   b5_dev_I8(i1,i2,i3,i4,i5) = a5_dev_I8(i1,i2,i3,i4,i5) + 10
-   b5_dev_I4(i1,i2,i3,i4,i5) = a5_dev_I4(i1,i2,i3,i4,i5) + 10
-   b5_dev_I1(i1,i2,i3,i4,i5) = a5_dev_I1(i1,i2,i3,i4,i5) + 10
-enddo
-enddo
-enddo
-enddo
-enddo
-!$acc parallel loop independent DEVICEVAR(a6_dev_R8, b6_dev_R8, &
-!$acc&                                    a6_dev_R4, b6_dev_R4, &
-!$acc&                                    a6_dev_I8, b6_dev_I8, &
-!$acc&                                    a6_dev_I4, b6_dev_I4, &
-!$acc&                                    a6_dev_I1, b6_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a6_dev_R8, b6_dev_R8, &
-!$omp&                  a6_dev_R4, b6_dev_R4, &
-!$omp&                  a6_dev_I8, b6_dev_I8, &
-!$omp&                  a6_dev_I4, b6_dev_I4, &
-!$omp&                  a6_dev_I1, b6_dev_I1)
-do i6 = 1, n
-!$acc loop
-do i5 = 1, n
-!$acc loop
-do i4 = 1, n
-!$acc loop
-do i3 = 1, n
-!$acc loop
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b6_dev_R8(i1,i2,i3,i4,i5,i6) = a6_dev_R8(i1,i2,i3,i4,i5,i6) + 10
-   b6_dev_R4(i1,i2,i3,i4,i5,i6) = a6_dev_R4(i1,i2,i3,i4,i5,i6) + 10
-   b6_dev_I8(i1,i2,i3,i4,i5,i6) = a6_dev_I8(i1,i2,i3,i4,i5,i6) + 10
-   b6_dev_I4(i1,i2,i3,i4,i5,i6) = a6_dev_I4(i1,i2,i3,i4,i5,i6) + 10
-   b6_dev_I1(i1,i2,i3,i4,i5,i6) = a6_dev_I1(i1,i2,i3,i4,i5,i6) + 10
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-!$acc parallel loop independent DEVICEVAR(a7_dev_R8, b7_dev_R8, &
-!$acc&                                    a7_dev_R4, b7_dev_R4, &
-!$acc&                                    a7_dev_I8, b7_dev_I8, &
-!$acc&                                    a7_dev_I4, b7_dev_I4, &
-!$acc&                                    a7_dev_I1, b7_dev_I1)
-!$omp OMPLOOP DEVICEVAR(a7_dev_R8, b7_dev_R8, &
-!$omp&                  a7_dev_R4, b7_dev_R4, &
-!$omp&                  a7_dev_I8, b7_dev_I8, &
-!$omp&                  a7_dev_I4, b7_dev_I4, &
-!$omp&                  a7_dev_I1, b7_dev_I1)
-do i7 = 1, n
-!$acc loop
-do i6 = 1, n
-!$acc loop
-do i5 = 1, n
-!$acc loop
-do i4 = 1, n
-!$acc loop
-do i3 = 1, n
-!$acc loop
-do i2 = 1, n
-!$acc loop
-do i1 = 1, n
-   b7_dev_R8(i1,i2,i3,i4,i5,i6,i7) = a7_dev_R8(i1,i2,i3,i4,i5,i6,i7) + 10
-   b7_dev_R4(i1,i2,i3,i4,i5,i6,i7) = a7_dev_R4(i1,i2,i3,i4,i5,i6,i7) + 10
-   b7_dev_I8(i1,i2,i3,i4,i5,i6,i7) = a7_dev_I8(i1,i2,i3,i4,i5,i6,i7) + 10
-   b7_dev_I4(i1,i2,i3,i4,i5,i6,i7) = a7_dev_I4(i1,i2,i3,i4,i5,i6,i7) + 10
-   b7_dev_I1(i1,i2,i3,i4,i5,i6,i7) = a7_dev_I1(i1,i2,i3,i4,i5,i6,i7) + 10
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-
-! copy device memory to host one
-print '(A)', 'copy memory from device'
-call dev_memcpy_from_device(fptr_src=b1_dev_R8, fptr_dst=b1_R8)
-call dev_memcpy_from_device(fptr_src=b2_dev_R8, fptr_dst=b2_R8)
-call dev_memcpy_from_device(fptr_src=b3_dev_R8, fptr_dst=b3_R8)
-call dev_memcpy_from_device(fptr_src=b4_dev_R8, fptr_dst=b4_R8)
-call dev_memcpy_from_device(fptr_src=b5_dev_R8, fptr_dst=b5_R8)
-call dev_memcpy_from_device(fptr_src=b6_dev_R8, fptr_dst=b6_R8)
-call dev_memcpy_from_device(fptr_src=b7_dev_R8, fptr_dst=b7_R8)
-call dev_memcpy_from_device(fptr_src=b1_dev_R4, fptr_dst=b1_R4)
-call dev_memcpy_from_device(fptr_src=b2_dev_R4, fptr_dst=b2_R4)
-call dev_memcpy_from_device(fptr_src=b3_dev_R4, fptr_dst=b3_R4)
-call dev_memcpy_from_device(fptr_src=b4_dev_R4, fptr_dst=b4_R4)
-call dev_memcpy_from_device(fptr_src=b5_dev_R4, fptr_dst=b5_R4)
-call dev_memcpy_from_device(fptr_src=b6_dev_R4, fptr_dst=b6_R4)
-call dev_memcpy_from_device(fptr_src=b7_dev_R4, fptr_dst=b7_R4)
-call dev_memcpy_from_device(fptr_src=b1_dev_I8, fptr_dst=b1_I8)
-call dev_memcpy_from_device(fptr_src=b2_dev_I8, fptr_dst=b2_I8)
-call dev_memcpy_from_device(fptr_src=b3_dev_I8, fptr_dst=b3_I8)
-call dev_memcpy_from_device(fptr_src=b4_dev_I8, fptr_dst=b4_I8)
-call dev_memcpy_from_device(fptr_src=b5_dev_I8, fptr_dst=b5_I8)
-call dev_memcpy_from_device(fptr_src=b6_dev_I8, fptr_dst=b6_I8)
-call dev_memcpy_from_device(fptr_src=b7_dev_I8, fptr_dst=b7_I8)
-call dev_memcpy_from_device(fptr_src=b1_dev_I4, fptr_dst=b1_I4)
-call dev_memcpy_from_device(fptr_src=b2_dev_I4, fptr_dst=b2_I4)
-call dev_memcpy_from_device(fptr_src=b3_dev_I4, fptr_dst=b3_I4)
-call dev_memcpy_from_device(fptr_src=b4_dev_I4, fptr_dst=b4_I4)
-call dev_memcpy_from_device(fptr_src=b5_dev_I4, fptr_dst=b5_I4)
-call dev_memcpy_from_device(fptr_src=b6_dev_I4, fptr_dst=b6_I4)
-call dev_memcpy_from_device(fptr_src=b7_dev_I4, fptr_dst=b7_I4)
-call dev_memcpy_from_device(fptr_src=b1_dev_I1, fptr_dst=b1_I1)
-call dev_memcpy_from_device(fptr_src=b2_dev_I1, fptr_dst=b2_I1)
-call dev_memcpy_from_device(fptr_src=b3_dev_I1, fptr_dst=b3_I1)
-call dev_memcpy_from_device(fptr_src=b4_dev_I1, fptr_dst=b4_I1)
-call dev_memcpy_from_device(fptr_src=b5_dev_I1, fptr_dst=b5_I1)
-call dev_memcpy_from_device(fptr_src=b6_dev_I1, fptr_dst=b6_I1)
-call dev_memcpy_from_device(fptr_src=b7_dev_I1, fptr_dst=b7_I1)
-
-! check results
-print '(A)', 'chek results'
-do i1=1, n
-   if (int(b1_R8(i1) - a1_R8(i1),I4P) /= 10_I4P.or.&
-       int(b1_R4(i1) - a1_R4(i1),I4P) /= 10_I4P.or.&
-       int(b1_I8(i1) - a1_I8(i1),I4P) /= 10_I4P.or.&
-       int(b1_I4(i1) - a1_I4(i1),I4P) /= 10_I4P.or.&
-       int(b1_I1(i1) - a1_I1(i1),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-do i2=1, n
-do i1=1, n
-   if (int(b2_R8(i1,i2) - a2_R8(i1,i2),I4P) /= 10_I4P.or.&
-       int(b2_R4(i1,i2) - a2_R4(i1,i2),I4P) /= 10_I4P.or.&
-       int(b2_I8(i1,i2) - a2_I8(i1,i2),I4P) /= 10_I4P.or.&
-       int(b2_I4(i1,i2) - a2_I4(i1,i2),I4P) /= 10_I4P.or.&
-       int(b2_I1(i1,i2) - a2_I1(i1,i2),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-do i3=1, n
-do i2=1, n
-do i1=1, n
-   if (int(b3_R8(i1,i2,i3) - a3_R8(i1,i2,i3),I4P) /= 10_I4P.or.&
-       int(b3_R4(i1,i2,i3) - a3_R4(i1,i2,i3),I4P) /= 10_I4P.or.&
-       int(b3_I8(i1,i2,i3) - a3_I8(i1,i2,i3),I4P) /= 10_I4P.or.&
-       int(b3_I4(i1,i2,i3) - a3_I4(i1,i2,i3),I4P) /= 10_I4P.or.&
-       int(b3_I1(i1,i2,i3) - a3_I1(i1,i2,i3),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-enddo
-do i4=1, n
-do i3=1, n
-do i2=1, n
-do i1=1, n
-   if (int(b4_R8(i1,i2,i3,i4) - a4_R8(i1,i2,i3,i4),I4P) /= 10_I4P.or.&
-       int(b4_R4(i1,i2,i3,i4) - a4_R4(i1,i2,i3,i4),I4P) /= 10_I4P.or.&
-       int(b4_I8(i1,i2,i3,i4) - a4_I8(i1,i2,i3,i4),I4P) /= 10_I4P.or.&
-       int(b4_I4(i1,i2,i3,i4) - a4_I4(i1,i2,i3,i4),I4P) /= 10_I4P.or.&
-       int(b4_I1(i1,i2,i3,i4) - a4_I1(i1,i2,i3,i4),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-enddo
-enddo
-do i5=1, n
-do i4=1, n
-do i3=1, n
-do i2=1, n
-do i1=1, n
-   if (int(b5_R8(i1,i2,i3,i4,i5) - a5_R8(i1,i2,i3,i4,i5),I4P) /= 10_I4P.or.&
-       int(b5_R4(i1,i2,i3,i4,i5) - a5_R4(i1,i2,i3,i4,i5),I4P) /= 10_I4P.or.&
-       int(b5_I8(i1,i2,i3,i4,i5) - a5_I8(i1,i2,i3,i4,i5),I4P) /= 10_I4P.or.&
-       int(b5_I4(i1,i2,i3,i4,i5) - a5_I4(i1,i2,i3,i4,i5),I4P) /= 10_I4P.or.&
-       int(b5_I1(i1,i2,i3,i4,i5) - a5_I1(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-enddo
-enddo
-enddo
-do i6=1, n
-do i5=1, n
-do i4=1, n
-do i3=1, n
-do i2=1, n
-do i1=1, n
-   if (int(b6_R8(i1,i2,i3,i4,i5,i6) - a6_R8(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P.or.&
-       int(b6_R4(i1,i2,i3,i4,i5,i6) - a6_R4(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P.or.&
-       int(b6_I8(i1,i2,i3,i4,i5,i6) - a6_I8(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P.or.&
-       int(b6_I4(i1,i2,i3,i4,i5,i6) - a6_I4(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P.or.&
-       int(b6_I1(i1,i2,i3,i4,i5,i6) - a6_I1(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-do i7=1, n
-do i6=1, n
-do i5=1, n
-do i4=1, n
-do i3=1, n
-do i2=1, n
-do i1=1, n
-   if (int(b7_R8(i1,i2,i3,i4,i5,i6,i7) - a7_R8(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P.or.&
-       int(b7_R4(i1,i2,i3,i4,i5,i6,i7) - a7_R4(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P.or.&
-       int(b7_I8(i1,i2,i3,i4,i5,i6,i7) - a7_I8(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P.or.&
-       int(b7_I4(i1,i2,i3,i4,i5,i6,i7) - a7_I4(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P.or.&
-       int(b7_I1(i1,i2,i3,i4,i5,i6,i7) - a7_I1(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
-enddo
+call test_R8P
+call test_R4P
+call test_I8P
+call test_I4P
+call test_I1P
 
 print '(A)', 'test passed'
 contains
@@ -762,4 +50,2094 @@ contains
       stop
    endif
    endsubroutine error_print
+
+   subroutine test_R8P
+   !< Test R8P kind.
+   real(R8P), pointer             :: a1_dev(:)=>null()             !< Array on device memory.
+   real(R8P), pointer             :: a2_dev(:,:)=>null()           !< Array on device memory.
+   real(R8P), pointer             :: a3_dev(:,:,:)=>null()         !< Array on device memory.
+   real(R8P), pointer             :: a4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   real(R8P), pointer             :: a5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   real(R8P), pointer             :: a6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   real(R8P), pointer             :: a7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   real(R8P), pointer             :: b1_dev(:)=>null()             !< Array on device memory.
+   real(R8P), pointer             :: b2_dev(:,:)=>null()           !< Array on device memory.
+   real(R8P), pointer             :: b3_dev(:,:,:)=>null()         !< Array on device memory.
+   real(R8P), pointer             :: b4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   real(R8P), pointer             :: b5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   real(R8P), pointer             :: b6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   real(R8P), pointer             :: b7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   real(R8P), allocatable, target :: a1(:)                         !< Array on host memory.
+   real(R8P), allocatable, target :: a2(:,:)                       !< Array on host memory.
+   real(R8P), allocatable, target :: a3(:,:,:)                     !< Array on host memory.
+   real(R8P), allocatable, target :: a4(:,:,:,:)                   !< Array on host memory.
+   real(R8P), allocatable, target :: a5(:,:,:,:,:)                 !< Array on host memory.
+   real(R8P), allocatable, target :: a6(:,:,:,:,:,:)               !< Array on host memory.
+   real(R8P), allocatable, target :: a7(:,:,:,:,:,:,:)             !< Array on host memory.
+   real(R8P), allocatable, target :: b1(:)                         !< Array on host memory.
+   real(R8P), allocatable, target :: b2(:,:)                       !< Array on host memory.
+   real(R8P), allocatable, target :: b3(:,:,:)                     !< Array on host memory.
+   real(R8P), allocatable, target :: b4(:,:,:,:)                   !< Array on host memory.
+   real(R8P), allocatable, target :: b5(:,:,:,:,:)                 !< Array on host memory.
+   real(R8P), allocatable, target :: b6(:,:,:,:,:,:)               !< Array on host memory.
+   real(R8P), allocatable, target :: b7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P)                   :: ierr                          !< Error status.
+   integer(I4P)                   :: i1,i2,i3,i4,i5,i6,i7          !< Counter.
+
+   print '(A)', 'test R8P'
+   allocate(a1(n            ),b1(n            ),&
+            a2(n,n          ),b2(n,n          ),&
+            a3(n,n,n        ),b3(n,n,n        ),&
+            a4(n,n,n,n      ),b4(n,n,n,n      ),&
+            a5(n,n,n,n,n    ),b5(n,n,n,n,n    ),&
+            a6(n,n,n,n,n,n  ),b6(n,n,n,n,n,n  ),&
+            a7(n,n,n,n,n,n,n),b7(n,n,n,n,n,n,n))
+   do i1= 1, n
+      a1(i1) = i1
+   enddo
+   do i2= 1, n ; do i1= 1, n
+      a2(i1,i2) = i1
+   enddo ; enddo
+   do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a3(i1,i2,i3) = i1
+   enddo ; enddo ; enddo
+   do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a4(i1,i2,i3,i4) = i1
+   enddo ; enddo ; enddo ; enddo
+   do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a5(i1,i2,i3,i4,i5) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a6(i1,i2,i3,i4,i5,i6) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7= 1, n ; do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a7(i1,i2,i3,i4,i5,i6,i7) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   ! allocate device memory
+   call dev_alloc(fptr_dev=a1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev')
+   call dev_alloc(fptr_dev=a2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev')
+   call dev_alloc(fptr_dev=a3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev')
+   call dev_alloc(fptr_dev=a4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev')
+   call dev_alloc(fptr_dev=a5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev')
+   call dev_alloc(fptr_dev=a6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev')
+   call dev_alloc(fptr_dev=a7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev')
+   call dev_alloc(fptr_dev=b1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev')
+   call dev_alloc(fptr_dev=b2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev')
+   call dev_alloc(fptr_dev=b3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev')
+   call dev_alloc(fptr_dev=b4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev')
+   call dev_alloc(fptr_dev=b5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev')
+   call dev_alloc(fptr_dev=b6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev')
+   call dev_alloc(fptr_dev=b7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev')
+
+   ! copy host memory to device one
+   print '(A)', '    copy memory to device'
+   call dev_memcpy_to_device(fptr_src=a1, fptr_dst=a1_dev)
+   call dev_memcpy_to_device(fptr_src=a2, fptr_dst=a2_dev)
+   call dev_memcpy_to_device(fptr_src=a3, fptr_dst=a3_dev)
+   call dev_memcpy_to_device(fptr_src=a4, fptr_dst=a4_dev)
+   call dev_memcpy_to_device(fptr_src=a5, fptr_dst=a5_dev)
+   call dev_memcpy_to_device(fptr_src=a6, fptr_dst=a6_dev)
+   call dev_memcpy_to_device(fptr_src=a7, fptr_dst=a7_dev)
+
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8)
+   do i1 = 1, n
+      b1_dev(i1) = a1_dev(i1) + 10
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2_dev(i1,i2) = a2_dev(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3_dev(i1,i2,i3) = a3_dev(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4_dev(i1,i2,i3,i4) = a4_dev(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5_dev(i1,i2,i3,i4,i5) = a5_dev(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6_dev(i1,i2,i3,i4,i5,i6) = a6_dev(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7_dev(i1,i2,i3,i4,i5,i6,i7) = a7_dev(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device(fptr_src=b1_dev, fptr_dst=b1)
+   call dev_memcpy_from_device(fptr_src=b2_dev, fptr_dst=b2)
+   call dev_memcpy_from_device(fptr_src=b3_dev, fptr_dst=b3)
+   call dev_memcpy_from_device(fptr_src=b4_dev, fptr_dst=b4)
+   call dev_memcpy_from_device(fptr_src=b5_dev, fptr_dst=b5)
+   call dev_memcpy_from_device(fptr_src=b6_dev, fptr_dst=b6)
+   call dev_memcpy_from_device(fptr_src=b7_dev, fptr_dst=b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   print '(A)', '    test unstructured memory'
+   call dev_alloc_unstr(a1) ; call dev_alloc_unstr(b1)
+   call dev_alloc_unstr(a2) ; call dev_alloc_unstr(b2)
+   call dev_alloc_unstr(a3) ; call dev_alloc_unstr(b3)
+   call dev_alloc_unstr(a4) ; call dev_alloc_unstr(b4)
+   call dev_alloc_unstr(a5) ; call dev_alloc_unstr(b5)
+   call dev_alloc_unstr(a6) ; call dev_alloc_unstr(b6)
+   call dev_alloc_unstr(a7) ; call dev_alloc_unstr(b7)
+   call dev_memcpy_to_device_unstr(a1)
+   call dev_memcpy_to_device_unstr(a2)
+   call dev_memcpy_to_device_unstr(a3)
+   call dev_memcpy_to_device_unstr(a4)
+   call dev_memcpy_to_device_unstr(a5)
+   call dev_memcpy_to_device_unstr(a6)
+   call dev_memcpy_to_device_unstr(a7)
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent present(a1, b1)
+   do i1 = 1, n
+      b1(i1) = a1(i1) + 10
+   enddo
+   !$acc parallel loop independent present(a2, b2)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2(i1,i2) = a2(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent present(a3, b3)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3(i1,i2,i3) = a3(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a4, b4)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4(i1,i2,i3,i4) = a4(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a5, b5)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5(i1,i2,i3,i4,i5) = a5(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a6, b6)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6(i1,i2,i3,i4,i5,i6) = a6(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a7, b7)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7(i1,i2,i3,i4,i5,i6,i7) = a7(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device_unstr(b1)
+   call dev_memcpy_from_device_unstr(b2)
+   call dev_memcpy_from_device_unstr(b3)
+   call dev_memcpy_from_device_unstr(b4)
+   call dev_memcpy_from_device_unstr(b5)
+   call dev_memcpy_from_device_unstr(b6)
+   call dev_memcpy_from_device_unstr(b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
+         stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
+         stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)
+   call dev_free(a2_dev,dev_id=mydev) ; call dev_free_unstr(a2)
+   call dev_free(a3_dev,dev_id=mydev) ; call dev_free_unstr(a3)
+   call dev_free(a4_dev,dev_id=mydev) ; call dev_free_unstr(a4)
+   call dev_free(a5_dev,dev_id=mydev) ; call dev_free_unstr(a5)
+   call dev_free(a6_dev,dev_id=mydev) ; call dev_free_unstr(a6)
+   call dev_free(a7_dev,dev_id=mydev) ; call dev_free_unstr(a7)
+   call dev_free(b1_dev,dev_id=mydev) ; call dev_free_unstr(b1)
+   call dev_free(b2_dev,dev_id=mydev) ; call dev_free_unstr(b2)
+   call dev_free(b3_dev,dev_id=mydev) ; call dev_free_unstr(b3)
+   call dev_free(b4_dev,dev_id=mydev) ; call dev_free_unstr(b4)
+   call dev_free(b5_dev,dev_id=mydev) ; call dev_free_unstr(b5)
+   call dev_free(b6_dev,dev_id=mydev) ; call dev_free_unstr(b6)
+   call dev_free(b7_dev,dev_id=mydev) ; call dev_free_unstr(b7)
+   endsubroutine test_R8P
+
+   subroutine test_R4P
+   !< Test R4P kind.
+   real(R4P), pointer             :: a1_dev(:)=>null()             !< Array on device memory.
+   real(R4P), pointer             :: a2_dev(:,:)=>null()           !< Array on device memory.
+   real(R4P), pointer             :: a3_dev(:,:,:)=>null()         !< Array on device memory.
+   real(R4P), pointer             :: a4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   real(R4P), pointer             :: a5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   real(R4P), pointer             :: a6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   real(R4P), pointer             :: a7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   real(R4P), pointer             :: b1_dev(:)=>null()             !< Array on device memory.
+   real(R4P), pointer             :: b2_dev(:,:)=>null()           !< Array on device memory.
+   real(R4P), pointer             :: b3_dev(:,:,:)=>null()         !< Array on device memory.
+   real(R4P), pointer             :: b4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   real(R4P), pointer             :: b5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   real(R4P), pointer             :: b6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   real(R4P), pointer             :: b7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   real(R4P), allocatable, target :: a1(:)                         !< Array on host memory.
+   real(R4P), allocatable, target :: a2(:,:)                       !< Array on host memory.
+   real(R4P), allocatable, target :: a3(:,:,:)                     !< Array on host memory.
+   real(R4P), allocatable, target :: a4(:,:,:,:)                   !< Array on host memory.
+   real(R4P), allocatable, target :: a5(:,:,:,:,:)                 !< Array on host memory.
+   real(R4P), allocatable, target :: a6(:,:,:,:,:,:)               !< Array on host memory.
+   real(R4P), allocatable, target :: a7(:,:,:,:,:,:,:)             !< Array on host memory.
+   real(R4P), allocatable, target :: b1(:)                         !< Array on host memory.
+   real(R4P), allocatable, target :: b2(:,:)                       !< Array on host memory.
+   real(R4P), allocatable, target :: b3(:,:,:)                     !< Array on host memory.
+   real(R4P), allocatable, target :: b4(:,:,:,:)                   !< Array on host memory.
+   real(R4P), allocatable, target :: b5(:,:,:,:,:)                 !< Array on host memory.
+   real(R4P), allocatable, target :: b6(:,:,:,:,:,:)               !< Array on host memory.
+   real(R4P), allocatable, target :: b7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P)                   :: ierr                          !< Error status.
+   integer(I4P)                   :: i1,i2,i3,i4,i5,i6,i7          !< Counter.
+
+   print '(A)', 'test R4P'
+   allocate(a1(n            ),b1(n            ),&
+            a2(n,n          ),b2(n,n          ),&
+            a3(n,n,n        ),b3(n,n,n        ),&
+            a4(n,n,n,n      ),b4(n,n,n,n      ),&
+            a5(n,n,n,n,n    ),b5(n,n,n,n,n    ),&
+            a6(n,n,n,n,n,n  ),b6(n,n,n,n,n,n  ),&
+            a7(n,n,n,n,n,n,n),b7(n,n,n,n,n,n,n))
+   do i1= 1, n
+      a1(i1) = i1
+   enddo
+   do i2= 1, n ; do i1= 1, n
+      a2(i1,i2) = i1
+   enddo ; enddo
+   do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a3(i1,i2,i3) = i1
+   enddo ; enddo ; enddo
+   do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a4(i1,i2,i3,i4) = i1
+   enddo ; enddo ; enddo ; enddo
+   do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a5(i1,i2,i3,i4,i5) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a6(i1,i2,i3,i4,i5,i6) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7= 1, n ; do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a7(i1,i2,i3,i4,i5,i6,i7) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   ! allocate device memory
+   call dev_alloc(fptr_dev=a1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev')
+   call dev_alloc(fptr_dev=a2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev')
+   call dev_alloc(fptr_dev=a3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev')
+   call dev_alloc(fptr_dev=a4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev')
+   call dev_alloc(fptr_dev=a5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev')
+   call dev_alloc(fptr_dev=a6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev')
+   call dev_alloc(fptr_dev=a7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev')
+   call dev_alloc(fptr_dev=b1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev')
+   call dev_alloc(fptr_dev=b2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev')
+   call dev_alloc(fptr_dev=b3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev')
+   call dev_alloc(fptr_dev=b4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev')
+   call dev_alloc(fptr_dev=b5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev')
+   call dev_alloc(fptr_dev=b6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev')
+   call dev_alloc(fptr_dev=b7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev')
+
+   ! copy host memory to device one
+   print '(A)', '    copy memory to device'
+   call dev_memcpy_to_device(fptr_src=a1, fptr_dst=a1_dev)
+   call dev_memcpy_to_device(fptr_src=a2, fptr_dst=a2_dev)
+   call dev_memcpy_to_device(fptr_src=a3, fptr_dst=a3_dev)
+   call dev_memcpy_to_device(fptr_src=a4, fptr_dst=a4_dev)
+   call dev_memcpy_to_device(fptr_src=a5, fptr_dst=a5_dev)
+   call dev_memcpy_to_device(fptr_src=a6, fptr_dst=a6_dev)
+   call dev_memcpy_to_device(fptr_src=a7, fptr_dst=a7_dev)
+
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8)
+   do i1 = 1, n
+      b1_dev(i1) = a1_dev(i1) + 10
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2_dev(i1,i2) = a2_dev(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3_dev(i1,i2,i3) = a3_dev(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4_dev(i1,i2,i3,i4) = a4_dev(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5_dev(i1,i2,i3,i4,i5) = a5_dev(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6_dev(i1,i2,i3,i4,i5,i6) = a6_dev(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7_dev(i1,i2,i3,i4,i5,i6,i7) = a7_dev(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device(fptr_src=b1_dev, fptr_dst=b1)
+   call dev_memcpy_from_device(fptr_src=b2_dev, fptr_dst=b2)
+   call dev_memcpy_from_device(fptr_src=b3_dev, fptr_dst=b3)
+   call dev_memcpy_from_device(fptr_src=b4_dev, fptr_dst=b4)
+   call dev_memcpy_from_device(fptr_src=b5_dev, fptr_dst=b5)
+   call dev_memcpy_from_device(fptr_src=b6_dev, fptr_dst=b6)
+   call dev_memcpy_from_device(fptr_src=b7_dev, fptr_dst=b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   print '(A)', '    test unstructured memory'
+   call dev_alloc_unstr(a1) ; call dev_alloc_unstr(b1)
+   call dev_alloc_unstr(a2) ; call dev_alloc_unstr(b2)
+   call dev_alloc_unstr(a3) ; call dev_alloc_unstr(b3)
+   call dev_alloc_unstr(a4) ; call dev_alloc_unstr(b4)
+   call dev_alloc_unstr(a5) ; call dev_alloc_unstr(b5)
+   call dev_alloc_unstr(a6) ; call dev_alloc_unstr(b6)
+   call dev_alloc_unstr(a7) ; call dev_alloc_unstr(b7)
+   call dev_memcpy_to_device_unstr(a1)
+   call dev_memcpy_to_device_unstr(a2)
+   call dev_memcpy_to_device_unstr(a3)
+   call dev_memcpy_to_device_unstr(a4)
+   call dev_memcpy_to_device_unstr(a5)
+   call dev_memcpy_to_device_unstr(a6)
+   call dev_memcpy_to_device_unstr(a7)
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent present(a1, b1)
+   do i1 = 1, n
+      b1(i1) = a1(i1) + 10
+   enddo
+   !$acc parallel loop independent present(a2, b2)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2(i1,i2) = a2(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent present(a3, b3)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3(i1,i2,i3) = a3(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a4, b4)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4(i1,i2,i3,i4) = a4(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a5, b5)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5(i1,i2,i3,i4,i5) = a5(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a6, b6)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6(i1,i2,i3,i4,i5,i6) = a6(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a7, b7)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7(i1,i2,i3,i4,i5,i6,i7) = a7(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device_unstr(b1)
+   call dev_memcpy_from_device_unstr(b2)
+   call dev_memcpy_from_device_unstr(b3)
+   call dev_memcpy_from_device_unstr(b4)
+   call dev_memcpy_from_device_unstr(b5)
+   call dev_memcpy_from_device_unstr(b6)
+   call dev_memcpy_from_device_unstr(b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
+         stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
+         stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)
+   call dev_free(a2_dev,dev_id=mydev) ; call dev_free_unstr(a2)
+   call dev_free(a3_dev,dev_id=mydev) ; call dev_free_unstr(a3)
+   call dev_free(a4_dev,dev_id=mydev) ; call dev_free_unstr(a4)
+   call dev_free(a5_dev,dev_id=mydev) ; call dev_free_unstr(a5)
+   call dev_free(a6_dev,dev_id=mydev) ; call dev_free_unstr(a6)
+   call dev_free(a7_dev,dev_id=mydev) ; call dev_free_unstr(a7)
+   call dev_free(b1_dev,dev_id=mydev) ; call dev_free_unstr(b1)
+   call dev_free(b2_dev,dev_id=mydev) ; call dev_free_unstr(b2)
+   call dev_free(b3_dev,dev_id=mydev) ; call dev_free_unstr(b3)
+   call dev_free(b4_dev,dev_id=mydev) ; call dev_free_unstr(b4)
+   call dev_free(b5_dev,dev_id=mydev) ; call dev_free_unstr(b5)
+   call dev_free(b6_dev,dev_id=mydev) ; call dev_free_unstr(b6)
+   call dev_free(b7_dev,dev_id=mydev) ; call dev_free_unstr(b7)
+   endsubroutine test_R4P
+
+   subroutine test_I8P
+   !< Test I8P kind.
+   integer(I8P), pointer             :: a1_dev(:)=>null()             !< Array on device memory.
+   integer(I8P), pointer             :: a2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I8P), pointer             :: a3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I8P), pointer             :: a4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I8P), pointer             :: a5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I8P), pointer             :: a6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I8P), pointer             :: a7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I8P), pointer             :: b1_dev(:)=>null()             !< Array on device memory.
+   integer(I8P), pointer             :: b2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I8P), pointer             :: b3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I8P), pointer             :: b4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I8P), pointer             :: b5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I8P), pointer             :: b6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I8P), pointer             :: b7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I8P), allocatable, target :: a1(:)                         !< Array on host memory.
+   integer(I8P), allocatable, target :: a2(:,:)                       !< Array on host memory.
+   integer(I8P), allocatable, target :: a3(:,:,:)                     !< Array on host memory.
+   integer(I8P), allocatable, target :: a4(:,:,:,:)                   !< Array on host memory.
+   integer(I8P), allocatable, target :: a5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I8P), allocatable, target :: a6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I8P), allocatable, target :: a7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I8P), allocatable, target :: b1(:)                         !< Array on host memory.
+   integer(I8P), allocatable, target :: b2(:,:)                       !< Array on host memory.
+   integer(I8P), allocatable, target :: b3(:,:,:)                     !< Array on host memory.
+   integer(I8P), allocatable, target :: b4(:,:,:,:)                   !< Array on host memory.
+   integer(I8P), allocatable, target :: b5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I8P), allocatable, target :: b6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I8P), allocatable, target :: b7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P)                      :: ierr                          !< Error status.
+   integer(I4P)                      :: i1,i2,i3,i4,i5,i6,i7          !< Counter.
+
+   print '(A)', 'test I8P'
+   allocate(a1(n            ),b1(n            ),&
+            a2(n,n          ),b2(n,n          ),&
+            a3(n,n,n        ),b3(n,n,n        ),&
+            a4(n,n,n,n      ),b4(n,n,n,n      ),&
+            a5(n,n,n,n,n    ),b5(n,n,n,n,n    ),&
+            a6(n,n,n,n,n,n  ),b6(n,n,n,n,n,n  ),&
+            a7(n,n,n,n,n,n,n),b7(n,n,n,n,n,n,n))
+   do i1= 1, n
+      a1(i1) = i1
+   enddo
+   do i2= 1, n ; do i1= 1, n
+      a2(i1,i2) = i1
+   enddo ; enddo
+   do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a3(i1,i2,i3) = i1
+   enddo ; enddo ; enddo
+   do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a4(i1,i2,i3,i4) = i1
+   enddo ; enddo ; enddo ; enddo
+   do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a5(i1,i2,i3,i4,i5) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a6(i1,i2,i3,i4,i5,i6) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7= 1, n ; do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a7(i1,i2,i3,i4,i5,i6,i7) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   ! allocate device memory
+   call dev_alloc(fptr_dev=a1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev')
+   call dev_alloc(fptr_dev=a2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev')
+   call dev_alloc(fptr_dev=a3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev')
+   call dev_alloc(fptr_dev=a4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev')
+   call dev_alloc(fptr_dev=a5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev')
+   call dev_alloc(fptr_dev=a6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev')
+   call dev_alloc(fptr_dev=a7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev')
+   call dev_alloc(fptr_dev=b1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev')
+   call dev_alloc(fptr_dev=b2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev')
+   call dev_alloc(fptr_dev=b3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev')
+   call dev_alloc(fptr_dev=b4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev')
+   call dev_alloc(fptr_dev=b5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev')
+   call dev_alloc(fptr_dev=b6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev')
+   call dev_alloc(fptr_dev=b7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev')
+
+   ! copy host memory to device one
+   print '(A)', '    copy memory to device'
+   call dev_memcpy_to_device(fptr_src=a1, fptr_dst=a1_dev)
+   call dev_memcpy_to_device(fptr_src=a2, fptr_dst=a2_dev)
+   call dev_memcpy_to_device(fptr_src=a3, fptr_dst=a3_dev)
+   call dev_memcpy_to_device(fptr_src=a4, fptr_dst=a4_dev)
+   call dev_memcpy_to_device(fptr_src=a5, fptr_dst=a5_dev)
+   call dev_memcpy_to_device(fptr_src=a6, fptr_dst=a6_dev)
+   call dev_memcpy_to_device(fptr_src=a7, fptr_dst=a7_dev)
+
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8)
+   do i1 = 1, n
+      b1_dev(i1) = a1_dev(i1) + 10
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2_dev(i1,i2) = a2_dev(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3_dev(i1,i2,i3) = a3_dev(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4_dev(i1,i2,i3,i4) = a4_dev(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5_dev(i1,i2,i3,i4,i5) = a5_dev(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6_dev(i1,i2,i3,i4,i5,i6) = a6_dev(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7_dev(i1,i2,i3,i4,i5,i6,i7) = a7_dev(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device(fptr_src=b1_dev, fptr_dst=b1)
+   call dev_memcpy_from_device(fptr_src=b2_dev, fptr_dst=b2)
+   call dev_memcpy_from_device(fptr_src=b3_dev, fptr_dst=b3)
+   call dev_memcpy_from_device(fptr_src=b4_dev, fptr_dst=b4)
+   call dev_memcpy_from_device(fptr_src=b5_dev, fptr_dst=b5)
+   call dev_memcpy_from_device(fptr_src=b6_dev, fptr_dst=b6)
+   call dev_memcpy_from_device(fptr_src=b7_dev, fptr_dst=b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   print '(A)', '    test unstructured memory'
+   call dev_alloc_unstr(a1) ; call dev_alloc_unstr(b1)
+   call dev_alloc_unstr(a2) ; call dev_alloc_unstr(b2)
+   call dev_alloc_unstr(a3) ; call dev_alloc_unstr(b3)
+   call dev_alloc_unstr(a4) ; call dev_alloc_unstr(b4)
+   call dev_alloc_unstr(a5) ; call dev_alloc_unstr(b5)
+   call dev_alloc_unstr(a6) ; call dev_alloc_unstr(b6)
+   call dev_alloc_unstr(a7) ; call dev_alloc_unstr(b7)
+   call dev_memcpy_to_device_unstr(a1)
+   call dev_memcpy_to_device_unstr(a2)
+   call dev_memcpy_to_device_unstr(a3)
+   call dev_memcpy_to_device_unstr(a4)
+   call dev_memcpy_to_device_unstr(a5)
+   call dev_memcpy_to_device_unstr(a6)
+   call dev_memcpy_to_device_unstr(a7)
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent present(a1, b1)
+   do i1 = 1, n
+      b1(i1) = a1(i1) + 10
+   enddo
+   !$acc parallel loop independent present(a2, b2)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2(i1,i2) = a2(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent present(a3, b3)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3(i1,i2,i3) = a3(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a4, b4)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4(i1,i2,i3,i4) = a4(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a5, b5)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5(i1,i2,i3,i4,i5) = a5(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a6, b6)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6(i1,i2,i3,i4,i5,i6) = a6(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a7, b7)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7(i1,i2,i3,i4,i5,i6,i7) = a7(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device_unstr(b1)
+   call dev_memcpy_from_device_unstr(b2)
+   call dev_memcpy_from_device_unstr(b3)
+   call dev_memcpy_from_device_unstr(b4)
+   call dev_memcpy_from_device_unstr(b5)
+   call dev_memcpy_from_device_unstr(b6)
+   call dev_memcpy_from_device_unstr(b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
+         stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
+         stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)
+   call dev_free(a2_dev,dev_id=mydev) ; call dev_free_unstr(a2)
+   call dev_free(a3_dev,dev_id=mydev) ; call dev_free_unstr(a3)
+   call dev_free(a4_dev,dev_id=mydev) ; call dev_free_unstr(a4)
+   call dev_free(a5_dev,dev_id=mydev) ; call dev_free_unstr(a5)
+   call dev_free(a6_dev,dev_id=mydev) ; call dev_free_unstr(a6)
+   call dev_free(a7_dev,dev_id=mydev) ; call dev_free_unstr(a7)
+   call dev_free(b1_dev,dev_id=mydev) ; call dev_free_unstr(b1)
+   call dev_free(b2_dev,dev_id=mydev) ; call dev_free_unstr(b2)
+   call dev_free(b3_dev,dev_id=mydev) ; call dev_free_unstr(b3)
+   call dev_free(b4_dev,dev_id=mydev) ; call dev_free_unstr(b4)
+   call dev_free(b5_dev,dev_id=mydev) ; call dev_free_unstr(b5)
+   call dev_free(b6_dev,dev_id=mydev) ; call dev_free_unstr(b6)
+   call dev_free(b7_dev,dev_id=mydev) ; call dev_free_unstr(b7)
+   endsubroutine test_I8P
+
+   subroutine test_I4P
+   !< Test I4P kind.
+   integer(I4P), pointer             :: a1_dev(:)=>null()             !< Array on device memory.
+   integer(I4P), pointer             :: a2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I4P), pointer             :: a3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I4P), pointer             :: a4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I4P), pointer             :: a5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I4P), pointer             :: a6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I4P), pointer             :: a7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I4P), pointer             :: b1_dev(:)=>null()             !< Array on device memory.
+   integer(I4P), pointer             :: b2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I4P), pointer             :: b3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I4P), pointer             :: b4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I4P), pointer             :: b5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I4P), pointer             :: b6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I4P), pointer             :: b7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I4P), allocatable, target :: a1(:)                         !< Array on host memory.
+   integer(I4P), allocatable, target :: a2(:,:)                       !< Array on host memory.
+   integer(I4P), allocatable, target :: a3(:,:,:)                     !< Array on host memory.
+   integer(I4P), allocatable, target :: a4(:,:,:,:)                   !< Array on host memory.
+   integer(I4P), allocatable, target :: a5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I4P), allocatable, target :: a6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I4P), allocatable, target :: a7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P), allocatable, target :: b1(:)                         !< Array on host memory.
+   integer(I4P), allocatable, target :: b2(:,:)                       !< Array on host memory.
+   integer(I4P), allocatable, target :: b3(:,:,:)                     !< Array on host memory.
+   integer(I4P), allocatable, target :: b4(:,:,:,:)                   !< Array on host memory.
+   integer(I4P), allocatable, target :: b5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I4P), allocatable, target :: b6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I4P), allocatable, target :: b7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P)                      :: ierr                          !< Error status.
+   integer(I4P)                      :: i1,i2,i3,i4,i5,i6,i7          !< Counter.
+
+   print '(A)', 'test I4P'
+   allocate(a1(n            ),b1(n            ),&
+            a2(n,n          ),b2(n,n          ),&
+            a3(n,n,n        ),b3(n,n,n        ),&
+            a4(n,n,n,n      ),b4(n,n,n,n      ),&
+            a5(n,n,n,n,n    ),b5(n,n,n,n,n    ),&
+            a6(n,n,n,n,n,n  ),b6(n,n,n,n,n,n  ),&
+            a7(n,n,n,n,n,n,n),b7(n,n,n,n,n,n,n))
+   do i1= 1, n
+      a1(i1) = i1
+   enddo
+   do i2= 1, n ; do i1= 1, n
+      a2(i1,i2) = i1
+   enddo ; enddo
+   do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a3(i1,i2,i3) = i1
+   enddo ; enddo ; enddo
+   do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a4(i1,i2,i3,i4) = i1
+   enddo ; enddo ; enddo ; enddo
+   do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a5(i1,i2,i3,i4,i5) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a6(i1,i2,i3,i4,i5,i6) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7= 1, n ; do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a7(i1,i2,i3,i4,i5,i6,i7) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   ! allocate device memory
+   call dev_alloc(fptr_dev=a1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev')
+   call dev_alloc(fptr_dev=a2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev')
+   call dev_alloc(fptr_dev=a3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev')
+   call dev_alloc(fptr_dev=a4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev')
+   call dev_alloc(fptr_dev=a5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev')
+   call dev_alloc(fptr_dev=a6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev')
+   call dev_alloc(fptr_dev=a7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev')
+   call dev_alloc(fptr_dev=b1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev')
+   call dev_alloc(fptr_dev=b2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev')
+   call dev_alloc(fptr_dev=b3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev')
+   call dev_alloc(fptr_dev=b4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev')
+   call dev_alloc(fptr_dev=b5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev')
+   call dev_alloc(fptr_dev=b6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev')
+   call dev_alloc(fptr_dev=b7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev')
+
+   ! copy host memory to device one
+   print '(A)', '    copy memory to device'
+   call dev_memcpy_to_device(fptr_src=a1, fptr_dst=a1_dev)
+   call dev_memcpy_to_device(fptr_src=a2, fptr_dst=a2_dev)
+   call dev_memcpy_to_device(fptr_src=a3, fptr_dst=a3_dev)
+   call dev_memcpy_to_device(fptr_src=a4, fptr_dst=a4_dev)
+   call dev_memcpy_to_device(fptr_src=a5, fptr_dst=a5_dev)
+   call dev_memcpy_to_device(fptr_src=a6, fptr_dst=a6_dev)
+   call dev_memcpy_to_device(fptr_src=a7, fptr_dst=a7_dev)
+
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8)
+   do i1 = 1, n
+      b1_dev(i1) = a1_dev(i1) + 10
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2_dev(i1,i2) = a2_dev(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3_dev(i1,i2,i3) = a3_dev(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4_dev(i1,i2,i3,i4) = a4_dev(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5_dev(i1,i2,i3,i4,i5) = a5_dev(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6_dev(i1,i2,i3,i4,i5,i6) = a6_dev(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7_dev(i1,i2,i3,i4,i5,i6,i7) = a7_dev(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device(fptr_src=b1_dev, fptr_dst=b1)
+   call dev_memcpy_from_device(fptr_src=b2_dev, fptr_dst=b2)
+   call dev_memcpy_from_device(fptr_src=b3_dev, fptr_dst=b3)
+   call dev_memcpy_from_device(fptr_src=b4_dev, fptr_dst=b4)
+   call dev_memcpy_from_device(fptr_src=b5_dev, fptr_dst=b5)
+   call dev_memcpy_from_device(fptr_src=b6_dev, fptr_dst=b6)
+   call dev_memcpy_from_device(fptr_src=b7_dev, fptr_dst=b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   print '(A)', '    test unstructured memory'
+   call dev_alloc_unstr(a1) ; call dev_alloc_unstr(b1)
+   call dev_alloc_unstr(a2) ; call dev_alloc_unstr(b2)
+   call dev_alloc_unstr(a3) ; call dev_alloc_unstr(b3)
+   call dev_alloc_unstr(a4) ; call dev_alloc_unstr(b4)
+   call dev_alloc_unstr(a5) ; call dev_alloc_unstr(b5)
+   call dev_alloc_unstr(a6) ; call dev_alloc_unstr(b6)
+   call dev_alloc_unstr(a7) ; call dev_alloc_unstr(b7)
+   call dev_memcpy_to_device_unstr(a1)
+   call dev_memcpy_to_device_unstr(a2)
+   call dev_memcpy_to_device_unstr(a3)
+   call dev_memcpy_to_device_unstr(a4)
+   call dev_memcpy_to_device_unstr(a5)
+   call dev_memcpy_to_device_unstr(a6)
+   call dev_memcpy_to_device_unstr(a7)
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent present(a1, b1)
+   do i1 = 1, n
+      b1(i1) = a1(i1) + 10
+   enddo
+   !$acc parallel loop independent present(a2, b2)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2(i1,i2) = a2(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent present(a3, b3)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3(i1,i2,i3) = a3(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a4, b4)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4(i1,i2,i3,i4) = a4(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a5, b5)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5(i1,i2,i3,i4,i5) = a5(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a6, b6)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6(i1,i2,i3,i4,i5,i6) = a6(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a7, b7)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7(i1,i2,i3,i4,i5,i6,i7) = a7(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device_unstr(b1)
+   call dev_memcpy_from_device_unstr(b2)
+   call dev_memcpy_from_device_unstr(b3)
+   call dev_memcpy_from_device_unstr(b4)
+   call dev_memcpy_from_device_unstr(b5)
+   call dev_memcpy_from_device_unstr(b6)
+   call dev_memcpy_from_device_unstr(b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
+         stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
+         stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)
+   call dev_free(a2_dev,dev_id=mydev) ; call dev_free_unstr(a2)
+   call dev_free(a3_dev,dev_id=mydev) ; call dev_free_unstr(a3)
+   call dev_free(a4_dev,dev_id=mydev) ; call dev_free_unstr(a4)
+   call dev_free(a5_dev,dev_id=mydev) ; call dev_free_unstr(a5)
+   call dev_free(a6_dev,dev_id=mydev) ; call dev_free_unstr(a6)
+   call dev_free(a7_dev,dev_id=mydev) ; call dev_free_unstr(a7)
+   call dev_free(b1_dev,dev_id=mydev) ; call dev_free_unstr(b1)
+   call dev_free(b2_dev,dev_id=mydev) ; call dev_free_unstr(b2)
+   call dev_free(b3_dev,dev_id=mydev) ; call dev_free_unstr(b3)
+   call dev_free(b4_dev,dev_id=mydev) ; call dev_free_unstr(b4)
+   call dev_free(b5_dev,dev_id=mydev) ; call dev_free_unstr(b5)
+   call dev_free(b6_dev,dev_id=mydev) ; call dev_free_unstr(b6)
+   call dev_free(b7_dev,dev_id=mydev) ; call dev_free_unstr(b7)
+   endsubroutine test_I4P
+
+   subroutine test_I1P
+   !< Test I1P kind.
+   integer(I1P), pointer             :: a1_dev(:)=>null()             !< Array on device memory.
+   integer(I1P), pointer             :: a2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I1P), pointer             :: a3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I1P), pointer             :: a4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I1P), pointer             :: a5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I1P), pointer             :: a6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I1P), pointer             :: a7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I1P), pointer             :: b1_dev(:)=>null()             !< Array on device memory.
+   integer(I1P), pointer             :: b2_dev(:,:)=>null()           !< Array on device memory.
+   integer(I1P), pointer             :: b3_dev(:,:,:)=>null()         !< Array on device memory.
+   integer(I1P), pointer             :: b4_dev(:,:,:,:)=>null()       !< Array on device memory.
+   integer(I1P), pointer             :: b5_dev(:,:,:,:,:)=>null()     !< Array on device memory.
+   integer(I1P), pointer             :: b6_dev(:,:,:,:,:,:)=>null()   !< Array on device memory.
+   integer(I1P), pointer             :: b7_dev(:,:,:,:,:,:,:)=>null() !< Array on device memory.
+   integer(I1P), allocatable, target :: a1(:)                         !< Array on host memory.
+   integer(I1P), allocatable, target :: a2(:,:)                       !< Array on host memory.
+   integer(I1P), allocatable, target :: a3(:,:,:)                     !< Array on host memory.
+   integer(I1P), allocatable, target :: a4(:,:,:,:)                   !< Array on host memory.
+   integer(I1P), allocatable, target :: a5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I1P), allocatable, target :: a6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I1P), allocatable, target :: a7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I1P), allocatable, target :: b1(:)                         !< Array on host memory.
+   integer(I1P), allocatable, target :: b2(:,:)                       !< Array on host memory.
+   integer(I1P), allocatable, target :: b3(:,:,:)                     !< Array on host memory.
+   integer(I1P), allocatable, target :: b4(:,:,:,:)                   !< Array on host memory.
+   integer(I1P), allocatable, target :: b5(:,:,:,:,:)                 !< Array on host memory.
+   integer(I1P), allocatable, target :: b6(:,:,:,:,:,:)               !< Array on host memory.
+   integer(I1P), allocatable, target :: b7(:,:,:,:,:,:,:)             !< Array on host memory.
+   integer(I4P)                      :: ierr                          !< Error status.
+   integer(I4P)                      :: i1,i2,i3,i4,i5,i6,i7          !< Counter.
+
+   print '(A)', 'test I1P'
+   allocate(a1(n            ),b1(n            ),&
+            a2(n,n          ),b2(n,n          ),&
+            a3(n,n,n        ),b3(n,n,n        ),&
+            a4(n,n,n,n      ),b4(n,n,n,n      ),&
+            a5(n,n,n,n,n    ),b5(n,n,n,n,n    ),&
+            a6(n,n,n,n,n,n  ),b6(n,n,n,n,n,n  ),&
+            a7(n,n,n,n,n,n,n),b7(n,n,n,n,n,n,n))
+   do i1= 1, n
+      a1(i1) = i1
+   enddo
+   do i2= 1, n ; do i1= 1, n
+      a2(i1,i2) = i1
+   enddo ; enddo
+   do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a3(i1,i2,i3) = i1
+   enddo ; enddo ; enddo
+   do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a4(i1,i2,i3,i4) = i1
+   enddo ; enddo ; enddo ; enddo
+   do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a5(i1,i2,i3,i4,i5) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a6(i1,i2,i3,i4,i5,i6) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7= 1, n ; do i6= 1, n ; do i5= 1, n ; do i4= 1, n ; do i3= 1, n ; do i2= 1, n ; do i1= 1, n
+      a7(i1,i2,i3,i4,i5,i6,i7) = i1
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   ! allocate device memory
+   call dev_alloc(fptr_dev=a1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'a1_dev')
+   call dev_alloc(fptr_dev=a2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'a2_dev')
+   call dev_alloc(fptr_dev=a3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'a3_dev')
+   call dev_alloc(fptr_dev=a4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'a4_dev')
+   call dev_alloc(fptr_dev=a5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'a5_dev')
+   call dev_alloc(fptr_dev=a6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'a6_dev')
+   call dev_alloc(fptr_dev=a7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'a7_dev')
+   call dev_alloc(fptr_dev=b1_dev, ubounds=[n            ],ierr=ierr);call error_print(ierr,'b1_dev')
+   call dev_alloc(fptr_dev=b2_dev, ubounds=[n,n          ],ierr=ierr);call error_print(ierr,'b2_dev')
+   call dev_alloc(fptr_dev=b3_dev, ubounds=[n,n,n        ],ierr=ierr);call error_print(ierr,'b3_dev')
+   call dev_alloc(fptr_dev=b4_dev, ubounds=[n,n,n,n      ],ierr=ierr);call error_print(ierr,'b4_dev')
+   call dev_alloc(fptr_dev=b5_dev, ubounds=[n,n,n,n,n    ],ierr=ierr);call error_print(ierr,'b5_dev')
+   call dev_alloc(fptr_dev=b6_dev, ubounds=[n,n,n,n,n,n  ],ierr=ierr);call error_print(ierr,'b6_dev')
+   call dev_alloc(fptr_dev=b7_dev, ubounds=[n,n,n,n,n,n,n],ierr=ierr);call error_print(ierr,'b7_dev')
+
+   ! copy host memory to device one
+   print '(A)', '    copy memory to device'
+   call dev_memcpy_to_device(fptr_src=a1, fptr_dst=a1_dev)
+   call dev_memcpy_to_device(fptr_src=a2, fptr_dst=a2_dev)
+   call dev_memcpy_to_device(fptr_src=a3, fptr_dst=a3_dev)
+   call dev_memcpy_to_device(fptr_src=a4, fptr_dst=a4_dev)
+   call dev_memcpy_to_device(fptr_src=a5, fptr_dst=a5_dev)
+   call dev_memcpy_to_device(fptr_src=a6, fptr_dst=a6_dev)
+   call dev_memcpy_to_device(fptr_src=a7, fptr_dst=a7_dev)
+
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEVAR(a1_dev_R8, b1_dev_R8)
+   do i1 = 1, n
+      b1_dev(i1) = a1_dev(i1) + 10
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2_dev(i1,i2) = a2_dev(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3_dev(i1,i2,i3) = a3_dev(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4_dev(i1,i2,i3,i4) = a4_dev(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5_dev(i1,i2,i3,i4,i5) = a5_dev(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6_dev(i1,i2,i3,i4,i5,i6) = a6_dev(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7_dev(i1,i2,i3,i4,i5,i6,i7) = a7_dev(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device(fptr_src=b1_dev, fptr_dst=b1)
+   call dev_memcpy_from_device(fptr_src=b2_dev, fptr_dst=b2)
+   call dev_memcpy_from_device(fptr_src=b3_dev, fptr_dst=b3)
+   call dev_memcpy_from_device(fptr_src=b4_dev, fptr_dst=b4)
+   call dev_memcpy_from_device(fptr_src=b5_dev, fptr_dst=b5)
+   call dev_memcpy_from_device(fptr_src=b6_dev, fptr_dst=b6)
+   call dev_memcpy_from_device(fptr_src=b7_dev, fptr_dst=b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   print '(A)', '    test unstructured memory'
+   call dev_alloc_unstr(a1) ; call dev_alloc_unstr(b1)
+   call dev_alloc_unstr(a2) ; call dev_alloc_unstr(b2)
+   call dev_alloc_unstr(a3) ; call dev_alloc_unstr(b3)
+   call dev_alloc_unstr(a4) ; call dev_alloc_unstr(b4)
+   call dev_alloc_unstr(a5) ; call dev_alloc_unstr(b5)
+   call dev_alloc_unstr(a6) ; call dev_alloc_unstr(b6)
+   call dev_alloc_unstr(a7) ; call dev_alloc_unstr(b7)
+   call dev_memcpy_to_device_unstr(a1)
+   call dev_memcpy_to_device_unstr(a2)
+   call dev_memcpy_to_device_unstr(a3)
+   call dev_memcpy_to_device_unstr(a4)
+   call dev_memcpy_to_device_unstr(a5)
+   call dev_memcpy_to_device_unstr(a6)
+   call dev_memcpy_to_device_unstr(a7)
+   ! do some operation on device
+   print '(A)', '    compute on device'
+   !$acc parallel loop independent present(a1, b1)
+   do i1 = 1, n
+      b1(i1) = a1(i1) + 10
+   enddo
+   !$acc parallel loop independent present(a2, b2)
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b2(i1,i2) = a2(i1,i2) + 10
+   enddo
+   enddo
+   !$acc parallel loop independent present(a3, b3)
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b3(i1,i2,i3) = a3(i1,i2,i3) + 10
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a4, b4)
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b4(i1,i2,i3,i4) = a4(i1,i2,i3,i4) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a5, b5)
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b5(i1,i2,i3,i4,i5) = a5(i1,i2,i3,i4,i5) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a6, b6)
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b6(i1,i2,i3,i4,i5,i6) = a6(i1,i2,i3,i4,i5,i6) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   !$acc parallel loop independent present(a7, b7)
+   do i7 = 1, n
+   !$acc loop
+   do i6 = 1, n
+   !$acc loop
+   do i5 = 1, n
+   !$acc loop
+   do i4 = 1, n
+   !$acc loop
+   do i3 = 1, n
+   !$acc loop
+   do i2 = 1, n
+   !$acc loop
+   do i1 = 1, n
+      b7(i1,i2,i3,i4,i5,i6,i7) = a7(i1,i2,i3,i4,i5,i6,i7) + 10
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   enddo
+   ! copy device memory to host one
+   print '(A)', '    copy memory from device'
+   call dev_memcpy_from_device_unstr(b1)
+   call dev_memcpy_from_device_unstr(b2)
+   call dev_memcpy_from_device_unstr(b3)
+   call dev_memcpy_from_device_unstr(b4)
+   call dev_memcpy_from_device_unstr(b5)
+   call dev_memcpy_from_device_unstr(b6)
+   call dev_memcpy_from_device_unstr(b7)
+   ! check results
+   print '(A)', '    chek results'
+   do i1=1, n
+      if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
+         stop
+      endif
+   enddo
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
+         stop
+      endif
+   enddo ; enddo
+   do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo
+   do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo
+   do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo
+   do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
+      if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
+         print '(A)', '    error: something is not working...'
+         print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
+         stop
+      endif
+   enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
+   call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)
+   call dev_free(a2_dev,dev_id=mydev) ; call dev_free_unstr(a2)
+   call dev_free(a3_dev,dev_id=mydev) ; call dev_free_unstr(a3)
+   call dev_free(a4_dev,dev_id=mydev) ; call dev_free_unstr(a4)
+   call dev_free(a5_dev,dev_id=mydev) ; call dev_free_unstr(a5)
+   call dev_free(a6_dev,dev_id=mydev) ; call dev_free_unstr(a6)
+   call dev_free(a7_dev,dev_id=mydev) ; call dev_free_unstr(a7)
+   call dev_free(b1_dev,dev_id=mydev) ; call dev_free_unstr(b1)
+   call dev_free(b2_dev,dev_id=mydev) ; call dev_free_unstr(b2)
+   call dev_free(b3_dev,dev_id=mydev) ; call dev_free_unstr(b3)
+   call dev_free(b4_dev,dev_id=mydev) ; call dev_free_unstr(b4)
+   call dev_free(b5_dev,dev_id=mydev) ; call dev_free_unstr(b5)
+   call dev_free(b6_dev,dev_id=mydev) ; call dev_free_unstr(b6)
+   call dev_free(b7_dev,dev_id=mydev) ; call dev_free_unstr(b7)
+   endsubroutine test_I1P
 endprogram fundal_memcpy_test
