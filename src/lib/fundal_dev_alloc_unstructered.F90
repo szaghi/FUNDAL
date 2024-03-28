@@ -58,6 +58,7 @@ contains
    integer(I4P)                    :: i1          !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(1) present(fptr_dev)
@@ -76,6 +77,7 @@ contains
    integer(I4P)                    :: i1,i2         !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(2) present(fptr_dev)
@@ -96,6 +98,7 @@ contains
    integer(I4P)                    :: i1,i2,i3        !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(3) present(fptr_dev)
@@ -118,6 +121,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4       !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(4) present(fptr_dev)
@@ -142,6 +146,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5      !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(5) present(fptr_dev)
@@ -168,6 +173,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(6) present(fptr_dev)
@@ -196,6 +202,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(7) present(fptr_dev)
@@ -226,6 +233,7 @@ contains
    integer(I4P)                    :: i1          !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(1) present(fptr_dev)
@@ -244,6 +252,7 @@ contains
    integer(I4P)                    :: i1,i2         !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(2) present(fptr_dev)
@@ -264,6 +273,7 @@ contains
    integer(I4P)                    :: i1,i2,i3        !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(3) present(fptr_dev)
@@ -286,6 +296,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4       !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(4) present(fptr_dev)
@@ -310,6 +321,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5      !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(5) present(fptr_dev)
@@ -336,6 +348,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(6) present(fptr_dev)
@@ -364,6 +377,7 @@ contains
    integer(I4P)                    :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(7) present(fptr_dev)
@@ -394,6 +408,7 @@ contains
    integer(I4P)                       :: i1          !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(1) present(fptr_dev)
@@ -412,6 +427,7 @@ contains
    integer(I4P)                       :: i1,i2         !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(2) present(fptr_dev)
@@ -432,6 +448,7 @@ contains
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(3) present(fptr_dev)
@@ -454,6 +471,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(4) present(fptr_dev)
@@ -478,6 +496,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(5) present(fptr_dev)
@@ -504,6 +523,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(6) present(fptr_dev)
@@ -532,6 +552,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(7) present(fptr_dev)
@@ -562,6 +583,7 @@ contains
    integer(I4P)                       :: i1          !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(1) present(fptr_dev)
@@ -580,6 +602,7 @@ contains
    integer(I4P)                       :: i1,i2         !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(2) present(fptr_dev)
@@ -600,6 +623,7 @@ contains
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(3) present(fptr_dev)
@@ -622,6 +646,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(4) present(fptr_dev)
@@ -646,6 +671,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(5) present(fptr_dev)
@@ -672,6 +698,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(6) present(fptr_dev)
@@ -700,6 +727,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(7) present(fptr_dev)
@@ -730,6 +758,7 @@ contains
    integer(I4P)                       :: i1          !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(1) present(fptr_dev)
@@ -748,6 +777,7 @@ contains
    integer(I4P)                       :: i1,i2         !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(2) present(fptr_dev)
@@ -768,6 +798,7 @@ contains
    integer(I4P)                       :: i1,i2,i3        !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(3) present(fptr_dev)
@@ -790,6 +821,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4       !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(4) present(fptr_dev)
@@ -814,6 +846,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5      !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(5) present(fptr_dev)
@@ -840,6 +873,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6     !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(6) present(fptr_dev)
@@ -868,6 +902,7 @@ contains
    integer(I4P)                       :: i1,i2,i3,i4,i5,i6,i7    !< Counter.
 
    !$acc enter data create(fptr_dev)
+   !$omp target enter data map(alloc:fptr_dev)
    if (present(init_value)) then
       bounds(:,1) = lbound(fptr_dev) ; bounds(:,2) = ubound(fptr_dev)
       !$acc parallel loop collapse(7) present(fptr_dev)
