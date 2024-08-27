@@ -1,15 +1,21 @@
 [modes]
-modes = fundal-test-oac-mpi-nvf fundal-test-oac-nvf fundal-test-nvf
-        fundal-test-omp-mpi-ifx fundal-test-omp-ifx fundal-test-ifx
-        fundal-test-oac-mpi-gnu fundal-test-oac-gnu fundal-test-gnu
-                                fundal-void-oac-nvf fundal-void-nvf
-                                fundal-void-omp-nvf fundal-void-ifx
-                                fundal-void-oac-gnu fundal-void-gnu
+modes = fundal-test-oac-mpi-nvf fundal-test-oac-mpi-nvf-debug fundal-test-oac-nvf fundal-test-nvf
+        fundal-test-omp-mpi-ifx                               fundal-test-omp-ifx fundal-test-ifx
+        fundal-test-oac-mpi-gnu                               fundal-test-oac-gnu fundal-test-gnu
+                                                              fundal-void-oac-nvf fundal-void-nvf
+                                                              fundal-void-omp-nvf fundal-void-ifx
+                                                              fundal-void-oac-gnu fundal-void-gnu
 
 # modes to build library and tests
 [fundal-test-oac-mpi-nvf]
 help     = Build FUNDAL tests with OpenACC-MPI-NVF
 template = template-oac-nvf
+mpi      = True
+src      = ./src/
+
+[fundal-test-oac-mpi-nvf-debug]
+help     = Build FUNDAL tests with OpenACC-MPI-NVF in debug mode
+template = template-oac-nvf-debug
 mpi      = True
 src      = ./src/
 
@@ -92,6 +98,19 @@ compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
 cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=all
 lflags    = -acc -gpu=cc70 -fast -Minfo=all
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+[template-oac-nvf-debug]
+compiler  = nvfortran
+preproc   = -DDEV_OAC -DCOMPILER_NVF
+cflags    = -cpp -c -acc -gpu=cc70 -Minfo=all -C -g
+lflags    = -acc -gpu=cc70 -Minfo=all -C -g
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 build_dir = ./exe/
