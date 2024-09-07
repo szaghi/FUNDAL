@@ -96,8 +96,8 @@ template = template-gnu
 [template-oac-nvf]
 compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
-cflags    = -cpp -c -acc -gpu=cc70 -fast -Minfo=all
-lflags    = -acc -gpu=cc70 -fast -Minfo=all
+cflags    = -cpp -c -acc -gpu=cc89 -fast -Minfo=all
+lflags    = -acc -gpu=cc89 -fast -Minfo=all
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 build_dir = ./exe/
@@ -109,8 +109,8 @@ jobs      = 4
 [template-oac-nvf-debug]
 compiler  = nvfortran
 preproc   = -DDEV_OAC -DCOMPILER_NVF
-cflags    = -cpp -c -acc -gpu=cc70 -Minfo=all -C -g
-lflags    = -acc -gpu=cc70 -Minfo=all -C -g
+cflags    = -cpp -c -acc -gpu=cc89 -Minfo=all -C -g
+lflags    = -acc -gpu=cc89 -Minfo=all -C -g
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 build_dir = ./exe/
