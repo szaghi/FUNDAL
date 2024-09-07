@@ -74,6 +74,7 @@ contains
    self%mydev = mod(local_rank, self%devs_number)
    self%myhos = dev_get_host_num()
    call dev_set_device_num(self%mydev)
+   call dev_init
 
    self%myrankstr = repeat(' ',5)
    write(self%myrankstr, '(I5.5)') self%myrank

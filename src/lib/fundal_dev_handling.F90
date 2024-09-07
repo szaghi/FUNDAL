@@ -11,6 +11,7 @@ use            :: openacc,         only :                      acc_get_device_nu
                                                                acc_get_num_devices,      &
                                                                acc_get_property,         &
                                                                acc_get_property_string,  &
+                                                               acc_init,                 &
                                                                acc_set_device_num,       &
                                                                acc_device_nvidia,        &
                                                                acc_device_host,          &
@@ -34,6 +35,7 @@ public :: dev_get_device_type
 public :: dev_get_host_num
 public :: dev_get_num_devices
 public :: dev_get_property_string
+public :: dev_init
 public :: dev_set_device_num
 
 contains
@@ -92,6 +94,12 @@ contains
    string = trim(string)//prefix_//'driver     : '//trim(adjustl(string_))
    endsubroutine dev_get_property_string
 
+   subroutine dev_init()
+   !< Initialize device.
+
+   call acc_init(devtype)
+   endsubroutine dev_init
+
    subroutine dev_set_device_num(dev_num)
    !< Set the runtime for the specified device type and device number.
    !< Note: the device type type environment global variable, devtype, must be set before use this routine. By default it is seto to
@@ -122,6 +130,12 @@ contains
    string = prefix_
    if (present(memory)) memory = 0_I8P
    endsubroutine dev_get_property_string
+
+   subroutine dev_init()
+   !< Initialize device.
+   !< Note: OpenMP does not provide such a runtime routine, added only for seamless unified API.
+
+   endsubroutine dev_init
 #else
    function dev_get_device_num() result(device_num)
    !< Return the value of current device ID for the current thread.

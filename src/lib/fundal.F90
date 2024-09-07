@@ -12,6 +12,7 @@ use            :: fundal_dev_handling,            only : dev_get_device_num,    
                                                          dev_get_host_num,        &
                                                          dev_get_num_devices,     &
                                                          dev_get_property_string, &
+                                                         dev_init,                &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : local_comm, mydev, myhos, devtype
 
@@ -30,6 +31,7 @@ public :: dev_get_device_type
 public :: dev_get_host_num
 public :: dev_get_num_devices
 public :: dev_get_property_string
+public :: dev_init
 public :: dev_set_device_num
 ! environment global variables
 public :: local_comm

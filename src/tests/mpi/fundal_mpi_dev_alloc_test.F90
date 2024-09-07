@@ -26,16 +26,16 @@ call mpih%initialize
 allocate(req_recv(0:mpih%procs_number-1))
 req_recv = MPI_REQUEST_NULL
 
-! if (mpih%myrank == 0_I4P)  then
+if (mpih%myrank == 0_I4P)  then
    call dev_alloc(fptr_dev=a00, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
    call dev_alloc(fptr_dev=a01, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
    allocate(a00_h(1,2,3)) ; a00_h = 0._R8P
    allocate(a01_h(1,2,3)) ; a01_h = 0._R8P
-! endif
-! if (mpih%myrank == 1_I4P) then
+endif
+if (mpih%myrank == 1_I4P) then
    call dev_alloc(fptr_dev=a11, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
    allocate(a11_h(1,2,3)) ; a11_h = 0._R8P
-! endif
+endif
 
 call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
 
@@ -102,35 +102,11 @@ endif
 
 call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
 
-if (mpih%myrank == 0_I4P) then
-   !$acc data DEVICEVAR(a01)
-   !$acc host_data use_device(a01)
-   !$omp target data use_device_ptr(a01)
-   call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
-   !$omp end target data
-   !$acc end host_data
-   !$acc end data
-endif
-if (mpih%myrank == 1_I4P) then
-   !$acc data DEVICEVAR(a11)
-   !$acc host_data use_device(a11)
-   !$omp target data use_device_ptr(a11)
-   call MPI_SEND(a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD, mpih%ierr)
-   !$omp end target data
-   !$acc end host_data
-   !$acc end data
-endif
+!$omp target data use_device_ptr(a01,a11)
+if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD,              mpih%ierr)
+if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
 call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%ierr)
-
-!!$acc data DEVICEVAR(a01,a11)
-!!$acc host_data use_device(a01,a11)
-!!$omp target data use_device_ptr(a01,a11)
-!if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
-!if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD,              mpih%ierr)
-!call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%ierr)
-!!$omp end target data
-!!$acc end host_data
-!!$acc end data
+!$omp end target data
 
 call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
 
