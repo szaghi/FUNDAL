@@ -8,7 +8,7 @@ program fundal_mpi_dev_alloc_test
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use            :: mpi
 use            :: fundal
-use            :: fundal_mpi_test_mpih_object
+use            :: fundal_mpih_object
 
 implicit none
 
