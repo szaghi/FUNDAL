@@ -4,103 +4,12 @@
 
 > Fortran UNified Device Acceleration Library
 
-### Authors
-
-+ Stefano Zaghi, [stefano.zaghi@cnr.it](stefano.zaghi@cnr.it)
-+ Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
-+ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
-+ Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
-
-### Features
-
-+ KISS, keep it simple and stupid;
-+ easy handling OpenACC memory offloading on (higly parallel) accelerated devices (GPU);
-+ easy handling OpenMP memory offloading on (higly parallel) accelerated devices (GPU);
-+ MPI enabled for multi-devices clusters;
-+ Free, Open Source Project.
-
-#### Issues
-
-[![GitHub issues](https://img.shields.io/github/issues/szaghi/FUNDAL.svg)]()
-
-#### Compilers support
-
-- NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3;
-- INTEL IFX: fully support OpenMP backend, works on INTEL GPUs, tested with v2024.0.2-20231213;
-- GNU gfortran: partially support OpenACC backend, compile, but does not work with all tests, tested with v13.1.0;
-
----
-
-| [What is FUNDAL?](#what-is-fundal) | [Status](#status) | [Copyrights](#copyrights) | [A taste of FUNDAL](#a-taste-of-fundal) | [Documentation](#documentation) | [Install](#install) |
-
----
-
-## What is FUNDAL?
-
 OpenACC/OpenMP allows to manage (highly parallel, accelerated ) device memory by means of runtime rutines, e.g. allocate and copy to/from device.
 These routines, in general, handles C's pointers: FUNDAL provides a convenient fortran API to use OpenMP/OpenACC runtime routines handling C's data
 in background simplifying end-user experience. FUNDAL API is designed to (seamless) unify OpenACC and OpenMP runtime routines calling in order to minimize
 end-user's effort in developing device-offloaded applications.
 
-Go to [Top](#top)
-
-## Status
-
-Status of implemented API:
-
-* device memory handling:
-  + [x] dev_malloc
-     + [x] OpenACC
-     + [x] OpenMP
-  + [ ] dev_memcpy
-     + [ ] OpenACC
-     + [x] OpenMP
-  + [x] dev_memcpy_to_device
-     + [x] OpenACC
-     + [x] OpenMP
-  + [x] dev_memcpy_from_device
-     + [x] OpenACC
-     + [x] OpenMP
-  + [x] dev_free
-     + [x] OpenACC
-     + [x] OpenMP
-* [ ] device handling:
-  + [x] dev_get_device_num
-     + [x] OpenACC
-     + [x] OpenMP
-  + [x] dev_get_device_type
-     + [x] OpenACC
-     + [ ] OpenMP
-  + [x] dev_get_host_num
-     + [x] OpenACC
-     + [x] OpenMP
-  + [x] dev_get_num_devices
-     + [x] OpenACC
-     + [x] OpenMP
-  + [ ] dev_get_property_string
-     + [x] OpenACC
-     + [ ] OpenMP
-
-Go to [Top](#top)
-
-## Copyrights
-
-FUNDAL is an open source project, it is distributed under a multi-licensing system:
-
-+ for FOSS projects:
-  - [GPL v3](http://www.gnu.org/licenses/gpl-3.0.html);
-+ for closed source/commercial projects:
-  - [BSD 2-Clause](http://opensource.org/licenses/BSD-2-Clause);
-  - [BSD 3-Clause](http://opensource.org/licenses/BSD-3-Clause);
-  - [MIT](http://opensource.org/licenses/MIT).
-
-Anyone is interest to use, to develop or to contribute is welcome, feel free to select the license that best matches your soul!
-
-More details can be found on [wiki](https://github.com/szaghi/FUNDAL/wiki/Copyrights).
-
-Go to [Top](#top)
-
-## A taste of FUNDAL
+### A taste of FUNDAL
 
 A minimal example of FUNDAL usage is contained into `src\examples\fundal_taste.F90` and is reported below.
 
@@ -156,7 +65,7 @@ The device memory **must** be defined as `pointer` while host memory can be eith
 
 The memory handling (allocate, copy, free) is seamless exploiting a *unified* API for both OpenACC and OpenMP paradigms,
 e.g. `call dev_memcpy_from_device(fptr_dst=b_hos, fptr_src=a_dev)` is the unified API for memory copy from device to host
-for both OpenACC and OpenMP without the necessity to write different code for the 2 backend and/or wraps snippets with
+for both OpenACC and OpenMP without the necessity to write different code for different backends and/or wraps snippets with
 conditional preprocessing macros.
 
 Additionaly, note that OpenACC pragmas are ignored when compiled with OpenMP without OpenACC flags (and viceversa) thus
@@ -164,7 +73,107 @@ there is no need to wrap pragmas with conditional preprocessing macros.
 
 Go to [Top](#top)
 
-## Documentation
+---
+
+| [Features](#features) | [Copyrights](#copyrights) | [Install](#install) | [API Documentation](#api-documentation) |
+
+---
+
+### Features
+
++ KISS, keep it simple and stupid;
++ easy handling OpenACC memory offloading on (higly parallel) accelerated devices (GPU);
++ easy handling OpenMP memory offloading on (higly parallel) accelerated devices (GPU);
++ MPI enabled for multi-devices clusters;
++ Free, Open Source Project.
+
+#### Status
+
+Status of implemented API:
+
+* device memory handling:
+  + [x] dev_malloc
+     + [x] OpenACC
+     + [x] OpenMP
+  + [ ] dev_memcpy
+     + [ ] OpenACC
+     + [x] OpenMP
+  + [x] dev_memcpy_to_device
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_memcpy_from_device
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_free
+     + [x] OpenACC
+     + [x] OpenMP
+* [ ] device handling:
+  + [x] dev_get_device_num
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_get_device_type
+     + [x] OpenACC
+     + [ ] OpenMP
+  + [x] dev_get_host_num
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_get_num_devices
+     + [x] OpenACC
+     + [x] OpenMP
+  + [ ] dev_get_property_string
+     + [x] OpenACC
+     + [ ] OpenMP
+
+#### Issues
+
+[![GitHub issues](https://img.shields.io/github/issues/szaghi/FUNDAL.svg)]()
+
+#### Compilers support
+
+- NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3;
+- INTEL IFX: fully support OpenMP backend, works on INTEL GPUs, tested with v2024.0.2-20231213;
+- GNU gfortran: partially support OpenACC backend, compile, but does not work with all tests, tested with v13.1.0;
+
+Go to [Top](#top)
+
+---
+
+## Copyrights
+
+FUNDAL is an open source project, it is distributed under a multi-licensing system:
+
++ for FOSS projects:
+  - [GPL v3](http://www.gnu.org/licenses/gpl-3.0.html);
++ for closed source/commercial projects:
+  - [BSD 2-Clause](http://opensource.org/licenses/BSD-2-Clause);
+  - [BSD 3-Clause](http://opensource.org/licenses/BSD-3-Clause);
+  - [MIT](http://opensource.org/licenses/MIT).
+
+Anyone is interest to use, to develop or to contribute is welcome, feel free to select the license that best matches your soul!
+
+More details can be found on [wiki](https://github.com/szaghi/FUNDAL/wiki/Copyrights).
+
+### Authors
+
++ Stefano Zaghi, [stefano.zaghi@cnr.it](stefano.zaghi@cnr.it)
++ Giacomo Rossi, [giacomo.rossi@intel.com](giacomo.rossi@intel.com)
++ Andrea di Mascio, [andrea.dimascio@univaq.it](andrea.dimascio@univaq.it)
++ Francesco Salvadore, [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
+
+Go to [Top](#top)
+
+---
+
+## Install
+
+FUNDAL is a *pure* fortran library (exploiting few pre-processing C macros) thus it can be built as
+any fortran library. The library sources are contained in the directory [src/lib](src/lib), while the examples are in
+[src/examples](src/examples) and tests in [src/tests](src/tests). Clone or download the repository to get all
+sources, e.g.
+
+```shell
+git clone git@github.com:szaghi/FUNDAL.git
+```
 
 ### Compile and Run tests
 
@@ -243,7 +252,9 @@ Executing rule "build-run-tests-omp-ifx"
 
 Go to [Top](#top)
 
-### API documentation
+---
+
+## API documentation
 
 In the following, the API of each FUNDAL routine is documented in details with also examples.
 
@@ -429,10 +440,6 @@ To be written.
 
 ---
 ### `dev_get_property_string`
-
-To be written.
-
-## Install
 
 To be written.
 
