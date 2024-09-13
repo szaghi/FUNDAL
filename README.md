@@ -96,7 +96,7 @@ Status of implemented API:
      + [x] OpenACC
      + [x] OpenMP
   + [ ] dev_memcpy
-     + [ ] OpenACC
+     + [x] OpenACC
      + [x] OpenMP
   + [x] dev_memcpy_to_device
      + [x] OpenACC
@@ -254,16 +254,22 @@ Go to [Top](#top)
 
 ---
 
-## API documentation
+# API documentation
 
 In the following, the API of each FUNDAL routine is documented in details with also examples.
 
-+ Device memory handling
+## API TOC
++ [Main library modules](#main-library-modules)
++ [Device memory handling](#device-memory-handling)
   - [dev_alloc](#dev_alloc)
+  - [dev_alloc_unstr](#dev_alloc_unstr)
+  - [dev_free](#dev_free)
+  - [dev_free_unstr](#dev_free_unstr)
   - [dev_memcpy_from_device](#dev_memcpy_from_device)
   - [dev_memcpy_to_device](#dev_memcpy_to_device)
-  - [dev_free](#dev_free)
-+ Device handling
+  - [dev_memcpy_from_device_unstr](#dev_memcpy_from_device_unstr)
+  - [dev_memcpy_to_device_unstr](#dev_memcpy_to_device_unstr)
++ [Device handling](#device-handling)
   - [dev_get_device_num](#dev_get_device_num)
   - [dev_get_device_type](#dev_get_device_type)
   - [dev_get_host_num](#dev_get_host_num)
@@ -272,11 +278,116 @@ In the following, the API of each FUNDAL routine is documented in details with a
 
 ---
 
-### Device memory handling
+## Main library modules
+
+FUNDAL library has a main module from witch all exported names can be used:
+
+```fortran
+use :: fundal
+```
+
+The (currently) exported names are:
+
+```fortran
+! runtime memory routines
+public :: dev_alloc_unstr
+public :: dev_alloc, FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
+public :: dev_free_unstr
+public :: dev_free
+public :: dev_memcpy_from_device_unstr, dev_memcpy_to_device_unstr
+public :: dev_memcpy_from_device, dev_memcpy_to_device
+! device handling routines
+public :: dev_get_device_num
+public :: dev_get_device_type
+public :: dev_get_host_num
+public :: dev_get_num_devices
+public :: dev_get_property_string
+public :: dev_init
+public :: dev_set_device_num
+! environment global variables
+public :: local_comm
+public :: mydev
+public :: myhos
+public :: devtype
+```
+
+For MPI applications, an auxiliary module is also provided, i.e. `fundal_mpih_object`, it contains the
+definition of an object for handling MPI tasks (initializations, environment handling, finalizations, ecc...), e.g.
+
+```fortran
+use :: fundal_mpih_object
+...
+type(mpih_object) :: mpih ! MPI handler.
+...
+call mpih%initialize
+...
+if (mpih%myrank == 1_I4P) call MPI_SEND(var, 1, MPI_REAL8, 0, 100, MPI_COMM_WORLD, mpih%ierr)
+...
+call MPI_FINALIZE(mpih%ierr)
+```
+
+MPI handler class provides the following API
+
+```fortran
+type :: mpih_object
+   !< MPI handler class.
+   integer(I4P)                      :: ierr=0_I4P         !< Error status.
+   integer(I4P)                      :: myrank=0_I4P       !< MPI ID process.
+   integer(I4P)                      :: procs_number=1_I4P !< Number of MPI processes.
+   integer(I4P)                      :: devs_number=0_I4P  !< Number of devices.
+   integer(I4P),             pointer :: mydev=>null()      !< Device ID.
+   integer(I4P),             pointer :: local_comm=>null() !< Local communicator.
+   integer(I4P),             pointer :: myhos=>null()      !< Host ID.
+#ifdef DEV_OAC
+   integer(acc_device_kind), pointer :: devtype=>null()    !< OpenACC device type.
+#else
+   integer(I4P),             pointer :: devtype=>null()    !< OpenACC device type.
+#endif
+   character(:), allocatable         :: myrankstr          !< MPI ID stringified.
+   contains
+      procedure, pass(self) :: description !< Return pretty-printed object description.
+      procedure, pass(self) :: initialize  !< Initialize MPI handler.
+endtype mpih_object
+```
+> Note that some global environment variables are conventiently pointed by MPI handler class members, e.g. `mydev`,
+`local_comm`, `myhos`.
+
+Aside the main module and the MPI handler one, there is a C macros include source [fundal.H](src/lib/fundal.H), i.e.:
+
+```c
+/* cpp macros to setup backends */
+#if defined DEV_OAC
+#   define DEVMODULE openacc
+#   if defined COMPILER_NVF
+#      define DEVICEVAR deviceptr
+#   elif defined COMPILER_GNU
+#      define DEVICEVAR present
+#   endif
+#elif defined DEV_OMP
+#   define DEVMODULE omp_lib
+#   define DEVICEVAR has_device_addr
+#   define OMPLOOP target teams distribute parallel do
+#else
+#   define DEVMODULE omp_lib
+#   define DEVICEVAR shared
+#   define OMPLOOP parallel do
+#endif
+```
+This include set some compile-time macros necessary to compile the library with OpenACC or OpenMP backend (or with
+a non-device fallback one).
+
+Go to [API TOC](#api-toc)
+
+---
+
+## Device memory handling
 Runtime routines to handle memory device.
 
+---
+
 ### `dev_alloc`
-The dev_malloc allocates space in the current device memory. The signature is:
+The `dev_alloc` allocates space in the device memory returning a (fortran) pointer to it.
+The device memory is **not** mapped to any host memory. The signature is:
 
 ```fortran
 subroutine dev_alloc(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -320,69 +431,51 @@ integer(I4P)       :: ierr
 call dev_alloc(fptr_dev=a,lbounds=[-1,-2,-3],ubounds=[1,2,3],init_value=1._R8P,ierr=ierr)
 ...
 ```
+
+Go to [API TOC](#api-toc)
+
 ---
-### `dev_memcpy_from_device`
-The `dev_memcpy_from_device` copies data from device memory to local host memory.
+
+### `dev_alloc_unstr`
+The `dev_alloc_unstr` allocates space in the device memory using *unstructured* model. It actually **maps** device
+memory to host one. The signature is:
 
 ```fortran
-subroutine dev_memcpy_from_device(fptr_dst, fptr_src)
+subroutine dev_alloc_unstr(fptr_dev, init_value)
 ```
 
 ##### required args
 ```fortran
-real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
-real/integer, intent(in),  target :: fptr_src(:) !< Source memory (device memory).
+real/integer, intent(inout) :: fptr_dev(..) !< Host memory to be mapped on device.
 ```
 
-`fptr_dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`fptr_dev` is an array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
-`fptr_src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+##### optional args
+```fortran
+real/integer, intent(in), optional :: init_value   !< Optional initial value.
+```
 
-> `dev_memcpy_from_device` usage example
+`init_value` is a real/integer scalar (of the same kind of `fptr_dev`): if it is passed it is used to initialized `fptr_dev` with a parallel device loop.
+
+> `dev_alloc_unstr` usage example
 
 ```fortran
 use :: fundal
 ...
-real(R8P), pointer     :: a(:,:,:)
-real(R8P), allocatable :: b(:,:,:)
+real(R8P), :: a(:,:,:)
 ...
-call dev_memcpy_from_device(fptr_dst=b, fptr_src=a)
+call dev_alloc_unstr(fptr_dev=a,init_value=1._R8P)
 ...
 ```
+
+Go to [API TOC](#api-toc)
 
 ---
-### `dev_memcpy_to_device`
-The `dev_memcpy_to_device` copies data from local host memory to device memory.
 
-```fortran
-subroutine dev_memcpy_to_device(fptr_dst, fptr_src)
-```
-
-##### required args
-```fortran
-real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (device memory).
-real/integer, intent(in),  target :: fptr_src(:) !< Source memory (host memory).
-```
-
-`fptr_dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
-
-`fptr_src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
-
-> `dev_memcpy_to_device` usage example
-
-```fortran
-use :: fundal
-...
-real(R8P), pointer     :: a(:,:,:)
-real(R8P), allocatable :: b(:,:,:)
-...
-call dev_memcpy_to_device(fptr_dst=a, fptr_src=b)
-...
-```
-
----
 ### `dev_free`
-The `dev_free` frees memory on the current device.
+The `dev_free` frees memory directly allocated on the device.
+The signature is:
 
 ```fortran
 subroutine dev_free(fptr, dev_id)
@@ -414,33 +507,331 @@ call dev_free(fptr_dev=a)
 ...
 ```
 
-### Device handling
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_free_unstr`
+The `dev_free_unstr` frees memory mapped (unstructured model) on the device.
+The signature is:
+
+```fortran
+subroutine dev_free_unstr(fptr)
+```
+
+##### required args
+```fortran
+real/integer, intent(inout), pointer :: fptr(..) !< Mapped memory.
+```
+
+`fptr` is an array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_free_unstr` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), :: a(:,:,:)
+...
+call dev_free(fptr=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_memcpy_from_device`
+The `dev_memcpy_from_device` copies data from device memory to local host memory.
+The signature is:
+
+```fortran
+subroutine dev_memcpy_from_device(fptr_dst, fptr_src)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
+real/integer, intent(in),  target :: fptr_src(:) !< Source memory (device memory).
+```
+
+`fptr_dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`fptr_src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_from_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_memcpy_from_device(fptr_dst=b, fptr_src=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_memcpy_to_device`
+The `dev_memcpy_to_device` copies data from local host memory to device memory.
+The signature is:
+
+```fortran
+subroutine dev_memcpy_to_device(fptr_dst, fptr_src)
+```
+
+##### required args
+```fortran
+real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (device memory).
+real/integer, intent(in),  target :: fptr_src(:) !< Source memory (host memory).
+```
+
+`fptr_dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`fptr_src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_to_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_memcpy_to_device(fptr_dst=a, fptr_src=b)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_memcpy_from_device_unstr`
+The `dev_memcpy_from_device` copies data from device memory (mapped) to local host memory.
+The signature is:
+
+```fortran
+subroutine dev_memcpy_from_device_unstr(fptr_dst)
+```
+
+##### required args
+```fortran
+real/integer, intent(inout) :: fptr_dst(:) !< Destination memory (host memory mapped on device).
+```
+
+`fptr_dst` is host memory mapped on device, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_from_device_unstr` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), allocatable :: a(:,:,:)
+...
+call dev_memcpy_from_device_unstr(fptr_dst=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_memcpy_to_device_unstr`
+The `dev_memcpy_to_device_unstr` copies data from local host memory to device mapped memory.
+The signature is:
+
+```fortran
+subroutine dev_memcpy_to_device_unstr(fptr_dst)
+```
+
+##### required args
+```fortran
+real/integer, intent(inout) :: fptr_dst(:) !< Destination memory (mapped device memory).
+```
+
+`fptr_dst` is mapped device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_memcpy_to_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), allocatable :: a(:,:,:)
+...
+call dev_memcpy_to_device(fptr_dst=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+## Device handling
 
 Runtime routines to handle device(s), in particular for complex scenario like MPI programming.
 
 ---
+
 ### `dev_get_device_num`
+Return the value of current device ID (for the current thread and MPI process).
+The signature is:
 
-To be written.
+```fortran
+function dev_get_device_num() result(device_num)
+integer(I4P) :: device_num !< Device ID for current thread.
+```
+
+No args are required. Note that the device type environment global variable, `devtype`, must be set before use
+this routine. By default it is seto to `acc_device_default` for the OpenACC backend.
+
+> `dev_get_device_num` usage example
+
+```fortran
+use :: fundal
+...
+integer :: dev
+...
+dev = dev_get_device_num()
+...
+```
+
+Go to [API TOC](#api-toc)
 
 ---
+
 ### `dev_get_device_type`
+Return the device type.
+The signature is:
 
-To be written.
+```fortran
+function dev_get_device_type() result(devtype)
+#ifdef DEV_OAC
+   integer(acc_device_kind) :: devtype
+#else
+   integer(I4P),            :: devtype
+#endif
+```
+No args are required. The result is standard integer (always equal to 0) for OpenMP backend that does not provide such
+a runtime routine, whereas it is `integer(acc_device_kind)` for OpenACC backend.
+
+> `dev_get_device_type` usage example
+
+```fortran
+use :: fundal
+...
+#ifdef DEV_OAC
+   integer(acc_device_kind) :: devtype
+#else
+   integer(I4P)             :: devtype
+#endif
+...
+devtype = dev_get_device_type()
+...
+```
+
+Go to [API TOC](#api-toc)
 
 ---
+
 ### `dev_get_host_num`
+Return the value of current host ID (for the current thread and MPI process).
+The signature is:
 
-To be written.
+```fortran
+function dev_get_host_num() result(host_num)
+integer(I4P) :: host_num !< Device ID for current thread and MPI process.
+```
+No args are required.
+
+> `dev_get_host_num` usage example
+
+```fortran
+use :: fundal
+...
+integer(I4P) :: myhost
+...
+myhost = dev_get_host_num()
+...
+```
+
+Go to [API TOC](#api-toc)
 
 ---
+
 ### `dev_get_num_devices`
+Return the number of available (non host) devices.
+The signature is:
 
-To be written.
+```fortran
+function dev_get_num_devices() result(devices_number)
+integer(I4P) :: devices_number !< Devices number.
+```
+No args are required. Note that the device type environment global variable, `devtype`, must be set before use
+this routine. By default it is seto to `acc_device_default` for OpenACC backend. For OpenMP backend that does not
+provide such a runtime routine it returns always 1.
+
+> `dev_get_num_devices` usage example
+
+```fortran
+use :: fundal
+...
+integer(I4P) :: devices_number
+...
+devices_number = dev_get_num_devices()
+...
+```
+
+Go to [API TOC](#api-toc)
 
 ---
-### `dev_get_property_string`
 
-To be written.
+### `dev_get_property_string`
+Return the pretty-printed string value of device-property for the specified device. Note that the device type
+environment global variable, `devtype`, must be set before use
+this routine. By default it is seto to `acc_device_default` for OpenACC backend. For OpenMP backend that does not
+provide such a runtime routine it returns always a null string.
+
+```fortran
+subroutine dev_get_property_string(dev_num, string, prefix, memory)
+```
+
+##### required args
+```fortran
+integer, value, intent(in)  :: dev_num !< Device ID.
+character(*),   intent(out) :: string  !< Stringified device property.
+```
+
+`dev_num` is the device ID queried.
+
+`string` is the output string containing the pretty-printed device-property value.
+
+##### optional args
+```fortran
+character(*), intent(in),  optional :: prefix  !< String prefix.
+integer(I8P), intent(out), optional :: memory  !< Device memory.
+```
+
+`prefix` is a prefix string prefixed to each row of output string.
+
+`memory` is the value (bytes) of memory available on device.
+
+> `dev_get_property_string` usage example
+
+```fortran
+use :: fundal
+...
+integer :: dev
+character(999) :: property_string
+...
+dev = dev_get_device_num()
+call dev_get_property_string(dev_num=dev, string=property_string, prefix='  ')
+print '("current thread device property = ",A)', new_line('a')//trim(property_string)
+...
+```
+
+Go to [API TOC](#api-toc)
 
 Go to [Top](#top)

@@ -42,7 +42,7 @@ contains
 #if defined DEV_OAC
    function dev_get_device_num() result(device_num)
    !< Return the value of current device ID for the current thread.
-   !< Note: the device type type environment global variable, devtype, must be set before use this routine. By default it is seto to
+   !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
    !< acc_device_default.
    integer(I4P) :: device_num !< Device ID for current thread.
 
@@ -58,7 +58,7 @@ contains
 
    function dev_get_num_devices() result(devices_number)
    !< Return the number of available (non host) devices.
-   !< Note: the device type type environment global variable, devtype, must be set before use this routine. By default it is seto to
+   !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
    !< acc_device_default.
    integer(I4P) :: devices_number !< Devices number.
 
@@ -67,7 +67,7 @@ contains
 
    subroutine dev_get_property_string(dev_num, string, prefix, memory)
    !< Return the value of a device-property for the specified device.
-   !< Note: the device type type environment global variable, devtype, must be set before use this routine. By default it is seto to
+   !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
    !< acc_device_default.
    integer, value,                  intent(in)            :: dev_num  !< Device ID.
    character(*),                    intent(out)           :: string   !< Stringified device property.
@@ -102,7 +102,7 @@ contains
 
    subroutine dev_set_device_num(dev_num)
    !< Set the runtime for the specified device type and device number.
-   !< Note: the device type type environment global variable, devtype, must be set before use this routine. By default it is seto to
+   !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
    !< acc_device_default.
    integer, value, intent(in) :: dev_num !< Device ID.
 
