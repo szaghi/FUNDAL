@@ -22,22 +22,22 @@ real(R8P), allocatable    :: a11_h(:,:,:)       !< Array on process 1, host memo
 integer(I4P)              :: i, j, k            !< Counter.
 integer(I4P), allocatable :: req_recv(:)        !< MPI request receive flags.
 
-call mpih%initialize
+call mpih%initialize(do_mpi_init=.true., do_device_init=.true., verbose=.true.)
 allocate(req_recv(0:mpih%procs_number-1))
 req_recv = MPI_REQUEST_NULL
 
 if (mpih%myrank == 0_I4P)  then
-   call dev_alloc(fptr_dev=a00, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
-   call dev_alloc(fptr_dev=a01, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
+   call dev_alloc(fptr_dev=a00, ubounds=[1,2,3], ierr=mpih%error, init_value=0._R8P)
+   call dev_alloc(fptr_dev=a01, ubounds=[1,2,3], ierr=mpih%error, init_value=0._R8P)
    allocate(a00_h(1,2,3)) ; a00_h = 0._R8P
    allocate(a01_h(1,2,3)) ; a01_h = 0._R8P
 endif
 if (mpih%myrank == 1_I4P) then
-   call dev_alloc(fptr_dev=a11, ubounds=[1,2,3], ierr=mpih%ierr, init_value=0._R8P)
+   call dev_alloc(fptr_dev=a11, ubounds=[1,2,3], ierr=mpih%error, init_value=0._R8P)
    allocate(a11_h(1,2,3)) ; a11_h = 0._R8P
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 0_I4P) then
    print '(A)', mpih%myrankstr//'Device 0 prepare (on device and copy back to host) a00 array'
@@ -56,7 +56,7 @@ if (mpih%myrank == 0_I4P) then
    print '(A)', ''
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 1_I4P) then
    print '(A)', mpih%myrankstr//'Device 1 prepare (on device and copy back to host) a11 array'
@@ -75,14 +75,13 @@ if (mpih%myrank == 1_I4P) then
    print '(A)', ''
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 0_I4P) print '(A)', mpih%myrankstr//'test MPI send/recv by means of host memory'
-if (mpih%myrank == 0_I4P) call MPI_IRECV(a01_h, 6, MPI_REAL8, 1, 100, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
-if (mpih%myrank == 1_I4P) call MPI_SEND( a11_h, 6, MPI_REAL8, 0, 100, MPI_COMM_WORLD,              mpih%ierr)
-call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%ierr)
+if (mpih%myrank == 0_I4P) call MPI_IRECV(a01_h, 6, MPI_REAL8, 1, 100, MPI_COMM_WORLD, req_recv(1), mpih%error)
+if (mpih%myrank == 1_I4P) call MPI_SEND( a11_h, 6, MPI_REAL8, 0, 100, MPI_COMM_WORLD,              mpih%error)
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 if (mpih%myrank == 0_I4P) then
    a00_h = a00_h + a01_h
    print '(A,I3)', mpih%myrankstr//'maxval: ', int(maxval(a00_h),I4P)
@@ -90,7 +89,7 @@ if (mpih%myrank == 0_I4P) then
    print '(A)', ''
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 0_I4P) print '(A)', mpih%myrankstr//'test MPI send/recv by means of device memory'
 if (mpih%myrank == 0_I4P) then
@@ -100,15 +99,15 @@ if (mpih%myrank == 0_I4P) then
    print '(A)', ''
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 !$omp target data use_device_ptr(a01,a11)
-if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD,              mpih%ierr)
-if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%ierr)
-call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%ierr)
+if (mpih%myrank == 1_I4P) call MPI_SEND( a11, 6, MPI_REAL8, 0, 101, MPI_COMM_WORLD,              mpih%error)
+if (mpih%myrank == 0_I4P) call MPI_IRECV(a01, 6, MPI_REAL8, 1, 101, MPI_COMM_WORLD, req_recv(1), mpih%error)
+call MPI_WAITALL(mpih%procs_number, req_recv, MPI_STATUSES_IGNORE, mpih%error)
 !$omp end target data
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 0_I4P) then
    call dev_memcpy_from_device(a01_h, a01)
@@ -117,7 +116,7 @@ if (mpih%myrank == 0_I4P) then
    print '(A)', ''
 endif
 
-call MPI_BARRIER(MPI_COMM_WORLD, mpih%ierr)
+call mpih%barrier
 
 if (mpih%myrank == 0_I4P) then
    !$acc parallel loop independent collapse(3) DEVICEVAR(a00,a01)
@@ -134,7 +133,7 @@ if (mpih%myrank == 0_I4P) then
    if (int(maxval(a00_h),I4P)==3_I4P) print '(A)', 'test passed'
 endif
 
-call MPI_FINALIZE(mpih%ierr)
+call mpih%finalize
 
 contains
    subroutine print_array(a)
