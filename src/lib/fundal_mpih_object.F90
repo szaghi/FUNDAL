@@ -6,9 +6,6 @@ module fundal_mpih_object
 !< MPI handler classs definition.
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64, R8P=>real64, stderr=>error_unit
 use            :: mpi
-#ifdef DEV_OAC
-use            :: openacc,         only : acc_device_kind
-#endif
 use            :: fundal
 
 implicit none
@@ -17,23 +14,20 @@ public :: mpih_object
 
 type :: mpih_object
    !< MPI handler class.
-   integer(I4P)                      :: error=0_I4P        !< Error traping flag.
-   integer(I4P)                      :: myrank=0_I4P       !< MPI ID process.
-   integer(I4P)                      :: procs_number=1_I4P !< Number of MPI processes.
-   integer(I8P)                      :: memory_avail=0_I8P !< CPU memory available (GB) for each process.
-   real(R8P)                         :: timing(1:2)        !< Tic toc timing.
-   integer(I4P)                      :: tictoc=1_I4P       !< Next is tic or toc?
-   integer(I4P), allocatable         :: req_send_recv(:)   !< MPI request receive flags.
-   integer(I4P)                      :: devs_number=0_I4P  !< Number of devices.
-   integer(I4P),             pointer :: mydev=>null()      !< Device ID.
-   integer(I4P),             pointer :: local_comm=>null() !< Local communicator.
-   integer(I4P),             pointer :: myhos=>null()      !< Host ID.
-#ifdef DEV_OAC
-   integer(acc_device_kind), pointer :: devtype=>null()    !< OpenACC device type.
-#else
-   integer(I4P),             pointer :: devtype=>null()    !< OpenACC device type.
-#endif
-   character(:), allocatable         :: myrankstr          !< MPI ID stringified.
+   integer(I4P)              :: error=0_I4P              !< Error traping flag.
+   integer(I4P)              :: myrank=0_I4P             !< MPI ID process.
+   integer(I4P)              :: procs_number=1_I4P       !< Number of MPI processes.
+   integer(I8P)              :: hos_memory_avail=0_I8P   !< Host (CPU) memory available (GB) for each process.
+   real(R8P)                 :: timing(1:2)              !< Tic toc timing.
+   integer(I4P)              :: tictoc=1_I4P             !< Next is tic or toc?
+   integer(I4P), allocatable :: req_send_recv(:)         !< MPI request receive flags.
+   integer(I4P)              :: devs_number=0_I4P        !< Number of devices.
+   integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory available (GB).
+   integer(I4P), pointer     :: mydev=>null()            !< Device ID.
+   integer(I4P), pointer     :: local_comm=>null()       !< Local communicator.
+   integer(I4P), pointer     :: myhos=>null()            !< Host ID.
+   integer(IDk), pointer     :: devtype=>null()          !< Device type (currently used only for OpenACC backend).
+   character(:), allocatable :: myrankstr                !< MPI ID stringified.
    contains
       ! public methods
       procedure, pass(self) :: abort         !< Handy MPI abort wrapper.
@@ -47,6 +41,11 @@ type :: mpih_object
       procedure, pass(self) :: tic           !< Start a tic toc timing.
       procedure, pass(self) :: toc           !< Stop  a tic toc timing.
 endtype mpih_object
+
+interface str
+   !< Stringify integer functions overloading.
+   module procedure str_I4P, str_I8P
+endinterface
 
 contains
    ! public methods
@@ -97,14 +96,15 @@ contains
    character(len=1), parameter     :: NL=new_line('a') !< New line character.
 
    desc =       self%myrankstr//'MPIH main data'//NL
-   desc = desc//self%myrankstr//'  myrank:       '//trim(str(self%myrank               ))//NL
-   desc = desc//self%myrankstr//'  procs_number: '//trim(str(self%procs_number         ))//NL
-   desc = desc//self%myrankstr//'  memory_avail: '//trim(str(int(self%memory_avail,I4P)))//NL
-   desc = desc//self%myrankstr//'  local_comm:   '//trim(str(self%local_comm           ))//NL
-   desc = desc//self%myrankstr//'  myhos:        '//trim(str(self%myhos                ))//NL
-   desc = desc//self%myrankstr//'  devtype:      '//trim(str(self%devtype              ))//NL
-   desc = desc//self%myrankstr//'  devs_number:  '//trim(str(self%devs_number          ))//NL
-   desc = desc//self%myrankstr//'  mydev:        '//trim(str(self%mydev                ))
+   desc = desc//self%myrankstr//'  myrank:              '//trim(str(self%myrank          ))//NL
+   desc = desc//self%myrankstr//'  procs_number:        '//trim(str(self%procs_number    ))//NL
+   desc = desc//self%myrankstr//'  host memory_avail:   '//trim(str(self%hos_memory_avail))//NL
+   desc = desc//self%myrankstr//'  device memory_avail: '//trim(str(self%dev_memory_avail))//NL
+   desc = desc//self%myrankstr//'  local_comm:          '//trim(str(self%local_comm      ))//NL
+   desc = desc//self%myrankstr//'  myhos:               '//trim(str(self%myhos           ))//NL
+   desc = desc//self%myrankstr//'  devtype:             '//trim(str(self%devtype         ))//NL
+   desc = desc//self%myrankstr//'  devs_number:         '//trim(str(self%devs_number     ))//NL
+   desc = desc//self%myrankstr//'  mydev:               '//trim(str(self%mydev           ))
    endfunction description
 
    subroutine error_stop(self, msg)
@@ -142,10 +142,11 @@ contains
    myrankstr_char_length_ = 5 ; if (present(myrankstr_char_length)) myrankstr_char_length_ = myrankstr_char_length
 
    ! associate handler members to the global env FUNDAL variables
-   self%local_comm => local_comm
-   self%myhos      => myhos
-   self%mydev      => mydev
-   self%devtype    => devtype
+   self%dev_memory_avail => dev_memory_avail
+   self%local_comm       => local_comm
+   self%myhos            => myhos
+   self%mydev            => mydev
+   self%devtype          => devtype
 
    if (present(do_mpi_init)) then
       if (do_mpi_init) call MPI_INIT(self%error)
@@ -154,8 +155,8 @@ contains
    call MPI_COMM_RANK(MPI_COMM_WORLD, self%myrank, self%error)
    self%myrankstr = '[mpi-'//trim(strz(self%myrank,myrankstr_char_length_))//']'
    if (verbose_) call self%print_message('mpih_object%initialize start')
-   call get_memory_info(mem_free=mem_free, mem_total=mem_total)
-   self%memory_avail = int(real(mem_free, R8P)/self%procs_number,I8P)
+   call get_host_memory_info(mem_free=mem_free, mem_total=mem_total)
+   self%hos_memory_avail = int(real(mem_free, R8P)/self%procs_number,I8P)
    if (allocated(self%req_send_recv)) deallocate(self%req_send_recv) ; allocate(self%req_send_recv(0:self%procs_number*2-1))
    if (present(do_device_init)) then
       if (do_device_init) then
@@ -167,6 +168,7 @@ contains
          self%myhos = dev_get_host_num()
          call dev_set_device_num(self%mydev)
          call dev_init
+         call dev_get_device_memory_info(mem_free=self%dev_memory_avail)
       endif
    endif
    if (verbose_) call self%print_message('mpih_object%initialize finish')
@@ -224,9 +226,9 @@ contains
    if (present(error)) error = err
    endfunction cton
 
-   subroutine get_memory_info(mem_free, mem_total)
+   subroutine get_host_memory_info(mem_free, mem_total)
    !< Get the current CPU-memory status.
-   !< @NOTE Currently implemented only per Unix/Linux based systems. Return -1 if failing.
+   !< @NOTE Currently implemented only for Unix/Linux based systems. Return -1 if failing.
    integer(I8P), intent(out) :: mem_free   !< Free memory.
    integer(I8P), intent(out) :: mem_total  !< Total memory.
    logical                   :: is_present !< Logical flag to check the presence of '/proc/meminfo' system file.
@@ -257,16 +259,25 @@ contains
       memval = trim(memval(:len(memval)-2)) ! remove memory unit, e.g. kb
       v = cton(str=memval, knd=1_I8P)       ! cast to string to integer
       endsubroutine parse_line
-   endsubroutine get_memory_info
+   endsubroutine get_host_memory_info
 
-   elemental function str(n)
-   !< Return integer cast to string.
-   integer(I4P), intent(in) :: n   !< Integer to be converted.
-   character(11)            :: str !< Returned string containing input number.
+   elemental function str_I4P(n)
+   !< Return integer cast to string (I4P kind).
+   integer(I4P), intent(in) :: n      !< Integer to be converted.
+   character(11)            :: str_I4P!< Returned string containing input number.
 
-   write(str, '(I11)') n    ! Casting of n to string.
-   str = adjustl(trim(str)) ! Removing white spaces.
-   endfunction str
+   write(str_I4P, '(I11)') n        ! Casting of n to string.
+   str_I4P = adjustl(trim(str_I4P)) ! Removing white spaces.
+   endfunction str_I4P
+
+   elemental function str_I8P(n)
+   !< Return integer cast to string (I8P kind).
+   integer(I8P), intent(in) :: n       !< Integer to be converted.
+   character(20)            :: str_I8P !< Returned string containing input number.
+
+   write(str_I8P, '(I20)') n        ! Casting of n to string.
+   str_I8P = adjustl(trim(str_I8P)) ! Removing white spaces.
+   endfunction str_I8P
 
    elemental function strz(n, nz_pad)
    !< Return integer cast to string, prefixing with the right number of zeros.

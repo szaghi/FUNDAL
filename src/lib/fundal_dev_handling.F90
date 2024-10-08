@@ -13,23 +13,24 @@ use            :: openacc,         only :                      acc_get_device_nu
                                                                acc_get_property_string,  &
                                                                acc_init,                 &
                                                                acc_set_device_num,       &
-                                                               acc_device_nvidia,        &
-                                                               acc_device_host,          &
-                                                               acc_property_memory,      &
-                                                               acc_property_free_memory, &
-                                                               acc_property_name,        &
-                                                               acc_property_vendor,      &
-                                                               acc_property_driver
+                                                               ACC_DEVICE_HOST,          &
+                                                               ACC_PROPERTY_MEMORY,      &
+                                                               ACC_PROPERTY_FREE_MEMORY, &
+                                                               ACC_PROPERTY_NAME,        &
+                                                               ACC_PROPERTY_VENDOR,      &
+                                                               ACC_PROPERTY_DRIVER,      &
+                                                               C_SIZE_T
 #elif defined DEV_OMP
 use            :: omp_lib,         only : dev_get_device_num =>omp_get_default_device, &
                                           dev_get_host_num   =>omp_get_initial_device, &
                                           dev_get_num_devices=>omp_get_num_devices,    &
                                           dev_set_device_num =>omp_set_default_device
 #endif
-use            :: fundal_env,      only : devtype
+use            :: fundal_env,      only : mydev, devtype
 
 implicit none
 private
+public :: dev_get_device_memory_info
 public :: dev_get_device_num
 public :: dev_get_device_type
 public :: dev_get_host_num
@@ -40,6 +41,25 @@ public :: dev_set_device_num
 
 contains
 #if defined DEV_OAC
+   subroutine dev_get_device_memory_info(mem_free, mem_total)
+   !< Get the current device memory status.
+   !< @NOTE Currently implemented only OpenACC backend.
+   integer(I8P), intent(out), optional :: mem_free  !< Free memory.
+   integer(I8P), intent(out), optional :: mem_total !< Total memory.
+   integer(C_SIZE_T)                   :: mem       !< C buffer.
+
+   if (present(mem_free)) then
+      mem = acc_get_property(mydev, devtype, ACC_PROPERTY_FREE_MEMORY)
+      mem_free = int(mem,I8P)
+      print*, 'cazzo mem_free ', mem_free
+   endif
+   if (present(mem_total)) then
+      mem = acc_get_property(mydev, devtype, ACC_PROPERTY_MEMORY)
+      mem_total = int(mem,I8P)
+      print*, 'cazzo mem_total ', mem_total
+   endif
+   endsubroutine dev_get_device_memory_info
+
    function dev_get_device_num() result(device_num)
    !< Return the value of current device ID for the current thread.
    !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
@@ -53,7 +73,7 @@ contains
    !< Return the value of current host ID for the current thread.
    integer(I4P) :: host_num !< Device ID for current thread.
 
-   host_num = acc_get_device_num(acc_device_host)
+   host_num = acc_get_device_num(ACC_DEVICE_HOST)
    endfunction dev_get_host_num
 
    function dev_get_num_devices() result(devices_number)
@@ -79,18 +99,18 @@ contains
 
    prefix_ = '' ; if (present(prefix)) prefix_ = prefix
    string = ''
-   memory_ = acc_get_property(dev_num, devtype, acc_property_memory)
+   memory_ = acc_get_property(dev_num, devtype, ACC_PROPERTY_MEMORY)
    write(string_,'(I16)') memory_
    if (present(memory)) memory = memory_
    string = trim(string)//prefix_//'memory     : '//trim(adjustl(string_))//new_line('a')
-   memory_ = acc_get_property(dev_num, devtype, acc_property_free_memory)
+   memory_ = acc_get_property(dev_num, devtype, ACC_PROPERTY_FREE_MEMORY)
    write(string_,'(I16)') memory_
    string = trim(string)//prefix_//'memory free: '//trim(adjustl(string_))//new_line('a')
-   call acc_get_property_string(dev_num, devtype, acc_property_name, string_)
+   call acc_get_property_string(dev_num, devtype, ACC_PROPERTY_NAME, string_)
    string = trim(string)//prefix_//'device name: '//trim(adjustl(string_))//new_line('a')
-   call acc_get_property_string(dev_num, devtype, acc_property_vendor, string_)
+   call acc_get_property_string(dev_num, devtype, ACC_PROPERTY_VENDOR, string_)
    string = trim(string)//prefix_//'vendor     : '//trim(adjustl(string_))//new_line('a')
-   call acc_get_property_string(dev_num, devtype, acc_property_driver, string_)
+   call acc_get_property_string(dev_num, devtype, ACC_PROPERTY_DRIVER, string_)
    string = trim(string)//prefix_//'driver     : '//trim(adjustl(string_))
    endsubroutine dev_get_property_string
 
@@ -109,6 +129,20 @@ contains
    call acc_set_device_num(dev_num, devtype)
    endsubroutine dev_set_device_num
 #elif defined DEV_OMP
+   subroutine dev_get_device_memory_info(mem_free, mem_total)
+   !< Get the current device memory status.
+   !< @NOTE Currently implemented only OpenACC backend.
+   integer(I8P), intent(out), optional :: mem_free  !< Free memory.
+   integer(I8P), intent(out), optional :: mem_total !< Total memory.
+
+   if (present(mem_free)) then
+      mem_free = 0_I8P
+   endif
+   if (present(mem_total)) then
+      mem_total = 0_I8P
+   endif
+   endsubroutine dev_get_device_memory_info
+
    function dev_get_device_type() result(devtype)
    !< Return the device type.
    !< Note: OpenMP does not provide such a runtime routine, added only for seamless unified API.
@@ -137,6 +171,20 @@ contains
 
    endsubroutine dev_init
 #else
+   subroutine dev_get_device_memory_info(mem_free, mem_total)
+   !< Get the current device memory status.
+   !< @NOTE Currently implemented only OpenACC backend.
+   integer(I8P), intent(out), optional :: mem_free  !< Free memory.
+   integer(I8P), intent(out), optional :: mem_total !< Total memory.
+
+   if (present(mem_free)) then
+      mem_free = 0_I8P
+   endif
+   if (present(mem_total)) then
+      mem_total = 0_I8P
+   endif
+   endsubroutine dev_get_device_memory_info
+
    function dev_get_device_num() result(device_num)
    !< Return the value of current device ID for the current thread.
    !< Note: host fallback does not provide such a runtime routine, added only for seamless unified API.
