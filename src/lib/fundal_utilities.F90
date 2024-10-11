@@ -2,7 +2,7 @@
 module fundal_utilities
 !< FUNDAL, utilities module.
 use, intrinsic :: iso_c_binding
-use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
+use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 
 implicit none
 private
@@ -38,6 +38,13 @@ interface bytes_size
                     bytes_size_I4P_5D,&
                     bytes_size_I4P_6D,&
                     bytes_size_I4P_7D,&
+                    bytes_size_I2P_1D,&
+                    bytes_size_I2P_2D,&
+                    bytes_size_I2P_3D,&
+                    bytes_size_I2P_4D,&
+                    bytes_size_I2P_5D,&
+                    bytes_size_I2P_6D,&
+                    bytes_size_I2P_7D,&
                     bytes_size_I1P_1D,&
                     bytes_size_I1P_2D,&
                     bytes_size_I1P_3D,&
@@ -411,6 +418,97 @@ contains
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
    endif
    endfunction bytes_size_I4P_7D
+
+   function bytes_size_I2P_1D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 1.
+   integer(I2P), intent(in), target   :: a(:)     !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:) !< Sizes.
+   integer(c_size_t)                  :: bytes    !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_1D
+
+   function bytes_size_I2P_2D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 2.
+   integer(I2P), intent(in), target   :: a(:,:)   !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:) !< Sizes.
+   integer(c_size_t)                  :: bytes    !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_2D
+
+   function bytes_size_I2P_3D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 3.
+   integer(I2P), intent(in), target   :: a(:,:,:) !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:) !< Sizes.
+   integer(c_size_t)                  :: bytes    !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_3D
+
+   function bytes_size_I2P_4D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 4.
+   integer(I2P), intent(in), target   :: a(:,:,:,:) !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:)   !< Sizes.
+   integer(c_size_t)                  :: bytes      !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_4D
+
+   function bytes_size_I2P_5D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 5.
+   integer(I2P), intent(in), target   :: a(:,:,:,:,:) !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:)     !< Sizes.
+   integer(c_size_t)                  :: bytes        !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_5D
+
+   function bytes_size_I2P_6D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 6.
+   integer(I2P), intent(in), target   :: a(:,:,:,:,:,:) !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:)       !< Sizes.
+   integer(c_size_t)                  :: bytes          !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_6D
+
+   function bytes_size_I2P_7D(a, sizes) result(bytes)
+   !< Return bytes size of input array, kind I2P, rank 7.
+   integer(I2P), intent(in), target   :: a(:,:,:,:,:,:,:) !< Input array.
+   integer(I8P), intent(in), optional :: sizes(:)         !< Sizes.
+   integer(c_size_t)                  :: bytes            !< Bytes of array memory.
+
+   if (present(sizes)) then
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
+   else
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+   endif
+   endfunction bytes_size_I2P_7D
 
    function bytes_size_I1P_1D(a, sizes) result(bytes)
    !< Return bytes size of input array, kind I1P, rank 1.

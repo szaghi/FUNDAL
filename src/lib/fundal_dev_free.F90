@@ -13,7 +13,7 @@
 module fundal_dev_free
 !< FUNDAL, memory free routines module.
 use, intrinsic :: iso_c_binding
-use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
+use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: DEVMODULE
 use            :: fundal_env,      only : mydev
 
@@ -51,6 +51,13 @@ interface dev_free
                     dev_free_I4P_5D,&
                     dev_free_I4P_6D,&
                     dev_free_I4P_7D,&
+                    dev_free_I2P_1D,&
+                    dev_free_I2P_2D,&
+                    dev_free_I2P_3D,&
+                    dev_free_I2P_4D,&
+                    dev_free_I2P_5D,&
+                    dev_free_I2P_6D,&
+                    dev_free_I2P_7D,&
                     dev_free_I1P_1D,&
                     dev_free_I1P_2D,&
                     dev_free_I1P_3D,&
@@ -388,6 +395,83 @@ contains
    DEVFREE(c_loc(fptr), int(dev_id_, c_int))
    nullify(fptr)
    endsubroutine dev_free_I4P_7D
+
+   subroutine dev_free_I2P_1D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 1.
+   integer(I2P), intent(inout), pointer :: fptr(:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id  !< Device ID.
+   integer(I4P)                         :: dev_id_ !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_1D
+
+   subroutine dev_free_I2P_2D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 2.
+   integer(I2P), intent(inout), pointer :: fptr(:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id    !< Device ID.
+   integer(I4P)                         :: dev_id_   !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_2D
+
+   subroutine dev_free_I2P_3D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 3.
+   integer(I2P), intent(inout), pointer :: fptr(:,:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id      !< Device ID.
+   integer(I4P)                         :: dev_id_     !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_3D
+
+   subroutine dev_free_I2P_4D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 4.
+   integer(I2P), intent(inout), pointer :: fptr(:,:,:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id        !< Device ID.
+   integer(I4P)                         :: dev_id_       !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_4D
+
+   subroutine dev_free_I2P_5D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 5.
+   integer(I2P), intent(inout), pointer :: fptr(:,:,:,:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id          !< Device ID.
+   integer(I4P)                         :: dev_id_         !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_5D
+
+   subroutine dev_free_I2P_6D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 6.
+   integer(I2P), intent(inout), pointer :: fptr(:,:,:,:,:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id            !< Device ID.
+   integer(I4P)                         :: dev_id_           !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_6D
+
+   subroutine dev_free_I2P_7D(fptr, dev_id)
+   !< Free array from device, I2P kind, rank 7.
+   integer(I2P), intent(inout), pointer :: fptr(:,:,:,:,:,:,:) !< Memory device pointer.
+   integer(I4P), intent(in), optional   :: dev_id              !< Device ID.
+   integer(I4P)                         :: dev_id_             !< Device ID, local var.
+
+   dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
+   DEVFREE(c_loc(fptr), int(dev_id_, c_int))
+   nullify(fptr)
+   endsubroutine dev_free_I2P_7D
 
    subroutine dev_free_I1P_1D(fptr, dev_id)
    !< Free array from device, I1P kind, rank 1.

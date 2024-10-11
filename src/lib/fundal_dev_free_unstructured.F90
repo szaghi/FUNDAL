@@ -4,7 +4,7 @@
 
 module fundal_dev_free_unstructured
 !< FUNDAL, memory free routines module, unstructured model.
-use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
+use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 
 implicit none
 private
@@ -40,6 +40,13 @@ interface dev_free_unstr
                     dev_free_I4P_5D,&
                     dev_free_I4P_6D,&
                     dev_free_I4P_7D,&
+                    dev_free_I2P_1D,&
+                    dev_free_I2P_2D,&
+                    dev_free_I2P_3D,&
+                    dev_free_I2P_4D,&
+                    dev_free_I2P_5D,&
+                    dev_free_I2P_6D,&
+                    dev_free_I2P_7D,&
                     dev_free_I1P_1D,&
                     dev_free_I1P_2D,&
                     dev_free_I1P_3D,&
@@ -245,6 +252,55 @@ contains
    !$acc exit data delete(fptr)
    !$omp target exit data map(delete:fptr)
    endsubroutine dev_free_I4P_7D
+
+   subroutine dev_free_I2P_1D(fptr)
+   !< Free array from device, I2P kind, rank 1.
+   integer(I2P), intent(inout) :: fptr(:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_1D
+
+   subroutine dev_free_I2P_2D(fptr)
+   !< Free array from device, I2P kind, rank 2.
+   integer(I2P), intent(inout) :: fptr(:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_2D
+
+   subroutine dev_free_I2P_3D(fptr)
+   !< Free array from device, I2P kind, rank 3.
+   integer(I2P), intent(inout) :: fptr(:,:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_3D
+
+   subroutine dev_free_I2P_4D(fptr)
+   !< Free array from device, I2P kind, rank 4.
+   integer(I2P), intent(inout) :: fptr(:,:,:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_4D
+
+   subroutine dev_free_I2P_5D(fptr)
+   !< Free array from device, I2P kind, rank 5.
+   integer(I2P), intent(inout) :: fptr(:,:,:,:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_5D
+
+   subroutine dev_free_I2P_6D(fptr)
+   !< Free array from device, I2P kind, rank 6.
+   integer(I2P), intent(inout) :: fptr(:,:,:,:,:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_6D
+
+   subroutine dev_free_I2P_7D(fptr)
+   !< Free array from device, I2P kind, rank 7.
+   integer(I2P), intent(inout) :: fptr(:,:,:,:,:,:,:) !< Memory device pointer.
+   !$acc exit data delete(fptr)
+   !$omp target exit data map(delete:fptr)
+   endsubroutine dev_free_I2P_7D
 
    subroutine dev_free_I1P_1D(fptr)
    !< Free array from device, I1P kind, rank 1.

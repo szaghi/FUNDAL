@@ -66,7 +66,7 @@ allocate(b(0:n,0:n))
 print '(A)', 'test pointer approach'
 call do_work_ptr(n=n, a=a)
 
-call dev_memcpy_from_device(fptr_dst=b, fptr_src=a)
+call dev_memcpy_from_device(dst=b, src=a)
 
 if ((int(minval(b),I4P)/=-n**2).or.(int(maxval(b),I4P)/=n**3)) then
    print '(A)', 'error: result is wrong'

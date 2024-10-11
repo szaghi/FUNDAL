@@ -4,7 +4,7 @@
 
 program fundal_array_access_test
 !< FUNDAL, array access test.
-use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
+use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use fundal
 
 implicit none

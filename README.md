@@ -40,7 +40,7 @@ allocate(b_hos(-1:1,-2:2,-3:3))
 b_hos = -3._R8P
 
 ! copy to device
-call dev_memcpy_to_device(fptr_dst=a_dev, fptr_src=b_hos)
+call dev_memcpy_to_device(dst=a_dev, src=b_hos)
 
 ! work on device
 !$acc parallel loop independent deviceptr(a_dev) collapse(3)
@@ -54,7 +54,7 @@ do k=-3,3
 enddo
 
 ! copy from device
-call dev_memcpy_from_device(fptr_dst=b_hos, fptr_src=a_dev)
+call dev_memcpy_from_device(dst=b_hos, src=a_dev)
 
 ! check results
 print*, b_hos
@@ -64,7 +64,7 @@ endprogram fundal_taste
 The device memory **must** be defined as `pointer` while host memory can be either `pointer` or `allocatable`.
 
 The memory handling (allocate, copy, free) is seamless exploiting a *unified* API for both OpenACC and OpenMP paradigms,
-e.g. `call dev_memcpy_from_device(fptr_dst=b_hos, fptr_src=a_dev)` is the unified API for memory copy from device to host
+e.g. `call dev_memcpy_from_device(dst=b_hos, src=a_dev)` is the unified API for memory copy from device to host
 for both OpenACC and OpenMP without the necessity to write different code for different backends and/or wraps snippets with
 conditional preprocessing macros.
 
@@ -92,10 +92,16 @@ Go to [Top](#top)
 Status of implemented API:
 
 * device memory handling:
-  + [x] dev_malloc
+  + [x] dev_alloc
      + [x] OpenACC
      + [x] OpenMP
   + [ ] dev_memcpy
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_assign_to_device
+     + [x] OpenACC
+     + [x] OpenMP
+  + [x] dev_assign_from_device
      + [x] OpenACC
      + [x] OpenMP
   + [x] dev_memcpy_to_device
@@ -130,7 +136,7 @@ Status of implemented API:
 
 #### Compilers support
 
-- NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3;
+- NVIDIA HPC SDK, NVFortran: fully support OpenACC backend, works on NVIDIA GPUs, tested with v12.3+;
 - INTEL IFX: fully support OpenMP backend, works on INTEL GPUs, tested with v2024.0.2-20231213;
 - GNU gfortran: partially support OpenACC backend, compile, but does not work with all tests, tested with v13.1.0;
 
@@ -269,6 +275,8 @@ In the following, the API of each FUNDAL routine is documented in details with a
   - [dev_memcpy_to_device](#dev_memcpy_to_device)
   - [dev_memcpy_from_device_unstr](#dev_memcpy_from_device_unstr)
   - [dev_memcpy_to_device_unstr](#dev_memcpy_to_device_unstr)
+  - [dev_assign_from_device](#dev_assign_from_device)
+  - [dev_assign_to_device](#dev_assign_to_device)
 + [Device handling](#device-handling)
   - [dev_get_device_num](#dev_get_device_num)
   - [dev_get_device_type](#dev_get_device_type)
@@ -296,7 +304,9 @@ public :: dev_free_unstr
 public :: dev_free
 public :: dev_memcpy_from_device_unstr, dev_memcpy_to_device_unstr
 public :: dev_memcpy_from_device, dev_memcpy_to_device
+public :: dev_assign_from_device, dev_assign_to_device
 ! device handling routines
+public :: dev_get_device_memory_info
 public :: dev_get_device_num
 public :: dev_get_device_type
 public :: dev_get_host_num
@@ -305,10 +315,12 @@ public :: dev_get_property_string
 public :: dev_init
 public :: dev_set_device_num
 ! environment global variables
+public :: dev_memory_avail
 public :: local_comm
 public :: mydev
 public :: myhos
 public :: devtype
+public :: IDK
 ```
 
 For MPI applications, an auxiliary module is also provided, i.e. `fundal_mpih_object`, it contains the
@@ -319,11 +331,11 @@ use :: fundal_mpih_object
 ...
 type(mpih_object) :: mpih ! MPI handler.
 ...
-call mpih%initialize
+call mpih%initialize(do_mpi_init=.true., do_device_init=.true.)
 ...
 if (mpih%myrank == 1_I4P) call MPI_SEND(var, 1, MPI_REAL8, 0, 100, MPI_COMM_WORLD, mpih%ierr)
 ...
-call MPI_FINALIZE(mpih%ierr)
+call MPI_FINALIZE(mpih%error)
 ```
 
 MPI handler class provides the following API
@@ -331,26 +343,36 @@ MPI handler class provides the following API
 ```fortran
 type :: mpih_object
    !< MPI handler class.
-   integer(I4P)                      :: ierr=0_I4P         !< Error status.
-   integer(I4P)                      :: myrank=0_I4P       !< MPI ID process.
-   integer(I4P)                      :: procs_number=1_I4P !< Number of MPI processes.
-   integer(I4P)                      :: devs_number=0_I4P  !< Number of devices.
-   integer(I4P),             pointer :: mydev=>null()      !< Device ID.
-   integer(I4P),             pointer :: local_comm=>null() !< Local communicator.
-   integer(I4P),             pointer :: myhos=>null()      !< Host ID.
-#ifdef DEV_OAC
-   integer(acc_device_kind), pointer :: devtype=>null()    !< OpenACC device type.
-#else
-   integer(I4P),             pointer :: devtype=>null()    !< OpenACC device type.
-#endif
-   character(:), allocatable         :: myrankstr          !< MPI ID stringified.
+   integer(I4P)              :: error=0_I4P              !< Error traping flag.
+   integer(I4P)              :: myrank=0_I4P             !< MPI ID process.
+   integer(I4P)              :: procs_number=1_I4P       !< Number of MPI processes.
+   integer(I8P)              :: hos_memory_avail=0_I8P   !< Host (CPU) memory available (GB) for each process.
+   real(R8P)                 :: timing(1:2)              !< Tic toc timing.
+   integer(I4P)              :: tictoc=1_I4P             !< Next is tic or toc?
+   integer(I4P), allocatable :: req_send_recv(:)         !< MPI request receive flags.
+   integer(I4P)              :: devs_number=0_I4P        !< Number of devices.
+   integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory available (GB).
+   integer(I4P), pointer     :: mydev=>null()            !< Device ID.
+   integer(I4P), pointer     :: local_comm=>null()       !< Local communicator.
+   integer(I4P), pointer     :: myhos=>null()            !< Host ID.
+   integer(IDk), pointer     :: devtype=>null()          !< Device type (currently used only for OpenACC backend).
+   character(:), allocatable :: myrankstr                !< MPI ID stringified.
    contains
-      procedure, pass(self) :: description !< Return pretty-printed object description.
-      procedure, pass(self) :: initialize  !< Initialize MPI handler.
+      ! public methods
+      procedure, pass(self) :: abort         !< Handy MPI abort wrapper.
+      procedure, pass(self) :: barrier       !< Handy MPI barrier wrapper.
+      procedure, pass(self) :: description   !< Return pretty-printed object description.
+      procedure, pass(self) :: error_stop    !< Stop run with error output.
+      procedure, pass(self) :: finalize      !< Handy MPI finalize wrapper.
+      procedure, pass(self) :: initialize    !< Initialize MPI handler data.
+      procedure, pass(self) :: print_message !< Print a message on stdout with rank prefix.
+      procedure, pass(self) :: tictoc_timing !< Return the last tic toc timing.
+      procedure, pass(self) :: tic           !< Start a tic toc timing.
+      procedure, pass(self) :: toc           !< Stop  a tic toc timing.
 endtype mpih_object
 ```
 > Note that some global environment variables are conventiently pointed by MPI handler class members, e.g. `mydev`,
-`local_comm`, `myhos`.
+`local_comm`, `myhos`, ecc...
 
 Aside the main module and the MPI handler one, there is a C macros include source [fundal.H](src/lib/fundal.H), i.e.:
 
@@ -546,18 +568,18 @@ The `dev_memcpy_from_device` copies data from device memory to local host memory
 The signature is:
 
 ```fortran
-subroutine dev_memcpy_from_device(fptr_dst, fptr_src)
+subroutine dev_memcpy_from_device(dst, src)
 ```
 
 ##### required args
 ```fortran
-real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (host memory).
-real/integer, intent(in),  target :: fptr_src(:) !< Source memory (device memory).
+real/integer, intent(out), target :: dst(:) !< Destination memory (host memory).
+real/integer, intent(in),  target :: src(:) !< Source memory (device memory).
 ```
 
-`fptr_dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
-`fptr_src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
 > `dev_memcpy_from_device` usage example
 
@@ -567,7 +589,7 @@ use :: fundal
 real(R8P), pointer     :: a(:,:,:)
 real(R8P), allocatable :: b(:,:,:)
 ...
-call dev_memcpy_from_device(fptr_dst=b, fptr_src=a)
+call dev_memcpy_from_device(dst=b, src=a)
 ...
 ```
 
@@ -580,18 +602,18 @@ The `dev_memcpy_to_device` copies data from local host memory to device memory.
 The signature is:
 
 ```fortran
-subroutine dev_memcpy_to_device(fptr_dst, fptr_src)
+subroutine dev_memcpy_to_device(dst, src)
 ```
 
 ##### required args
 ```fortran
-real/integer, intent(out), target :: fptr_dst(:) !< Destination memory (device memory).
-real/integer, intent(in),  target :: fptr_src(:) !< Source memory (host memory).
+real/integer, intent(out), target :: dst(:) !< Destination memory (device memory).
+real/integer, intent(in),  target :: src(:) !< Source memory (host memory).
 ```
 
-`fptr_dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
-`fptr_src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
 > `dev_memcpy_to_device` usage example
 
@@ -601,7 +623,7 @@ use :: fundal
 real(R8P), pointer     :: a(:,:,:)
 real(R8P), allocatable :: b(:,:,:)
 ...
-call dev_memcpy_to_device(fptr_dst=a, fptr_src=b)
+call dev_memcpy_to_device(dst=a, src=b)
 ...
 ```
 
@@ -614,15 +636,15 @@ The `dev_memcpy_from_device` copies data from device memory (mapped) to local ho
 The signature is:
 
 ```fortran
-subroutine dev_memcpy_from_device_unstr(fptr_dst)
+subroutine dev_memcpy_from_device_unstr(dst)
 ```
 
 ##### required args
 ```fortran
-real/integer, intent(inout) :: fptr_dst(:) !< Destination memory (host memory mapped on device).
+real/integer, intent(inout) :: dst(:) !< Destination memory (host memory mapped on device).
 ```
 
-`fptr_dst` is host memory mapped on device, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`dst` is host memory mapped on device, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
 > `dev_memcpy_from_device_unstr` usage example
 
@@ -631,7 +653,7 @@ use :: fundal
 ...
 real(R8P), allocatable :: a(:,:,:)
 ...
-call dev_memcpy_from_device_unstr(fptr_dst=a)
+call dev_memcpy_from_device_unstr(dst=a)
 ...
 ```
 
@@ -644,15 +666,15 @@ The `dev_memcpy_to_device_unstr` copies data from local host memory to device ma
 The signature is:
 
 ```fortran
-subroutine dev_memcpy_to_device_unstr(fptr_dst)
+subroutine dev_memcpy_to_device_unstr(dst)
 ```
 
 ##### required args
 ```fortran
-real/integer, intent(inout) :: fptr_dst(:) !< Destination memory (mapped device memory).
+real/integer, intent(inout) :: dst(:) !< Destination memory (mapped device memory).
 ```
 
-`fptr_dst` is mapped device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+`dst` is mapped device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
 
 > `dev_memcpy_to_device` usage example
 
@@ -661,7 +683,79 @@ use :: fundal
 ...
 real(R8P), allocatable :: a(:,:,:)
 ...
-call dev_memcpy_to_device(fptr_dst=a)
+call dev_memcpy_to_device_unstr(dst=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_assign_from_device`
+The `dev_assign_from_device` copies data from device memory to local host memory: the host memory is deallocated
+and re-allocated of the correct size, this procedure mimics the automatic left-hand-side fortran reallocation
+of standard allocatable arrays.
+The signature is:
+
+```fortran
+subroutine dev_assign_from_device(dst, src)
+```
+
+##### required args
+```fortran
+real/integer, intent(inout), allocatable :: dst(:) !< Destination memory (host memory).
+real/integer, intent(in)                 :: src(:) !< Source memory (device memory).
+```
+
+`dst` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`src` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_assign_from_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_assign_from_device(dst=b, src=a)
+...
+```
+
+Go to [API TOC](#api-toc)
+
+---
+
+### `dev_assign_to_device`
+The `dev_assign_to_device` copies data from local host memory to device memory: the device memory is deallocated
+and re-allocated of the correct size, this procedure mimics the automatic left-hand-side fortran reallocation
+of standard allocatable arrays.
+The signature is:
+
+```fortran
+subroutine dev_assign_to_device(dst, src)
+```
+
+##### required args
+```fortran
+real/integer, intent(inout), pointer :: dst(:) !< Destination memory (device memory).
+real/integer, intent(in)             :: src(:) !< Source memory (host memory).
+```
+
+`dst` is a target, device memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+`src` is a target, host memory, array of any ranks up to 7 of real (kinds R8P, R4P) or integer (kinds I8P, I4P, I1P).
+
+> `dev_assign_to_device` usage example
+
+```fortran
+use :: fundal
+...
+real(R8P), pointer     :: a(:,:,:)
+real(R8P), allocatable :: b(:,:,:)
+...
+call dev_assign_to_device(dst=a, src=b)
 ...
 ```
 

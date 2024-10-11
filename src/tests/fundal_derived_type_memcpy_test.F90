@@ -5,7 +5,7 @@
 program fundal_derived_type_memcpy_test
 !< FUNDAL, device memory copy into derived type test.
 
-use, intrinsic :: iso_fortran_env, only : I1P=>int8, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
+use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use fundal
 
 implicit none
@@ -58,7 +58,7 @@ call dev_alloc_unstr(dt%b)
 
 ! copy host memory to device one
 print '(A)', 'copy a to device'
-call dev_memcpy_to_device(fptr_src=dt%a, fptr_dst=dt%a_dev)
+call dev_memcpy_to_device(src=dt%a, dst=dt%a_dev)
 call dev_memcpy_to_device_unstr(dt%a)
 
 ! do some operation on device
@@ -76,7 +76,7 @@ enddo
 
 ! copy dev memory to host one
 print '(A)', 'copy b to host'
-call dev_memcpy_from_device(fptr_src=dt%b_dev, fptr_dst=dt%b)
+call dev_memcpy_from_device(src=dt%b_dev, dst=dt%b)
 
 ! check results
 print '(A)', 'chek results'

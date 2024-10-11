@@ -32,7 +32,7 @@ allocate(b_hos(-1:1,-2:2,-3:3))
 b_hos = -3._R8P
 
 ! copy to device
-call dev_memcpy_to_device(fptr_dst=a_dev, fptr_src=b_hos)
+call dev_memcpy_to_device(dst=a_dev, src=b_hos)
 
 ! work on device
 !$acc parallel loop independent DEVICEVAR(a_dev) collapse(3)
@@ -46,7 +46,7 @@ do k=-3,3
 enddo
 
 ! copy from device
-call dev_memcpy_from_device(fptr_dst=b_hos, fptr_src=a_dev)
+call dev_memcpy_from_device(dst=b_hos, src=a_dev)
 
 ! check results
 print*, b_hos
