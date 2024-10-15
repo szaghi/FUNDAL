@@ -130,15 +130,27 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_R8P_1D
 
-   subroutine dev_assign_from_device_R8P_2D(dst, src)
+   subroutine dev_assign_from_device_R8P_2D(dst, src, transposed)
    !< Assign array, R8P kind, rank 2.
-   real(R8P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:) !< Source memory.
+   real(R8P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   real(R8P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional       :: transposed  !< Assign trasposed src.
+   logical                               :: transposed_ !< Assign trasposed src, local var.
+   real(R8P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
    if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
-   call dev_memcpy_from_device(dst=dst, src=src)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_R8P_2D
 
    subroutine dev_assign_from_device_R8P_3D(dst, src)
@@ -221,15 +233,27 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_R4P_1D
 
-   subroutine dev_assign_from_device_R4P_2D(dst, src)
+   subroutine dev_assign_from_device_R4P_2D(dst, src, transposed)
    !< Assign array, R4P kind, rank 2.
-   real(R4P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:) !< Source memory.
+   real(R4P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   real(R4P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional       :: transposed  !< Assign trasposed src.
+   logical                               :: transposed_ !< Assign trasposed src, local var.
+   real(R4P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
    if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
-   call dev_memcpy_from_device(dst=dst, src=src)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_R4P_2D
 
    subroutine dev_assign_from_device_R4P_3D(dst, src)
@@ -312,15 +336,27 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_I8P_1D
 
-   subroutine dev_assign_from_device_I8P_2D(dst, src)
+   subroutine dev_assign_from_device_I8P_2D(dst, src, transposed)
    !< Assign array, I8P kind, rank 2.
-   integer(I8P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:) !< Source memory.
+   integer(I8P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   integer(I8P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
+   logical                                  :: transposed_ !< Assign trasposed src, local var.
+   integer(I8P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
    if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
-   call dev_memcpy_from_device(dst=dst, src=src)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_I8P_2D
 
    subroutine dev_assign_from_device_I8P_3D(dst, src)
@@ -403,15 +439,27 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_I4P_1D
 
-   subroutine dev_assign_from_device_I4P_2D(dst, src)
+   subroutine dev_assign_from_device_I4P_2D(dst, src, transposed)
    !< Assign array, I4P kind, rank 2.
-   integer(I4P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:) !< Source memory.
+   integer(I4P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   integer(I4P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
+   logical                                  :: transposed_ !< Assign trasposed src, local var.
+   integer(I4P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
    if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
-   call dev_memcpy_from_device(dst=dst, src=src)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_I4P_2D
 
    subroutine dev_assign_from_device_I4P_3D(dst, src)
@@ -494,15 +542,27 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_I2P_1D
 
-   subroutine dev_assign_from_device_I2P_2D(dst, src)
+   subroutine dev_assign_from_device_I2P_2D(dst, src, transposed)
    !< Assign array, I2P kind, rank 2.
-   integer(I2P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:) !< Source memory.
+   integer(I2P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   integer(I2P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
+   logical                                  :: transposed_ !< Assign trasposed src, local var.
+   integer(I2P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
    if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
-   call dev_memcpy_from_device(dst=dst, src=src)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_I2P_2D
 
    subroutine dev_assign_from_device_I2P_3D(dst, src)
@@ -585,15 +645,28 @@ contains
    call dev_memcpy_from_device(dst=dst, src=src)
    endsubroutine dev_assign_from_device_I1P_1D
 
-   subroutine dev_assign_from_device_I1P_2D(dst, src)
+   subroutine dev_assign_from_device_I1P_2D(dst, src, transposed)
    !< Assign array, I1P kind, rank 2.
-   integer(I1P), intent(inout), allocatable :: dst(:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:) !< Source memory.
+   integer(I1P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
+   integer(I1P), intent(in)                 :: src(:,:)    !< Source memory.
+   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
+   logical                                  :: transposed_ !< Assign trasposed src, local var.
+   integer(I1P), allocatable                :: dstt(:,:)   !< Destination array transposed.
 
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2)))
    call dev_memcpy_from_device(dst=dst, src=src)
+   if (allocated(dst)) deallocate(dst)
+   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
+   if (transposed_) then
+      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
+                    lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dstt, src=src)
+      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
+                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
+   else
+      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
+                   lbound(src,dim=2):ubound(src,dim=2)))
+      call dev_memcpy_from_device(dst=dst, src=src)
+   endif
    endsubroutine dev_assign_from_device_I1P_2D
 
    subroutine dev_assign_from_device_I1P_3D(dst, src)

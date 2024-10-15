@@ -283,11 +283,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
@@ -706,11 +715,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
@@ -1129,11 +1147,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
@@ -1552,11 +1579,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
@@ -1975,11 +2011,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
@@ -2398,11 +2443,20 @@ contains
    print '(A)', '    assign transposed memory to device'
    call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
    ! assign device memory to host one
-   print '(A)', '    assign transposed memory from device'
+   print '(A)', '    assign memory from device'
    call dev_assign_from_device(src=a2_dev, dst=b2)
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i2,I4P) /= 0_I4P) then
+         print '(A)', '    error: something is not working...' ; stop
+      endif
+   enddo ; enddo
+   ! assign transposed device memory to host one
+   print '(A)', '    assign transposed memory from device'
+   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
+   print '(A)', '    chek transposed results'
+   do i2=1, n ; do i1=1, n
+      if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) then
          print '(A)', '    error: something is not working...' ; stop
       endif
    enddo ; enddo
