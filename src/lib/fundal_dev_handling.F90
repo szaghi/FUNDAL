@@ -51,12 +51,10 @@ contains
    if (present(mem_free)) then
       mem = acc_get_property(mydev, devtype, ACC_PROPERTY_FREE_MEMORY)
       mem_free = int(mem,I8P)
-      print*, 'cazzo mem_free ', mem_free
    endif
    if (present(mem_total)) then
       mem = acc_get_property(mydev, devtype, ACC_PROPERTY_MEMORY)
       mem_total = int(mem,I8P)
-      print*, 'cazzo mem_total ', mem_total
    endif
    endsubroutine dev_get_device_memory_info
 
