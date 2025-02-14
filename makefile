@@ -9,8 +9,8 @@ DMOD    = exe/mod/
 DEXE    = exe/
 LIBS    =
 FC      = mpif90
-OPTSC   = -cpp -c -acc -gpu=cc89 -fast -Minfo=all -DDEV_OAC -DCOMPILER_NVF -module exe/mod
-OPTSL   = -acc -gpu=cc89 -fast -Minfo=all -module exe/mod
+OPTSC   = -cpp -c -acc -gpu=cc86 -fast -Minfo=all -DDEV_OAC -DCOMPILER_NVF -module exe/mod
+OPTSL   = -acc -gpu=cc86 -fast -Minfo=all -module exe/mod
 VPATH   = $(DSRC) $(DOBJ) $(DMOD)
 MKDIRS  = $(DOBJ) $(DMOD) $(DEXE)
 LCEXES  = $(shell echo $(EXES) | tr '[:upper:]' '[:lower:]')
