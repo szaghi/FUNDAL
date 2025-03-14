@@ -2,9 +2,11 @@
 modes = fundal-test-oac-mpi-nvf fundal-test-oac-mpi-nvf-debug fundal-test-oac-nvf fundal-test-nvf
         fundal-test-omp-mpi-ifx                               fundal-test-omp-ifx fundal-test-ifx
         fundal-test-oac-mpi-gnu                               fundal-test-oac-gnu fundal-test-gnu
+        fundal-test-omp-mpi-amd                               fundal-test-omp-amd fundal-test-amd
                                                               fundal-void-oac-nvf fundal-void-nvf
                                                               fundal-void-omp-nvf fundal-void-ifx
                                                               fundal-void-oac-gnu fundal-void-gnu
+                                                              fundal-void-oac-amd fundal-void-amd
 
 # modes to build library and tests
 [fundal-test-oac-mpi-nvf]
@@ -67,6 +69,24 @@ template      = template-gnu
 src           = ./src/
 exclude_dirs  = ./src/tests/mpi/
 
+[fundal-test-omp-mpi-amd]
+help     = Build FUNDAL tests with OpenMP-MPI-AMD Flang
+template = template-omp-amd
+mpi      = True
+src      = ./src/
+
+[fundal-test-omp-amd]
+help          = Build FUNDAL tests with OpenMP-AMD Flang
+template      = template-omp-amd
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
+[fundal-test-amd]
+help          = Build FUNDAL tests with AMD Flang
+template      = template-amd
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
 # void modes to build a specified target/src (-t/-src must be passed by CLI)
 [fundal-void-oac-nvf]
 help     = Build a specified target/src with OpenACC-NVF
@@ -92,10 +112,18 @@ template = template-oac-gnu
 help     = Build a specified target/src with GNU (no pragmas)
 template = template-gnu
 
+[fundal-void-omp-amd]
+help     = Build a specified target/src with OpenMP-AMD Flang
+template = template-omp-amd
+
+[fundal-void-amd]
+help     = Build a specified target/src with AMD Flang (no pragmas)
+template = template-amd
+
 # templates
 [template-oac-nvf]
 compiler  = nvfortran
-preproc   = -DDEV_OAC -DCOMPILER_NVF
+preproc   = -DDEV_OAC
 cflags    = -cpp -c -acc -gpu=cc89 -fast -Minfo=all
 lflags    = -acc -gpu=cc89 -fast -Minfo=all
 mod_dir   = ./mod/
@@ -108,7 +136,7 @@ jobs      = 4
 
 [template-oac-nvf-debug]
 compiler  = nvfortran
-preproc   = -DDEV_OAC -DCOMPILER_NVF
+preproc   = -DDEV_OAC
 cflags    = -cpp -c -acc -gpu=cc89 -Minfo=all -C -g
 lflags    = -acc -gpu=cc89 -Minfo=all -C -g
 mod_dir   = ./mod/
@@ -121,7 +149,7 @@ jobs      = 4
 
 [template-nvf]
 compiler  = nvfortran
-preproc   = -DCOMPILER_NVF
+preproc   =
 cflags    = -cpp -c -fast -Minfo=all
 lflags    = -Minfo=all
 mod_dir   = ./mod/
@@ -134,7 +162,7 @@ jobs      = 4
 
 [template-omp-ifx]
 compiler       = intel_nextgen
-preproc        = -DDEV_OMP -DCOMPILER_IFX
+preproc        = -DDEV_OMP
 cflags         = -c -cpp
 lflags         = -cpp
 openmp         = True
@@ -149,7 +177,7 @@ jobs           = 4
 
 [template-ifx]
 compiler  = intel_nextgen
-preproc   = -DCOMPILER_IFX
+preproc   =
 cflags    = -c -cpp
 lflags    = -cpp
 openmp    = True
@@ -163,7 +191,7 @@ jobs      = 4
 
 [template-oac-gnu]
 compiler  = gnu
-preproc   = -DDEV_OAC -DCOMPILER_GNU
+preproc   = -DDEV_OAC
 cflags    = -cpp -c -fopenacc
 lflags    = -fopenacc
 mod_dir   = ./mod/
@@ -176,7 +204,7 @@ jobs      = 4
 
 [template-oac-gnu-debug]
 compiler  = gnu
-preproc   = -DDEV_OAC -DCOMPILER_GNU
+preproc   = -DDEV_OAC
 cflags    = -cpp -c -fopenacc -g -fcheck=all -fbacktrace
 lflags    = -fopenacc -g -fcheck=all -fbacktrace
 mod_dir   = ./mod/
@@ -189,9 +217,37 @@ jobs      = 4
 
 [template-gnu]
 compiler  = gnu
-preproc   = -DCOMPILER_GNU
+preproc   =
 cflags    = -cpp -c
 lflags    = -cpp
+mod_dir   = ./mod/
+obj_dir   = ./obj/
+build_dir = ./exe/
+colors    = True
+quiet     = False
+log       = True
+jobs      = 4
+
+[template-omp-amd]
+compiler       = amd
+preproc        = -DDEV_OMP -DCOMPILER_AMD
+cflags         = -c -cpp --offload-arch=gfx90a,gfx942
+lflags         = -cpp --offload-arch=gfx90a,gfx942
+openmp         = True
+mod_dir        = ./mod/
+obj_dir        = ./obj/
+build_dir      = ./exe/
+colors         = True
+quiet          = False
+log            = True
+jobs           = 4
+
+[template-amd]
+compiler  = amd
+preproc   = -DCOMPILER_AMD
+cflags    = -c -cpp
+lflags    = -cpp
+openmp    = True
 mod_dir   = ./mod/
 obj_dir   = ./obj/
 build_dir = ./exe/
@@ -221,6 +277,12 @@ rule_3 = FoBiS.py rule -ex run-tests
 help   = Build and Run all tests with OpenACC-GNU
 rule_1 = FoBiS.py clean
 rule_2 = FoBiS.py build -mode fundal-test-oac-gnu
+rule_3 = FoBiS.py rule -ex run-tests
+
+[rule-build-run-tests-omp-amd]
+help   = Build and Run all tests with OpenMP-AMD Flang
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-test-omp-amd
 rule_3 = FoBiS.py rule -ex run-tests
 
 [rule-build-laplace-baseline-nvf]
@@ -255,6 +317,17 @@ help   = Build laplace test with OpenACC-GNU
 rule_1 = FoBiS.py clean
 rule_2 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
 rule_3 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+
+[rule-build-laplace-baseline-amd]
+help   = Build laplace test with AMD Flang (without pragmas)
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-ifx -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+
+[rule-build-laplace-oac-amd]
+help   = Build laplace test with OpenMP-AMD Flang
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
+rule_4 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
 
 [rule-build-compilers-proofs-oac-nvf]
 help   = Build compilers proofs test with OpenACC-NVF
