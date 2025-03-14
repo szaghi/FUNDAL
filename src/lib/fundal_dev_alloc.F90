@@ -12,7 +12,7 @@
 
 module fundal_dev_alloc
 !< FUNDAL, memory allocation routines module.
-use, intrinsic :: iso_c_binding,   only : c_size_t, c_ptr, c_associated, c_f_pointer
+use, intrinsic :: iso_c_binding,   only : c_size_t, c_int, c_ptr, c_associated, c_f_pointer
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: DEVMODULE
 use            :: fundal_env
