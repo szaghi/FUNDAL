@@ -1,10 +1,4 @@
-#ifdef COMPILER_NVF
-#define DEVICEVAR deviceptr
-#elif defined COMPILER_GNU
-#define DEVICEVAR present
-#elif defined COMPILER_IFX
-#define DEVICEVAR has_device_addr
-#endif
+#include "../lib/fundal.H"
 
 program fundal_taste
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64 ! portable kinds
@@ -36,7 +30,7 @@ call dev_memcpy_to_device(dst=a_dev, src=b_hos)
 
 ! work on device
 !$acc parallel loop independent DEVICEVAR(a_dev) collapse(3)
-!$omp target teams distribute parallel do collapse(3) has_device_addr(a_dev)
+!$omp target teams distribute parallel do collapse(3) DEVICEVAR(a_dev)
 do k=-3,3
   do j=-2,2
     do i=-1,1
