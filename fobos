@@ -230,7 +230,7 @@ jobs      = 4
 
 [template-omp-amd]
 compiler       = amd
-preproc        = -DDEV_OMP -DCOMPILER_AMD
+preproc        = -DDEV_OMP
 cflags         = -c -cpp --offload-arch=gfx90a,gfx942
 lflags         = -cpp --offload-arch=gfx90a,gfx942
 openmp         = True
@@ -244,7 +244,7 @@ jobs           = 4
 
 [template-amd]
 compiler  = amd
-preproc   = -DCOMPILER_AMD
+preproc   =
 cflags    = -c -cpp
 lflags    = -cpp
 openmp    = True

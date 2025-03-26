@@ -8,11 +8,7 @@
 #   endif
 #elif defined DEV_OMP
 #   define DEVMODULE omp_lib
-#   if defined COMPILER_AMD
-#      define DEVICEVAR(...)
-#   else
-#      define DEVICEVAR has_device_addr
-#   endif
+#   define DEVICEVAR has_device_addr
 #   define OMPLOOP target teams distribute parallel do
 #else
 #   define DEVMODULE omp_lib
