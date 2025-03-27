@@ -136,12 +136,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -149,7 +149,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -160,7 +160,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -174,7 +174,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -191,7 +191,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -211,7 +211,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -568,12 +568,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -581,7 +581,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -592,7 +592,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -606,7 +606,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -623,7 +623,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -643,7 +643,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -1000,12 +1000,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -1013,7 +1013,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -1024,7 +1024,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -1038,7 +1038,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -1055,7 +1055,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -1075,7 +1075,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -1432,12 +1432,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -1445,7 +1445,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -1456,7 +1456,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -1470,7 +1470,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -1487,7 +1487,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -1507,7 +1507,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -1864,12 +1864,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -1877,7 +1877,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -1888,7 +1888,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -1902,7 +1902,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -1919,7 +1919,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -1939,7 +1939,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -2296,12 +2296,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent DEVICEVAR(a1_dev, b1_dev)
-   !$omp OMPLOOP DEVICEVAR(a1_dev, b1_dev)
+   !$omp OMPLOOP DEVICEPTR(a1_dev, b1_dev)
    do i1 = 1, n
       b1_dev(i1) = a1_dev(i1) + 10
    enddo
    !$acc parallel loop independent DEVICEVAR(a2_dev, b2_dev)
-   !$omp OMPLOOP DEVICEVAR(a2_dev, b2_dev)
+   !$omp OMPLOOP DEVICEPTR(a2_dev, b2_dev)
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -2309,7 +2309,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a3_dev, b3_dev)
-   !$omp OMPLOOP DEVICEVAR(a3_dev, b3_dev)
+   !$omp OMPLOOP DEVICEPTR(a3_dev, b3_dev)
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -2320,7 +2320,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a4_dev, b4_dev)
-   !$omp OMPLOOP DEVICEVAR(a4_dev, b4_dev)
+   !$omp OMPLOOP DEVICEPTR(a4_dev, b4_dev)
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -2334,7 +2334,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a5_dev, b5_dev)
-   !$omp OMPLOOP DEVICEVAR(a5_dev, b5_dev)
+   !$omp OMPLOOP DEVICEPTR(a5_dev, b5_dev)
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -2351,7 +2351,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a6_dev, b6_dev)
-   !$omp OMPLOOP DEVICEVAR(a6_dev, b6_dev)
+   !$omp OMPLOOP DEVICEPTR(a6_dev, b6_dev)
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -2371,7 +2371,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent DEVICEVAR(a7_dev, b7_dev)
-   !$omp OMPLOOP DEVICEVAR(a7_dev, b7_dev)
+   !$omp OMPLOOP DEVICEPTR(a7_dev, b7_dev)
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n

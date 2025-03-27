@@ -121,7 +121,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -159,7 +159,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -199,7 +199,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -241,7 +241,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -285,7 +285,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -331,7 +331,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -379,7 +379,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -429,7 +429,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -467,7 +467,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -507,7 +507,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -549,7 +549,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -593,7 +593,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -639,7 +639,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -687,7 +687,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -737,7 +737,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -775,7 +775,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -815,7 +815,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -857,7 +857,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -901,7 +901,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -947,7 +947,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -995,7 +995,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -1045,7 +1045,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -1083,7 +1083,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -1123,7 +1123,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -1165,7 +1165,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -1209,7 +1209,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -1255,7 +1255,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -1303,7 +1303,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -1353,7 +1353,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -1391,7 +1391,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -1431,7 +1431,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -1473,7 +1473,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -1517,7 +1517,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -1563,7 +1563,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -1611,7 +1611,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
@@ -1661,7 +1661,7 @@ contains
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(1) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(1) DEVICEPTR(fptr_dev)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1) = init_value
          enddo
@@ -1699,7 +1699,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(2) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(2) DEVICEPTR(fptr_dev)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
             fptr_dev(i1,i2) = init_value
@@ -1739,7 +1739,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(3) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(3) DEVICEPTR(fptr_dev)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
          do i1=lbounds_(1), ubounds(1)
@@ -1781,7 +1781,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(4) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(4) DEVICEPTR(fptr_dev)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
          do i2=lbounds_(2), ubounds(2)
@@ -1825,7 +1825,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(5) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(5) DEVICEPTR(fptr_dev)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
          do i3=lbounds_(3), ubounds(3)
@@ -1871,7 +1871,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(6) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(6) DEVICEPTR(fptr_dev)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)
          do i4=lbounds_(4), ubounds(4)
@@ -1919,7 +1919,7 @@ contains
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
-         !$omp OMPLOOP collapse(7) DEVICEVAR(fptr_dev)
+         !$omp OMPLOOP collapse(7) DEVICEPTR(fptr_dev)
          do i7=lbounds_(7), ubounds(7)
          do i6=lbounds_(6), ubounds(6)
          do i5=lbounds_(5), ubounds(5)

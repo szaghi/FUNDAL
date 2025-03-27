@@ -8,7 +8,8 @@
 #   endif
 #elif defined DEV_OMP
 #   define DEVMODULE omp_lib
-#   define DEVICEVAR has_device_addr
+#   define DEVICEPTR(...) has_device_addr(__VA_ARGS__)
+#   define DEVICEVAR(...) map(present,alloc:__VA_ARGS__)
 #   define OMPLOOP target teams distribute parallel do
 #else
 #   define DEVMODULE omp_lib

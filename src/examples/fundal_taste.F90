@@ -30,7 +30,7 @@ call dev_memcpy_to_device(dst=a_dev, src=b_hos)
 
 ! work on device
 !$acc parallel loop independent DEVICEVAR(a_dev) collapse(3)
-!$omp target teams distribute parallel do collapse(3) DEVICEVAR(a_dev)
+!$omp target teams distribute parallel do collapse(3) DEVICEPTR(a_dev)
 do k=-3,3
   do j=-2,2
     do i=-1,1

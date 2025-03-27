@@ -19,7 +19,7 @@ contains
    integer(I4P)                        :: i, j
 
    !$acc parallel loop DEVICEVAR(A,Anew) reduction(max:error)
-   !$omp OMPLOOP DEVICEVAR(A,Anew) reduction(max:error)
+   !$omp OMPLOOP DEVICEPTR(A,Anew) reduction(max:error)
    do j=1,m-2
       do i=1,n-2
          Anew(i,j) = 0.25_R8P * ( A(i+1,j  ) + A(i-1,j  ) + &
@@ -29,7 +29,7 @@ contains
    enddo
 
    !$acc parallel loop deviceptr(A,Anew)
-   !$omp OMPLOOP DEVICEVAR(A,Anew)
+   !$omp OMPLOOP DEVICEPTR(A,Anew)
    do j=1,m-2
       do i=1,n-2
          A(i,j) = Anew(i,j)
@@ -61,7 +61,7 @@ call dev_alloc(fptr_dev=Anew,lbounds=[0,0],ubounds=[n-1,m-1],ierr=ierr,init_valu
 
 ! Set B.C.
 #if defined DEV_OMP
-!$omp OMPLOOP DEVICEVAR(A,Anew)
+!$omp OMPLOOP DEVICEPTR(A,Anew)
 do j=0,m-1
    A(   0,j) = 1.0_R8P
    Anew(0,j) = 1.0_R8P

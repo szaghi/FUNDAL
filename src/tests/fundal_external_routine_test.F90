@@ -20,7 +20,7 @@ contains
    integer(I4P)                        :: i, j     !< Counter.
 
    !$acc parallel loop collapse(2) DEVICEVAR(a)
-   !$omp OMPLOOP collapse(2) DEVICEVAR(a)
+   !$omp OMPLOOP collapse(2) DEVICEPTR(a)
    do j=0,n
       do i=0,n
          a(i,j) = 1._R8P * (i**3 - j**2)

@@ -42,7 +42,7 @@ call mpih%barrier
 if (mpih%myrank == 0_I4P) then
    print '(A)', mpih%myrankstr//'Device 0 prepare (on device and copy back to host) a00 array'
    !$acc parallel loop independent collapse(3) DEVICEVAR(a00)
-   !$omp OMPLOOP collapse(3) DEVICEVAR(a00)
+   !$omp OMPLOOP collapse(3) DEVICEPTR(a00)
    do k=1, 3
    do j=1, 2
    do i=1, 1
@@ -61,7 +61,7 @@ call mpih%barrier
 if (mpih%myrank == 1_I4P) then
    print '(A)', mpih%myrankstr//'Device 1 prepare (on device and copy back to host) a11 array'
    !$acc parallel loop independent collapse(3) DEVICEVAR(a11)
-   !$omp OMPLOOP collapse(3) DEVICEVAR(a11)
+   !$omp OMPLOOP collapse(3) DEVICEPTR(a11)
    do k=1, 3
    do j=1, 2
    do i=1, 1
@@ -120,7 +120,7 @@ call mpih%barrier
 
 if (mpih%myrank == 0_I4P) then
    !$acc parallel loop independent collapse(3) DEVICEVAR(a00,a01)
-   !$omp OMPLOOP collapse(3) DEVICEVAR(a00,a01)
+   !$omp OMPLOOP collapse(3) DEVICEPTR(a00,a01)
    do k=1, 3
    do j=1, 2
    do i=1, 1
