@@ -136,7 +136,7 @@ call dev_alloc_unstr(b)
 call dev_alloc_unstr(c)
 call cpu_time(tictoc(1))
 !$acc parallel loop independent collapse(4) present(a,b,c)
-!$omp OMPLOOP collapse(4) DEVICEVAR(a,b,c)
+!$omp OMPLOOP collapse(4)
 do i4=1, n4
 do i3=1, n3
 do i2=1, n2

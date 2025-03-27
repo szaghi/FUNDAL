@@ -304,12 +304,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -317,7 +317,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -328,7 +328,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -342,7 +342,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -359,7 +359,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -379,7 +379,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -729,12 +729,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -742,7 +742,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -753,7 +753,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -767,7 +767,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -784,7 +784,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -804,7 +804,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -1154,12 +1154,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -1167,7 +1167,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -1178,7 +1178,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -1192,7 +1192,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -1209,7 +1209,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -1229,7 +1229,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -1579,12 +1579,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -1592,7 +1592,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -1603,7 +1603,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -1617,7 +1617,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -1634,7 +1634,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -1654,7 +1654,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -2004,12 +2004,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -2017,7 +2017,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -2028,7 +2028,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -2042,7 +2042,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -2059,7 +2059,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -2079,7 +2079,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n
@@ -2429,12 +2429,12 @@ contains
    ! do some operation on device
    print '(A)', '    compute on device'
    !$acc parallel loop independent present(a1, b1)
-   !$omp OMPLOOP DEVICEVAR(a1, b1)
+   !$omp OMPLOOP
    do i1 = 1, n
       b1(i1) = a1(i1) + 10
    enddo
    !$acc parallel loop independent present(a2, b2)
-   !$omp OMPLOOP DEVICEVAR(a2, b2)
+   !$omp OMPLOOP
    do i2 = 1, n
    !$acc loop
    do i1 = 1, n
@@ -2442,7 +2442,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a3, b3)
-   !$omp OMPLOOP DEVICEVAR(a3, b3)
+   !$omp OMPLOOP
    do i3 = 1, n
    !$acc loop
    do i2 = 1, n
@@ -2453,7 +2453,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a4, b4)
-   !$omp OMPLOOP DEVICEVAR(a4, b4)
+   !$omp OMPLOOP
    do i4 = 1, n
    !$acc loop
    do i3 = 1, n
@@ -2467,7 +2467,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a5, b5)
-   !$omp OMPLOOP DEVICEVAR(a5, b5)
+   !$omp OMPLOOP
    do i5 = 1, n
    !$acc loop
    do i4 = 1, n
@@ -2484,7 +2484,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a6, b6)
-   !$omp OMPLOOP DEVICEVAR(a6, b6)
+   !$omp OMPLOOP
    do i6 = 1, n
    !$acc loop
    do i5 = 1, n
@@ -2504,7 +2504,7 @@ contains
    enddo
    enddo
    !$acc parallel loop independent present(a7, b7)
-   !$omp OMPLOOP DEVICEVAR(a7, b7)
+   !$omp OMPLOOP
    do i7 = 1, n
    !$acc loop
    do i6 = 1, n

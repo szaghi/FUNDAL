@@ -65,9 +65,9 @@ call dev_memcpy_to_device_unstr(dt%a)
 print '(A)', 'compute b on device'
 !$acc parallel loop DEVICEVAR(dt%a_dev, dt%b_dev, dt%a, dt%b)
 #ifdef DEV_OMP
-!$omp OMPLOOP DEVICEPTR(dt%a_dev, dt%b_dev) DEVICEVAR(dt%a, dt%b)
+!$omp OMPLOOP DEVICEPTR(dt%a_dev, dt%b_dev)
 #else
-!$omp OMPLOOP DEVICEVAR(dt)
+!$omp OMPLOOP
 #endif
 do i = 1, dt%n
    dt%b_dev(i) = dt%a_dev(i) + 10
