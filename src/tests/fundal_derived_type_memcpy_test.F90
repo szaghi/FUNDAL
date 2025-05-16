@@ -24,10 +24,7 @@ character(10)   :: nstr  !< Number of elements of arrays, stringified.
 integer(I4P)    :: i     !< Counter.
 
 ! initialize environment global variables
-myhos = dev_get_host_num()
-devtype = dev_get_device_type()
-call dev_set_device_num(0)
-mydev = dev_get_device_num()
+call dev_init
 
 ! get arrays dimension
 if (command_argument_count() >= 1) then

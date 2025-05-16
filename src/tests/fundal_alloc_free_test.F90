@@ -7,12 +7,7 @@ use            :: fundal
 
 implicit none
 
-! initialize environment global variables
-myhos = dev_get_host_num()
-devtype = dev_get_device_type()
-call dev_set_device_num(0)
-mydev = dev_get_device_num()
-
+call dev_init
 call test_R8P
 call test_R8P(init_value=8._R8P)
 call test_R4P

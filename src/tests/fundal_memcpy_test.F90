@@ -12,14 +12,8 @@ implicit none
 
 integer(I4P) :: n !< Number of elements of arrays.
 
-! initialize environment global variables
-myhos = dev_get_host_num()
-devtype = dev_get_device_type()
-call dev_set_device_num(0)
-mydev = dev_get_device_num()
-
+call dev_init
 call get_n_cli
-
 call test_R8P
 call test_R4P
 call test_I8P

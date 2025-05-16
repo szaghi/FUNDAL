@@ -21,10 +21,7 @@ integer(I4P)           :: i1,i2,i3,i4            !< Counter.
 integer(I4P)           :: ierr                   !< Error status.
 
 ! initialize environment global variables
-myhos = dev_get_host_num()
-devtype = dev_get_device_type()
-call dev_set_device_num(0)
-mydev = dev_get_device_num()
+call dev_init
 
 call get_n_cli
 print '("n1,n2,n3,n4 = ",4I5)', n1,n2,n3,n4

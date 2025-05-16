@@ -8,6 +8,7 @@ use            :: openacc,         only : ACC_DEVICE_KIND, ACC_DEVICE_DEFAULT
 
 implicit none
 private
+public :: devs_number
 public :: dev_memory_avail
 public :: local_comm
 public :: mydev
@@ -15,6 +16,7 @@ public :: myhos
 public :: devtype
 public :: IDK
 
+integer(I4P), target :: devs_number=0_I4P          !< Number of devices.
 integer(I8P), target :: dev_memory_avail=0_I8P     !< Device memory available (GB).
 integer(I4P), target :: local_comm=0_I4P           !< Local communicator.
 integer(I4P), target :: mydev=0_I4P                !< Device ID.

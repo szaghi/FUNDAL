@@ -3,7 +3,11 @@
 
 for t in $( find exe/ -executable -type f -name *_test ); do
   echo $t
-  $t > test.out
+  if [[ $t == *"mpi"* ]]; then
+     mpirun -np 2 $t > test.out
+  else
+     $t > test.out
+  fi
   result=`tail -n 1 test.out`
   rm -f test.out
   echo $result

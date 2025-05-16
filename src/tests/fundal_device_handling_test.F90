@@ -6,7 +6,6 @@ use            :: fundal
 
 implicit none
 
-integer(I4P)   :: devs_number     !< Devices number.
 integer(I4P)   :: i               !< Counter.
 character(999) :: property_string !< Stringified device property.
 

@@ -54,11 +54,7 @@ integer(I4P), parameter :: n=128  !< Array dimension.
 real(R8P), pointer      :: a(:,:) !< Array on device memory.
 real(R8P), allocatable  :: b(:,:) !< Array on host   memory.
 
-! initialize environment global variables
-myhos = dev_get_host_num()
-devtype = dev_get_device_type()
-call dev_set_device_num(0)
-mydev = dev_get_device_num()
+call dev_init
 
 call dev_alloc(fptr_dev=a,lbounds=[0,0],ubounds=[n,n],ierr=ierr,init_value=0._R8P)
 allocate(b(0:n,0:n))

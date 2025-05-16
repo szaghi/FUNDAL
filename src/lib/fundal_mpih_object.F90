@@ -21,7 +21,7 @@ type :: mpih_object
    real(R8P)                 :: timing(1:2)              !< Tic toc timing.
    integer(I4P)              :: tictoc=1_I4P             !< Next is tic or toc?
    integer(I4P), allocatable :: req_send_recv(:)         !< MPI request receive flags.
-   integer(I4P)              :: devs_number=0_I4P        !< Number of devices.
+   integer(I4P), pointer     :: devs_number=0_I4P        !< Number of devices.
    integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory available (GB).
    integer(I4P), pointer     :: mydev=>null()            !< Device ID.
    integer(I4P), pointer     :: local_comm=>null()       !< Local communicator.
@@ -142,6 +142,7 @@ contains
    myrankstr_char_length_ = 5 ; if (present(myrankstr_char_length)) myrankstr_char_length_ = myrankstr_char_length
 
    ! associate handler members to the global env FUNDAL variables
+   self%devs_number      => devs_number
    self%dev_memory_avail => dev_memory_avail
    self%local_comm       => local_comm
    self%myhos            => myhos
@@ -162,13 +163,7 @@ contains
       if (do_device_init) then
          call MPI_COMM_SPLIT_TYPE(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, self%local_comm, self%error)
          call MPI_COMM_RANK(self%local_comm, local_rank, self%error)
-         self%devtype = dev_get_device_type()
-         self%devs_number = dev_get_num_devices()
-         self%mydev = mod(local_rank, self%devs_number)
-         self%myhos = dev_get_host_num()
-         call dev_set_device_num(self%mydev)
-         call dev_init
-         call dev_get_device_memory_info(mem_free=self%dev_memory_avail)
+         call dev_init(local_rank)
       endif
    endif
    if (verbose_) call self%print_message('mpih_object%initialize finish')
