@@ -111,1251 +111,210 @@ endinterface dev_assign_to_device
 interface transpose_array
    !< Transpose array.
    module procedure transpose_array_R8P_2D, &
+                    transpose_array_R8P_3D, &
+                    transpose_array_R8P_4D, &
+                    transpose_array_R8P_5D, &
+                    transpose_array_R8P_6D, &
+                    transpose_array_R8P_7D, &
                     transpose_array_R4P_2D, &
+                    transpose_array_R4P_3D, &
+                    transpose_array_R4P_4D, &
+                    transpose_array_R4P_5D, &
+                    transpose_array_R4P_6D, &
+                    transpose_array_R4P_7D, &
                     transpose_array_I8P_2D, &
+                    transpose_array_I8P_3D, &
+                    transpose_array_I8P_4D, &
+                    transpose_array_I8P_5D, &
+                    transpose_array_I8P_6D, &
+                    transpose_array_I8P_7D, &
                     transpose_array_I4P_2D, &
+                    transpose_array_I4P_3D, &
+                    transpose_array_I4P_4D, &
+                    transpose_array_I4P_5D, &
+                    transpose_array_I4P_6D, &
+                    transpose_array_I4P_7D, &
                     transpose_array_I2P_2D, &
-                    transpose_array_I1P_2D
+                    transpose_array_I2P_3D, &
+                    transpose_array_I2P_4D, &
+                    transpose_array_I2P_5D, &
+                    transpose_array_I2P_6D, &
+                    transpose_array_I2P_7D, &
+                    transpose_array_I1P_2D, &
+                    transpose_array_I1P_3D, &
+                    transpose_array_I1P_4D, &
+                    transpose_array_I1P_5D, &
+                    transpose_array_I1P_6D, &
+                    transpose_array_I1P_7D
 endinterface transpose_array
 
 contains
-   ! dev_assign_from_device
-   subroutine dev_assign_from_device_R8P_1D(dst, src)
-   !< Assign array, R8P kind, rank 1.
-   real(R8P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_1D
-
-   subroutine dev_assign_from_device_R8P_2D(dst, src, transposed)
-   !< Assign array, R8P kind, rank 2.
-   real(R8P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional       :: transposed  !< Assign trasposed src.
-   logical                               :: transposed_ !< Assign trasposed src, local var.
-   real(R8P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_R8P_2D
-
-   subroutine dev_assign_from_device_R8P_3D(dst, src)
-   !< Assign array, R8P kind, rank 3.
-   real(R8P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_3D
-
-   subroutine dev_assign_from_device_R8P_4D(dst, src)
-   !< Assign array, R8P kind, rank 4.
-   real(R8P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_4D
-
-   subroutine dev_assign_from_device_R8P_5D(dst, src)
-   !< Assign array, R8P kind, rank 5.
-   real(R8P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_5D
-
-   subroutine dev_assign_from_device_R8P_6D(dst, src)
-   !< Assign array, R8P kind, rank 6.
-   real(R8P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_6D
-
-   subroutine dev_assign_from_device_R8P_7D(dst, src)
-   !< Assign array, R8P kind, rank 7.
-   real(R8P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   real(R8P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R8P_7D
-
-   subroutine dev_assign_from_device_R4P_1D(dst, src)
-   !< Assign array, R4P kind, rank 1.
-   real(R4P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_1D
-
-   subroutine dev_assign_from_device_R4P_2D(dst, src, transposed)
-   !< Assign array, R4P kind, rank 2.
-   real(R4P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional       :: transposed  !< Assign trasposed src.
-   logical                               :: transposed_ !< Assign trasposed src, local var.
-   real(R4P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_R4P_2D
-
-   subroutine dev_assign_from_device_R4P_3D(dst, src)
-   !< Assign array, R4P kind, rank 3.
-   real(R4P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_3D
-
-   subroutine dev_assign_from_device_R4P_4D(dst, src)
-   !< Assign array, R4P kind, rank 4.
-   real(R4P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_4D
-
-   subroutine dev_assign_from_device_R4P_5D(dst, src)
-   !< Assign array, R4P kind, rank 5.
-   real(R4P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_5D
-
-   subroutine dev_assign_from_device_R4P_6D(dst, src)
-   !< Assign array, R4P kind, rank 6.
-   real(R4P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_6D
-
-   subroutine dev_assign_from_device_R4P_7D(dst, src)
-   !< Assign array, R4P kind, rank 7.
-   real(R4P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   real(R4P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_R4P_7D
-
-   subroutine dev_assign_from_device_I8P_1D(dst, src)
-   !< Assign array, I8P kind, rank 1.
-   integer(I8P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_1D
-
-   subroutine dev_assign_from_device_I8P_2D(dst, src, transposed)
-   !< Assign array, I8P kind, rank 2.
-   integer(I8P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
-   logical                                  :: transposed_ !< Assign trasposed src, local var.
-   integer(I8P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_I8P_2D
-
-   subroutine dev_assign_from_device_I8P_3D(dst, src)
-   !< Assign array, I8P kind, rank 3.
-   integer(I8P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_3D
-
-   subroutine dev_assign_from_device_I8P_4D(dst, src)
-   !< Assign array, I8P kind, rank 4.
-   integer(I8P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_4D
-
-   subroutine dev_assign_from_device_I8P_5D(dst, src)
-   !< Assign array, I8P kind, rank 5.
-   integer(I8P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_5D
-
-   subroutine dev_assign_from_device_I8P_6D(dst, src)
-   !< Assign array, I8P kind, rank 6.
-   integer(I8P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_6D
-
-   subroutine dev_assign_from_device_I8P_7D(dst, src)
-   !< Assign array, I8P kind, rank 7.
-   integer(I8P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   integer(I8P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I8P_7D
-
-   subroutine dev_assign_from_device_I4P_1D(dst, src)
-   !< Assign array, I4P kind, rank 1.
-   integer(I4P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_1D
-
-   subroutine dev_assign_from_device_I4P_2D(dst, src, transposed)
-   !< Assign array, I4P kind, rank 2.
-   integer(I4P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
-   logical                                  :: transposed_ !< Assign trasposed src, local var.
-   integer(I4P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_I4P_2D
-
-   subroutine dev_assign_from_device_I4P_3D(dst, src)
-   !< Assign array, I4P kind, rank 3.
-   integer(I4P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_3D
-
-   subroutine dev_assign_from_device_I4P_4D(dst, src)
-   !< Assign array, I4P kind, rank 4.
-   integer(I4P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_4D
-
-   subroutine dev_assign_from_device_I4P_5D(dst, src)
-   !< Assign array, I4P kind, rank 5.
-   integer(I4P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_5D
-
-   subroutine dev_assign_from_device_I4P_6D(dst, src)
-   !< Assign array, I4P kind, rank 6.
-   integer(I4P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_6D
-
-   subroutine dev_assign_from_device_I4P_7D(dst, src)
-   !< Assign array, I4P kind, rank 7.
-   integer(I4P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   integer(I4P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I4P_7D
-
-   subroutine dev_assign_from_device_I2P_1D(dst, src)
-   !< Assign array, I2P kind, rank 1.
-   integer(I2P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_1D
-
-   subroutine dev_assign_from_device_I2P_2D(dst, src, transposed)
-   !< Assign array, I2P kind, rank 2.
-   integer(I2P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
-   logical                                  :: transposed_ !< Assign trasposed src, local var.
-   integer(I2P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_I2P_2D
-
-   subroutine dev_assign_from_device_I2P_3D(dst, src)
-   !< Assign array, I2P kind, rank 3.
-   integer(I2P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_3D
-
-   subroutine dev_assign_from_device_I2P_4D(dst, src)
-   !< Assign array, I2P kind, rank 4.
-   integer(I2P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_4D
-
-   subroutine dev_assign_from_device_I2P_5D(dst, src)
-   !< Assign array, I2P kind, rank 5.
-   integer(I2P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_5D
-
-   subroutine dev_assign_from_device_I2P_6D(dst, src)
-   !< Assign array, I2P kind, rank 6.
-   integer(I2P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_6D
-
-   subroutine dev_assign_from_device_I2P_7D(dst, src)
-   !< Assign array, I2P kind, rank 7.
-   integer(I2P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   integer(I2P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I2P_7D
-
-   subroutine dev_assign_from_device_I1P_1D(dst, src)
-   !< Assign array, I1P kind, rank 1.
-   integer(I1P), intent(inout), allocatable :: dst(:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_1D
-
-   subroutine dev_assign_from_device_I1P_2D(dst, src, transposed)
-   !< Assign array, I1P kind, rank 2.
-   integer(I1P), intent(inout), allocatable :: dst(:,:)    !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional          :: transposed  !< Assign trasposed src.
-   logical                                  :: transposed_ !< Assign trasposed src, local var.
-   integer(I1P), allocatable                :: dstt(:,:)   !< Destination array transposed.
-
-   call dev_memcpy_from_device(dst=dst, src=src)
-   if (allocated(dst)) deallocate(dst)
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (transposed_) then
-      allocate(dstt(lbound(src,dim=1):ubound(src,dim=1), &
-                    lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dstt, src=src)
-      call transpose_array(b1=[lbound(dstt,dim=1),ubound(dstt,dim=1)], &
-                           b2=[lbound(dstt,dim=2),ubound(dstt,dim=2)], a=dstt, t=dst)
-   else
-      allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                   lbound(src,dim=2):ubound(src,dim=2)))
-      call dev_memcpy_from_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_from_device_I1P_2D
-
-   subroutine dev_assign_from_device_I1P_3D(dst, src)
-   !< Assign array, I1P kind, rank 3.
-   integer(I1P), intent(inout), allocatable :: dst(:,:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_3D
-
-   subroutine dev_assign_from_device_I1P_4D(dst, src)
-   !< Assign array, I1P kind, rank 4.
-   integer(I1P), intent(inout), allocatable :: dst(:,:,:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_4D
-
-   subroutine dev_assign_from_device_I1P_5D(dst, src)
-   !< Assign array, I1P kind, rank 5.
-   integer(I1P), intent(inout), allocatable :: dst(:,:,:,:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_5D
-
-   subroutine dev_assign_from_device_I1P_6D(dst, src)
-   !< Assign array, I1P kind, rank 6.
-   integer(I1P), intent(inout), allocatable :: dst(:,:,:,:,:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_6D
-
-   subroutine dev_assign_from_device_I1P_7D(dst, src)
-   !< Assign array, I1P kind, rank 7.
-   integer(I1P), intent(inout), allocatable :: dst(:,:,:,:,:,:,:) !< Assign memory.
-   integer(I1P), intent(in)                 :: src(:,:,:,:,:,:,:) !< Source memory.
-
-   if (allocated(dst)) deallocate(dst)
-   allocate(dst(lbound(src,dim=1):ubound(src,dim=1), &
-                lbound(src,dim=2):ubound(src,dim=2), &
-                lbound(src,dim=3):ubound(src,dim=3), &
-                lbound(src,dim=4):ubound(src,dim=4), &
-                lbound(src,dim=5):ubound(src,dim=5), &
-                lbound(src,dim=6):ubound(src,dim=6), &
-                lbound(src,dim=7):ubound(src,dim=7)))
-   call dev_memcpy_from_device(dst=dst, src=src)
-   endsubroutine dev_assign_from_device_I1P_7D
-
-   ! dev_assign_to_device
-   subroutine dev_assign_to_device_R8P_1D(dst, src)
-   !< Assign array, R8P kind, rank 1.
-   real(R8P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                      :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_1D
-
-   subroutine dev_assign_to_device_R8P_2D(dst, src, transposed)
-   !< Assign array, R8P kind, rank 2.
-   real(R8P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional   :: transposed  !< Assign trasposed src.
-   logical                           :: transposed_ !< Assign trasposed src, local var.
-   real(R8P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                      :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_R8P_2D
-
-   subroutine dev_assign_to_device_R8P_3D(dst, src)
-   !< Assign array, R8P kind, rank 3.
-   real(R8P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_3D
-
-   subroutine dev_assign_to_device_R8P_4D(dst, src)
-   !< Assign array, R8P kind, rank 4.
-   real(R8P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_4D
-
-   subroutine dev_assign_to_device_R8P_5D(dst, src)
-   !< Assign array, R8P kind, rank 5.
-   real(R8P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_5D
-
-   subroutine dev_assign_to_device_R8P_6D(dst, src)
-   !< Assign array, R8P kind, rank 6.
-   real(R8P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_6D
-
-   subroutine dev_assign_to_device_R8P_7D(dst, src)
-   !< Assign array, R8P kind, rank 7.
-   real(R8P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   real(R8P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R8P_7D
-
-   subroutine dev_assign_to_device_R4P_1D(dst, src)
-   !< Assign array, R4P kind, rank 1.
-   real(R4P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                      :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_1D
-
-   subroutine dev_assign_to_device_R4P_2D(dst, src, transposed)
-   !< Assign array, R4P kind, rank 2.
-   real(R4P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional   :: transposed  !< Assign trasposed src.
-   logical                           :: transposed_ !< Assign trasposed src, local var.
-   real(R4P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                      :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_R4P_2D
-
-   subroutine dev_assign_to_device_R4P_3D(dst, src)
-   !< Assign array, R4P kind, rank 3.
-   real(R4P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_3D
-
-   subroutine dev_assign_to_device_R4P_4D(dst, src)
-   !< Assign array, R4P kind, rank 4.
-   real(R4P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_4D
-
-   subroutine dev_assign_to_device_R4P_5D(dst, src)
-   !< Assign array, R4P kind, rank 5.
-   real(R4P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_5D
-
-   subroutine dev_assign_to_device_R4P_6D(dst, src)
-   !< Assign array, R4P kind, rank 6.
-   real(R4P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_6D
-
-   subroutine dev_assign_to_device_R4P_7D(dst, src)
-   !< Assign array, R4P kind, rank 7.
-   real(R4P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   real(R4P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                      :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_R4P_7D
-
-   subroutine dev_assign_to_device_I8P_1D(dst, src)
-   !< Assign array, I8P kind, rank 1.
-   integer(I8P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                         :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_1D
-
-   subroutine dev_assign_to_device_I8P_2D(dst, src, transposed)
-   !< Assign array, I8P kind, rank 2.
-   integer(I8P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional      :: transposed  !< Assign trasposed src.
-   logical                              :: transposed_ !< Assign trasposed src, local var.
-   integer(I8P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                         :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_I8P_2D
-
-   subroutine dev_assign_to_device_I8P_3D(dst, src)
-   !< Assign array, I8P kind, rank 3.
-   integer(I8P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_3D
-
-   subroutine dev_assign_to_device_I8P_4D(dst, src)
-   !< Assign array, I8P kind, rank 4.
-   integer(I8P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_4D
-
-   subroutine dev_assign_to_device_I8P_5D(dst, src)
-   !< Assign array, I8P kind, rank 5.
-   integer(I8P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_5D
-
-   subroutine dev_assign_to_device_I8P_6D(dst, src)
-   !< Assign array, I8P kind, rank 6.
-   integer(I8P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_6D
-
-   subroutine dev_assign_to_device_I8P_7D(dst, src)
-   !< Assign array, I8P kind, rank 7.
-   integer(I8P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I8P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I8P_7D
-
-   subroutine dev_assign_to_device_I4P_1D(dst, src)
-   !< Assign array, I4P kind, rank 1.
-   integer(I4P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                         :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_1D
-
-   subroutine dev_assign_to_device_I4P_2D(dst, src, transposed)
-   !< Assign array, I4P kind, rank 2.
-   integer(I4P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional      :: transposed  !< Assign trasposed src.
-   logical                              :: transposed_ !< Assign trasposed src, local var.
-   integer(I4P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                         :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_I4P_2D
-
-   subroutine dev_assign_to_device_I4P_3D(dst, src)
-   !< Assign array, I4P kind, rank 3.
-   integer(I4P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_3D
-
-   subroutine dev_assign_to_device_I4P_4D(dst, src)
-   !< Assign array, I4P kind, rank 4.
-   integer(I4P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_4D
-
-   subroutine dev_assign_to_device_I4P_5D(dst, src)
-   !< Assign array, I4P kind, rank 5.
-   integer(I4P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_5D
-
-   subroutine dev_assign_to_device_I4P_6D(dst, src)
-   !< Assign array, I4P kind, rank 6.
-   integer(I4P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_6D
-
-   subroutine dev_assign_to_device_I4P_7D(dst, src)
-   !< Assign array, I4P kind, rank 7.
-   integer(I4P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I4P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I4P_7D
-
-   subroutine dev_assign_to_device_I2P_1D(dst, src)
-   !< Assign array, I2P kind, rank 1.
-   integer(I2P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                         :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_1D
-
-   subroutine dev_assign_to_device_I2P_2D(dst, src, transposed)
-   !< Assign array, I2P kind, rank 2.
-   integer(I2P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional      :: transposed  !< Assign trasposed src.
-   logical                              :: transposed_ !< Assign trasposed src, local var.
-   integer(I2P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                         :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_I2P_2D
-
-   subroutine dev_assign_to_device_I2P_3D(dst, src)
-   !< Assign array, I2P kind, rank 3.
-   integer(I2P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_3D
-
-   subroutine dev_assign_to_device_I2P_4D(dst, src)
-   !< Assign array, I2P kind, rank 4.
-   integer(I2P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_4D
-
-   subroutine dev_assign_to_device_I2P_5D(dst, src)
-   !< Assign array, I2P kind, rank 5.
-   integer(I2P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_5D
-
-   subroutine dev_assign_to_device_I2P_6D(dst, src)
-   !< Assign array, I2P kind, rank 6.
-   integer(I2P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_6D
-
-   subroutine dev_assign_to_device_I2P_7D(dst, src)
-   !< Assign array, I2P kind, rank 7.
-   integer(I2P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I2P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I2P_7D
-
-   subroutine dev_assign_to_device_I1P_1D(dst, src)
-   !< Assign array, I1P kind, rank 1.
-   integer(I1P), intent(inout), pointer :: dst(:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:) !< Source memory.
-   integer(I4P)                         :: ierr   !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_1D
-
-   subroutine dev_assign_to_device_I1P_2D(dst, src, transposed)
-   !< Assign array, I1P kind, rank 2.
-   integer(I1P), intent(inout), pointer :: dst(:,:)    !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:)    !< Source memory.
-   logical,   intent(in), optional      :: transposed  !< Assign trasposed src.
-   logical                              :: transposed_ !< Assign trasposed src, local var.
-   integer(I1P), allocatable            :: srct(:,:)   !< Source array transposed.
-   integer(I4P)                         :: ierr        !< Error status.
-
-   transposed_ = .false. ; if (present(transposed)) transposed_ = transposed
-   if (associated(dst)) call dev_free(dst)
-   if (transposed_) then
-      call transpose_array(b1=[lbound(src,dim=1),ubound(src,dim=1)], &
-                           b2=[lbound(src,dim=2),ubound(src,dim=2)], a=src, t=srct)
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(srct), lbounds=lbound(srct), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=srct)
-   else
-      call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-      call dev_memcpy_to_device(dst=dst, src=src)
-   endif
-   endsubroutine dev_assign_to_device_I1P_2D
-
-   subroutine dev_assign_to_device_I1P_3D(dst, src)
-   !< Assign array, I1P kind, rank 3.
-   integer(I1P), intent(inout), pointer :: dst(:,:,:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr       !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_3D
-
-   subroutine dev_assign_to_device_I1P_4D(dst, src)
-   !< Assign array, I1P kind, rank 4.
-   integer(I1P), intent(inout), pointer :: dst(:,:,:,:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr         !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_4D
-
-   subroutine dev_assign_to_device_I1P_5D(dst, src)
-   !< Assign array, I1P kind, rank 5.
-   integer(I1P), intent(inout), pointer :: dst(:,:,:,:,:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr           !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_5D
-
-   subroutine dev_assign_to_device_I1P_6D(dst, src)
-   !< Assign array, I1P kind, rank 6.
-   integer(I1P), intent(inout), pointer :: dst(:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr             !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_6D
-
-   subroutine dev_assign_to_device_I1P_7D(dst, src)
-   !< Assign array, I1P kind, rank 7.
-   integer(I1P), intent(inout), pointer :: dst(:,:,:,:,:,:,:) !< Pointer to assign memory.
-   integer(I1P), intent(in)             :: src(:,:,:,:,:,:,:) !< Source memory.
-   integer(I4P)                         :: ierr               !< Error status.
-
-   if (associated(dst)) call dev_free(dst)
-   call dev_alloc(fptr_dev=dst, ubounds=ubound(src), lbounds=lbound(src), ierr=ierr)
-   call dev_memcpy_to_device(dst=dst, src=src)
-   endsubroutine dev_assign_to_device_I1P_7D
+#define KKP R8P
+#define VARTYPE real
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_R8P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_R8P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_R8P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_R8P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_R8P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_R8P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_R8P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_R8P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_R8P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_R8P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_R8P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_R8P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_R8P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_R8P_7D
+#include "fundal_dev_assign_agnostic.INC"
+
+#define KKP R4P
+#define VARTYPE real
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_R4P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_R4P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_R4P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_R4P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_R4P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_R4P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_R4P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_R4P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_R4P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_R4P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_R4P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_R4P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_R4P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_R4P_7D
+#include "fundal_dev_assign_agnostic.INC"
+
+#define KKP I8P
+#define VARTYPE integer
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_I8P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_I8P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_I8P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_I8P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_I8P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_I8P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_I8P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_I8P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_I8P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_I8P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_I8P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_I8P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_I8P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_I8P_7D
+#include "fundal_dev_assign_agnostic.INC"
+
+#define KKP I4P
+#define VARTYPE integer
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_I4P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_I4P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_I4P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_I4P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_I4P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_I4P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_I4P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_I4P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_I4P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_I4P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_I4P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_I4P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_I4P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_I4P_7D
+#include "fundal_dev_assign_agnostic.INC"
+
+#define KKP I2P
+#define VARTYPE integer
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_I2P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_I2P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_I2P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_I2P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_I2P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_I2P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_I2P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_I2P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_I2P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_I2P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_I2P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_I2P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_I2P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_I2P_7D
+#include "fundal_dev_assign_agnostic.INC"
+
+#define KKP I1P
+#define VARTYPE integer
+#define dev_assign_from_device_KKP_1D dev_assign_from_device_I1P_1D
+#define dev_assign_from_device_KKP_2D dev_assign_from_device_I1P_2D
+#define dev_assign_from_device_KKP_3D dev_assign_from_device_I1P_3D
+#define dev_assign_from_device_KKP_4D dev_assign_from_device_I1P_4D
+#define dev_assign_from_device_KKP_5D dev_assign_from_device_I1P_5D
+#define dev_assign_from_device_KKP_6D dev_assign_from_device_I1P_6D
+#define dev_assign_from_device_KKP_7D dev_assign_from_device_I1P_7D
+#define dev_assign_to_device_KKP_1D dev_assign_to_device_I1P_1D
+#define dev_assign_to_device_KKP_2D dev_assign_to_device_I1P_2D
+#define dev_assign_to_device_KKP_3D dev_assign_to_device_I1P_3D
+#define dev_assign_to_device_KKP_4D dev_assign_to_device_I1P_4D
+#define dev_assign_to_device_KKP_5D dev_assign_to_device_I1P_5D
+#define dev_assign_to_device_KKP_6D dev_assign_to_device_I1P_6D
+#define dev_assign_to_device_KKP_7D dev_assign_to_device_I1P_7D
+#include "fundal_dev_assign_agnostic.INC"
 
    ! private procedures
-   subroutine transpose_array_R8P_2D(b1, b2, a, t)
-   !< Transpose array (kind R8P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   real(R8P),    intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   real(R8P),    intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
+#define KKP R8P
+#define VARTYPE real
+#define transpose_array_KKP_2D transpose_array_R8P_2D
+#define transpose_array_KKP_3D transpose_array_R8P_3D
+#define transpose_array_KKP_4D transpose_array_R8P_4D
+#define transpose_array_KKP_5D transpose_array_R8P_5D
+#define transpose_array_KKP_6D transpose_array_R8P_6D
+#define transpose_array_KKP_7D transpose_array_R8P_7D
+#include "fundal_transpose_array_agnostic.INC"
 
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_R8P_2D
+#define KKP R4P
+#define VARTYPE real
+#define transpose_array_KKP_2D transpose_array_R4P_2D
+#define transpose_array_KKP_3D transpose_array_R4P_3D
+#define transpose_array_KKP_4D transpose_array_R4P_4D
+#define transpose_array_KKP_5D transpose_array_R4P_5D
+#define transpose_array_KKP_6D transpose_array_R4P_6D
+#define transpose_array_KKP_7D transpose_array_R4P_7D
+#include "fundal_transpose_array_agnostic.INC"
 
-   subroutine transpose_array_R4P_2D(b1, b2, a, t)
-   !< Transpose array (kind R4P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   real(R4P),    intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   real(R4P),    intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
+#define KKP I8P
+#define VARTYPE integer
+#define transpose_array_KKP_2D transpose_array_I8P_2D
+#define transpose_array_KKP_3D transpose_array_I8P_3D
+#define transpose_array_KKP_4D transpose_array_I8P_4D
+#define transpose_array_KKP_5D transpose_array_I8P_5D
+#define transpose_array_KKP_6D transpose_array_I8P_6D
+#define transpose_array_KKP_7D transpose_array_I8P_7D
+#include "fundal_transpose_array_agnostic.INC"
 
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_R4P_2D
+#define KKP I4P
+#define VARTYPE integer
+#define transpose_array_KKP_2D transpose_array_I4P_2D
+#define transpose_array_KKP_3D transpose_array_I4P_3D
+#define transpose_array_KKP_4D transpose_array_I4P_4D
+#define transpose_array_KKP_5D transpose_array_I4P_5D
+#define transpose_array_KKP_6D transpose_array_I4P_6D
+#define transpose_array_KKP_7D transpose_array_I4P_7D
+#include "fundal_transpose_array_agnostic.INC"
 
-   subroutine transpose_array_I8P_2D(b1, b2, a, t)
-   !< Transpose array (kind I8P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   integer(I8P), intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   integer(I8P), intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
+#define KKP I2P
+#define VARTYPE integer
+#define transpose_array_KKP_2D transpose_array_I2P_2D
+#define transpose_array_KKP_3D transpose_array_I2P_3D
+#define transpose_array_KKP_4D transpose_array_I2P_4D
+#define transpose_array_KKP_5D transpose_array_I2P_5D
+#define transpose_array_KKP_6D transpose_array_I2P_6D
+#define transpose_array_KKP_7D transpose_array_I2P_7D
+#include "fundal_transpose_array_agnostic.INC"
 
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_I8P_2D
-
-   subroutine transpose_array_I4P_2D(b1, b2, a, t)
-   !< Transpose array (kind I4P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   integer(I4P), intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   integer(I4P), intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
-
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_I4P_2D
-
-   subroutine transpose_array_I2P_2D(b1, b2, a, t)
-   !< Transpose array (kind I2P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   integer(I2P), intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   integer(I2P), intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
-
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_I2P_2D
-
-   subroutine transpose_array_I1P_2D(b1, b2, a, t)
-   !< Transpose array (kind I1P, rank 2).
-   integer(I4P), intent(in)               :: b1(2), b2(2)               !< Array dimensions bounds.
-   integer(I1P), intent(in)               :: a(b1(1):b1(2),b2(1):b2(2)) !< Input array.
-   integer(I1P), intent(out), allocatable :: t(:,:)                     !< Transposed array.
-   integer(I4P)                           :: i1,i2                      !< Counter.
-
-   allocate(t(b2(1):b2(2),b1(1):b1(2)))
-   do i2=b2(1), b2(2)
-      do i1=b1(1), b1(2)
-         t(i2,i1) = a(i1,i2)
-      enddo
-   enddo
-   endsubroutine transpose_array_I1P_2D
+#define KKP I1P
+#define VARTYPE integer
+#define transpose_array_KKP_2D transpose_array_I1P_2D
+#define transpose_array_KKP_3D transpose_array_I1P_3D
+#define transpose_array_KKP_4D transpose_array_I1P_4D
+#define transpose_array_KKP_5D transpose_array_I1P_5D
+#define transpose_array_KKP_6D transpose_array_I1P_6D
+#define transpose_array_KKP_7D transpose_array_I1P_7D
+#include "fundal_transpose_array_agnostic.INC"
 endmodule fundal_dev_assign
