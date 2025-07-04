@@ -1,4 +1,4 @@
-   subroutine transpose_array_KKP_2D(b1, b2, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_2D(b1, b2, a, t)
    !< Transpose array (kind KKP, rank 2).
    integer(I4P), intent(in)               :: b1(2), b2(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):) !< Input array.
@@ -11,9 +11,9 @@
       t(i2,i1) = a(i1,i2)
    enddo
    enddo
-   endsubroutine transpose_array_KKP_2D
+   endsubroutine TRANSPOSE_ARRAY_KKP_2D
 
-   subroutine transpose_array_KKP_3D(b1, b2, b3, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_3D(b1, b2, b3, a, t)
    !< Transpose array (kind KKP, rank 3).
    integer(I4P), intent(in)               :: b1(2), b2(2), b3(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):,b3(1):) !< Input array.
@@ -28,9 +28,9 @@
    enddo
    enddo
    enddo
-   endsubroutine transpose_array_KKP_3D
+   endsubroutine TRANSPOSE_ARRAY_KKP_3D
 
-   subroutine transpose_array_KKP_4D(b1, b2, b3, b4, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_4D(b1, b2, b3, b4, a, t)
    !< Transpose array (kind KKP, rank 4).
    integer(I4P), intent(in)               :: b1(2), b2(2), b3(2), b4(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):,b3(1):,b4(1):) !< Input array.
@@ -47,9 +47,9 @@
    enddo
    enddo
    enddo
-   endsubroutine transpose_array_KKP_4D
+   endsubroutine TRANSPOSE_ARRAY_KKP_4D
 
-   subroutine transpose_array_KKP_5D(b1, b2, b3, b4, b5, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_5D(b1, b2, b3, b4, b5, a, t)
    !< Transpose array (kind KKP, rank 5).
    integer(I4P), intent(in)               :: b1(2), b2(2), b3(2), b4(2), b5(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):,b3(1):,b4(1):,b5(1):) !< Input array.
@@ -68,9 +68,9 @@
    enddo
    enddo
    enddo
-   endsubroutine transpose_array_KKP_5D
+   endsubroutine TRANSPOSE_ARRAY_KKP_5D
 
-   subroutine transpose_array_KKP_6D(b1, b2, b3, b4, b5, b6, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_6D(b1, b2, b3, b4, b5, b6, a, t)
    !< Transpose array (kind KKP, rank 6).
    integer(I4P), intent(in)               :: b1(2), b2(2), b3(2), b4(2), b5(2), b6(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):,b3(1):,b4(1):,b5(1):,b6(1):) !< Input array.
@@ -91,9 +91,9 @@
    enddo
    enddo
    enddo
-   endsubroutine transpose_array_KKP_6D
+   endsubroutine TRANSPOSE_ARRAY_KKP_6D
 
-   subroutine transpose_array_KKP_7D(b1, b2, b3, b4, b5, b6, b7, a, t)
+   subroutine TRANSPOSE_ARRAY_KKP_7D(b1, b2, b3, b4, b5, b6, b7, a, t)
    !< Transpose array (kind KKP, rank 7).
    integer(I4P), intent(in)               :: b1(2), b2(2), b3(2), b4(2), b5(2), b6(2), b7(2)     !< Array dimensions bounds.
    VARTYPE(KKP), intent(in)               :: a(b1(1):,b2(1):,b3(1):,b4(1):,b5(1):,b6(1):,b7(1):) !< Input array.
@@ -116,4 +116,4 @@
    enddo
    enddo
    enddo
-   endsubroutine transpose_array_KKP_7D
+   endsubroutine TRANSPOSE_ARRAY_KKP_7D

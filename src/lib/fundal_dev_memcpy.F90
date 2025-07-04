@@ -146,761 +146,111 @@ endinterface
 #endif
 
 contains
-   ! dev_memcpy_from_device
-   subroutine dev_memcpy_from_device_R8P_1D(dst, src)
-   !< Copy array from device, R8P kind, rank 1.
-   real(R8P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_1D
-
-   subroutine dev_memcpy_from_device_R8P_2D(dst, src)
-   !< Copy array from device, R8P kind, rank 2.
-   real(R8P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_2D
-
-   subroutine dev_memcpy_from_device_R8P_3D(dst, src)
-   !< Copy array from device, R8P kind, rank 3.
-   real(R8P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_3D
-
-   subroutine dev_memcpy_from_device_R8P_4D(dst, src)
-   !< Copy array from device, R8P kind, rank 4.
-   real(R8P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_4D
-
-   subroutine dev_memcpy_from_device_R8P_5D(dst, src)
-   !< Copy array from device, R8P kind, rank 5.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_5D
-
-   subroutine dev_memcpy_from_device_R8P_6D(dst, src)
-   !< Copy array from device, R8P kind, rank 6.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_6D
-
-   subroutine dev_memcpy_from_device_R8P_7D(dst, src)
-   !< Copy array from device, R8P kind, rank 7.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R8P_7D
-
-   subroutine dev_memcpy_from_device_R4P_1D(dst, src)
-   !< Copy array from device, R4P kind, rank 1.
-   real(R4P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_1D
-
-   subroutine dev_memcpy_from_device_R4P_2D(dst, src)
-   !< Copy array from device, R4P kind, rank 2.
-   real(R4P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_2D
-
-   subroutine dev_memcpy_from_device_R4P_3D(dst, src)
-   !< Copy array from device, R4P kind, rank 3.
-   real(R4P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_3D
-
-   subroutine dev_memcpy_from_device_R4P_4D(dst, src)
-   !< Copy array from device, R4P kind, rank 4.
-   real(R4P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_4D
-
-   subroutine dev_memcpy_from_device_R4P_5D(dst, src)
-   !< Copy array from device, R4P kind, rank 5.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_5D
-
-   subroutine dev_memcpy_from_device_R4P_6D(dst, src)
-   !< Copy array from device, R4P kind, rank 6.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_6D
-
-   subroutine dev_memcpy_from_device_R4P_7D(dst, src)
-   !< Copy array from device, R4P kind, rank 7.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                   :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_R4P_7D
-
-   subroutine dev_memcpy_from_device_I8P_1D(dst, src)
-   !< Copy array from device, I8P kind, rank 1.
-   integer(I8P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_1D
-
-   subroutine dev_memcpy_from_device_I8P_2D(dst, src)
-   !< Copy array from device, I8P kind, rank 2.
-   integer(I8P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_2D
-
-   subroutine dev_memcpy_from_device_I8P_3D(dst, src)
-   !< Copy array from device, I8P kind, rank 3.
-   integer(I8P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_3D
-
-   subroutine dev_memcpy_from_device_I8P_4D(dst, src)
-   !< Copy array from device, I8P kind, rank 4.
-   integer(I8P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_4D
-
-   subroutine dev_memcpy_from_device_I8P_5D(dst, src)
-   !< Copy array from device, I8P kind, rank 5.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_5D
-
-   subroutine dev_memcpy_from_device_I8P_6D(dst, src)
-   !< Copy array from device, I8P kind, rank 6.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_6D
-
-   subroutine dev_memcpy_from_device_I8P_7D(dst, src)
-   !< Copy array from device, I8P kind, rank 7.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I8P_7D
-
-   subroutine dev_memcpy_from_device_I4P_1D(dst, src)
-   !< Copy array from device, I4P kind, rank 1.
-   integer(I4P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_1D
-
-   subroutine dev_memcpy_from_device_I4P_2D(dst, src)
-   !< Copy array from device, I4P kind, rank 2.
-   integer(I4P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_2D
-
-   subroutine dev_memcpy_from_device_I4P_3D(dst, src)
-   !< Copy array from device, I4P kind, rank 3.
-   integer(I4P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_3D
-
-   subroutine dev_memcpy_from_device_I4P_4D(dst, src)
-   !< Copy array from device, I4P kind, rank 4.
-   integer(I4P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_4D
-
-   subroutine dev_memcpy_from_device_I4P_5D(dst, src)
-   !< Copy array from device, I4P kind, rank 5.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_5D
-
-   subroutine dev_memcpy_from_device_I4P_6D(dst, src)
-   !< Copy array from device, I4P kind, rank 6.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_6D
-
-   subroutine dev_memcpy_from_device_I4P_7D(dst, src)
-   !< Copy array from device, I4P kind, rank 7.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I4P_7D
-
-   subroutine dev_memcpy_from_device_I2P_1D(dst, src)
-   !< Copy array from device, I2P kind, rank 1.
-   integer(I2P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_1D
-
-   subroutine dev_memcpy_from_device_I2P_2D(dst, src)
-   !< Copy array from device, I2P kind, rank 2.
-   integer(I2P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_2D
-
-   subroutine dev_memcpy_from_device_I2P_3D(dst, src)
-   !< Copy array from device, I2P kind, rank 3.
-   integer(I2P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_3D
-
-   subroutine dev_memcpy_from_device_I2P_4D(dst, src)
-   !< Copy array from device, I2P kind, rank 4.
-   integer(I2P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_4D
-
-   subroutine dev_memcpy_from_device_I2P_5D(dst, src)
-   !< Copy array from device, I2P kind, rank 5.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_5D
-
-   subroutine dev_memcpy_from_device_I2P_6D(dst, src)
-   !< Copy array from device, I2P kind, rank 6.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_6D
-
-   subroutine dev_memcpy_from_device_I2P_7D(dst, src)
-   !< Copy array from device, I2P kind, rank 7.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I2P_7D
-
-   subroutine dev_memcpy_from_device_I1P_1D(dst, src)
-   !< Copy array from device, I1P kind, rank 1.
-   integer(I1P), intent(out), target :: dst(:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_1D
-
-   subroutine dev_memcpy_from_device_I1P_2D(dst, src)
-   !< Copy array from device, I1P kind, rank 2.
-   integer(I1P), intent(out), target :: dst(:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_2D
-
-   subroutine dev_memcpy_from_device_I1P_3D(dst, src)
-   !< Copy array from device, I1P kind, rank 3.
-   integer(I1P), intent(out), target :: dst(:,:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_3D
-
-   subroutine dev_memcpy_from_device_I1P_4D(dst, src)
-   !< Copy array from device, I1P kind, rank 4.
-   integer(I1P), intent(out), target :: dst(:,:,:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_4D
-
-   subroutine dev_memcpy_from_device_I1P_5D(dst, src)
-   !< Copy array from device, I1P kind, rank 5.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_5D
-
-   subroutine dev_memcpy_from_device_I1P_6D(dst, src)
-   !< Copy array from device, I1P kind, rank 6.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_6D
-
-   subroutine dev_memcpy_from_device_I1P_7D(dst, src)
-   !< Copy array from device, I1P kind, rank 7.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (host memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (device memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_FROM_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_from_device_I1P_7D
-
-   ! dev_memcpy_to_device
-   subroutine dev_memcpy_to_device_R8P_1D(dst, src)
-   !< Copy array to device, R8P kind, rank 1.
-   real(R8P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_1D
-
-   subroutine dev_memcpy_to_device_R8P_2D(dst, src)
-   !< Copy array to device, R8P kind, rank 2.
-   real(R8P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_2D
-
-   subroutine dev_memcpy_to_device_R8P_3D(dst, src)
-   !< Copy array to device, R8P kind, rank 3.
-   real(R8P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_3D
-
-   subroutine dev_memcpy_to_device_R8P_4D(dst, src)
-   !< Copy array to device, R8P kind, rank 4.
-   real(R8P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_4D
-
-   subroutine dev_memcpy_to_device_R8P_5D(dst, src)
-   !< Copy array to device, R8P kind, rank 5.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_5D
-
-   subroutine dev_memcpy_to_device_R8P_6D(dst, src)
-   !< Copy array to device, R8P kind, rank 6.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_6D
-
-   subroutine dev_memcpy_to_device_R8P_7D(dst, src)
-   !< Copy array to device, R8P kind, rank 7.
-   real(R8P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   real(R8P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R8P_7D
-
-   subroutine dev_memcpy_to_device_R4P_1D(dst, src)
-   !< Copy array to device, R4P kind, rank 1.
-   real(R4P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_1D
-
-   subroutine dev_memcpy_to_device_R4P_2D(dst, src)
-   !< Copy array to device, R4P kind, rank 2.
-   real(R4P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_2D
-
-   subroutine dev_memcpy_to_device_R4P_3D(dst, src)
-   !< Copy array to device, R4P kind, rank 3.
-   real(R4P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_3D
-
-   subroutine dev_memcpy_to_device_R4P_4D(dst, src)
-   !< Copy array to device, R4P kind, rank 4.
-   real(R4P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_4D
-
-   subroutine dev_memcpy_to_device_R4P_5D(dst, src)
-   !< Copy array to device, R4P kind, rank 5.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_5D
-
-   subroutine dev_memcpy_to_device_R4P_6D(dst, src)
-   !< Copy array to device, R4P kind, rank 6.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_6D
-
-   subroutine dev_memcpy_to_device_R4P_7D(dst, src)
-   !< Copy array to device, R4P kind, rank 7.
-   real(R4P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   real(R4P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                   :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_R4P_7D
-
-   subroutine dev_memcpy_to_device_I8P_1D(dst, src)
-   !< Copy array to device, I8P kind, rank 1.
-   integer(I8P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_1D
-
-   subroutine dev_memcpy_to_device_I8P_2D(dst, src)
-   !< Copy array to device, I8P kind, rank 2.
-   integer(I8P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_2D
-
-   subroutine dev_memcpy_to_device_I8P_3D(dst, src)
-   !< Copy array to device, I8P kind, rank 3.
-   integer(I8P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_3D
-
-   subroutine dev_memcpy_to_device_I8P_4D(dst, src)
-   !< Copy array to device, I8P kind, rank 4.
-   integer(I8P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_4D
-
-   subroutine dev_memcpy_to_device_I8P_5D(dst, src)
-   !< Copy array to device, I8P kind, rank 5.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_5D
-
-   subroutine dev_memcpy_to_device_I8P_6D(dst, src)
-   !< Copy array to device, I8P kind, rank 6.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_6D
-
-   subroutine dev_memcpy_to_device_I8P_7D(dst, src)
-   !< Copy array to device, I8P kind, rank 7.
-   integer(I8P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I8P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I8P_7D
-
-   subroutine dev_memcpy_to_device_I4P_1D(dst, src)
-   !< Copy array to device, I4P kind, rank 1.
-   integer(I4P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_1D
-
-   subroutine dev_memcpy_to_device_I4P_2D(dst, src)
-   !< Copy array to device, I4P kind, rank 2.
-   integer(I4P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_2D
-
-   subroutine dev_memcpy_to_device_I4P_3D(dst, src)
-   !< Copy array to device, I4P kind, rank 3.
-   integer(I4P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_3D
-
-   subroutine dev_memcpy_to_device_I4P_4D(dst, src)
-   !< Copy array to device, I4P kind, rank 4.
-   integer(I4P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_4D
-
-   subroutine dev_memcpy_to_device_I4P_5D(dst, src)
-   !< Copy array to device, I4P kind, rank 5.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_5D
-
-   subroutine dev_memcpy_to_device_I4P_6D(dst, src)
-   !< Copy array to device, I4P kind, rank 6.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_6D
-
-   subroutine dev_memcpy_to_device_I4P_7D(dst, src)
-   !< Copy array to device, I4P kind, rank 7.
-   integer(I4P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I4P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I4P_7D
-
-   subroutine dev_memcpy_to_device_I2P_1D(dst, src)
-   !< Copy array to device, I2P kind, rank 1.
-   integer(I2P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_1D
-
-   subroutine dev_memcpy_to_device_I2P_2D(dst, src)
-   !< Copy array to device, I2P kind, rank 2.
-   integer(I2P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_2D
-
-   subroutine dev_memcpy_to_device_I2P_3D(dst, src)
-   !< Copy array to device, I2P kind, rank 3.
-   integer(I2P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_3D
-
-   subroutine dev_memcpy_to_device_I2P_4D(dst, src)
-   !< Copy array to device, I2P kind, rank 4.
-   integer(I2P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_4D
-
-   subroutine dev_memcpy_to_device_I2P_5D(dst, src)
-   !< Copy array to device, I2P kind, rank 5.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_5D
-
-   subroutine dev_memcpy_to_device_I2P_6D(dst, src)
-   !< Copy array to device, I2P kind, rank 6.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_6D
-
-   subroutine dev_memcpy_to_device_I2P_7D(dst, src)
-   !< Copy array to device, I2P kind, rank 7.
-   integer(I2P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I2P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I2P_7D
-
-   subroutine dev_memcpy_to_device_I1P_1D(dst, src)
-   !< Copy array to device, I1P kind, rank 1.
-   integer(I1P), intent(out), target :: dst(:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr   !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_1D
-
-   subroutine dev_memcpy_to_device_I1P_2D(dst, src)
-   !< Copy array to device, I1P kind, rank 2.
-   integer(I1P), intent(out), target :: dst(:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr     !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_2D
-
-   subroutine dev_memcpy_to_device_I1P_3D(dst, src)
-   !< Copy array to device, I1P kind, rank 3.
-   integer(I1P), intent(out), target :: dst(:,:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr       !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_3D
-
-   subroutine dev_memcpy_to_device_I1P_4D(dst, src)
-   !< Copy array to device, I1P kind, rank 4.
-   integer(I1P), intent(out), target :: dst(:,:,:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr         !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_4D
-
-   subroutine dev_memcpy_to_device_I1P_5D(dst, src)
-   !< Copy array to device, I1P kind, rank 5.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr           !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_5D
-
-   subroutine dev_memcpy_to_device_I1P_6D(dst, src)
-   !< Copy array to device, I1P kind, rank 6.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr             !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_6D
-
-   subroutine dev_memcpy_to_device_I1P_7D(dst, src)
-   !< Copy array to device, I1P kind, rank 7.
-   integer(I1P), intent(out), target :: dst(:,:,:,:,:,:,:) !< Destination memory (device memory).
-   integer(I1P), intent(in),  target :: src(:,:,:,:,:,:,:) !< Source memory (host memory).
-   integer(I4P)                      :: ierr               !< Error status.
-
-   DEVMEMCPY_TO_DEVICE(dst, src, bytes)
-   endsubroutine dev_memcpy_to_device_I1P_7D
+#define KKP R8P
+#define VARTYPE real
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_R8P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_R8P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_R8P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_R8P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_R8P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_R8P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_R8P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_R8P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_R8P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_R8P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_R8P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_R8P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_R8P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_R8P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
+
+#define KKP R4P
+#define VARTYPE real
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_R4P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_R4P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_R4P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_R4P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_R4P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_R4P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_R4P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_R4P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_R4P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_R4P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_R4P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_R4P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_R4P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_R4P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
+
+#define KKP I8P
+#define VARTYPE integer
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_I8P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_I8P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_I8P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_I8P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I8P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I8P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I8P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I8P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I8P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I8P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_I8P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I8P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I8P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I8P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
+
+#define KKP I4P
+#define VARTYPE integer
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_I4P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_I4P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_I4P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_I4P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I4P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I4P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I4P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I4P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I4P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I4P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_I4P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I4P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I4P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I4P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
+
+#define KKP I2P
+#define VARTYPE integer
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_I2P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_I2P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_I2P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_I2P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I2P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I2P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I2P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I2P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I2P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I2P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_I2P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I2P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I2P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I2P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
+
+#define KKP I1P
+#define VARTYPE integer
+#define DEV_MEMCPY_FROM_DEVICE_KKP_1D dev_memcpy_from_device_I1P_1D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D dev_memcpy_from_device_I1P_2D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D dev_memcpy_from_device_I1P_3D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D dev_memcpy_from_device_I1P_4D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I1P_5D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I1P_6D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I1P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I1P_1D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I1P_2D
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I1P_3D
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D dev_memcpy_to_device_I1P_4D
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I1P_5D
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I1P_6D
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I1P_7D
+#include "fundal_dev_memcpy_agnostic.INC"
 endmodule fundal_dev_memcpy

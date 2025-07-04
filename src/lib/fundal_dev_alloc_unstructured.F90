@@ -1,32 +1,17 @@
-!< FUNDAL, memory allocation routines module.
+!< FUNDAL, memory allocation routines module, unstructured model.
 
 #include "fundal.H"
 
-#if defined DEV_OAC
-#   define DEVALLOC(b, d) acc_malloc_f(b)
-#elif defined DEV_OMP
-#   define DEVALLOC(b, d) omp_target_alloc(b, d)
-#else
-#   define DEVALLOC(b, d) malloc_f(b)
-#endif
-
-module fundal_dev_alloc
-!< FUNDAL, memory allocation routines module.
-use, intrinsic :: iso_c_binding,   only : c_size_t, c_int, c_ptr, c_associated, c_f_pointer
+module fundal_dev_alloc_unstructured
+!< FUNDAL, memory allocation routines module, unstructured model.
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
-use            :: DEVMODULE
-use            :: fundal_env
-use            :: fundal_utilities
 
 implicit none
 private
-public :: dev_alloc
-public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
+public :: dev_alloc_unstr
 
-integer(I4P), parameter :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
-
-interface dev_alloc
-   !< Allocate device memory.
+interface dev_alloc_unstr
+   !< Allocate device memory, unstructured model.
    module procedure dev_alloc_R8P_1D,&
                     dev_alloc_R8P_2D,&
                     dev_alloc_R8P_3D,&
@@ -69,29 +54,7 @@ interface dev_alloc
                     dev_alloc_I1P_5D,&
                     dev_alloc_I1P_6D,&
                     dev_alloc_I1P_7D
-endinterface dev_alloc
-
-#ifdef DEV_OAC
-interface
-   ! interface to C runtime routines
-   function acc_malloc_f(total_byte_dim) bind(c, name="acc_malloc")
-   use iso_c_binding, only : c_ptr, c_size_t
-   implicit none
-   type(c_ptr)                          :: acc_malloc_f
-   integer(c_size_t), value, intent(in) :: total_byte_dim
-   endfunction acc_malloc_f
-endinterface
-#else
-interface
-   ! interface to C runtime routines
-   function malloc_f(total_byte_dim) bind(c, name="malloc")
-   use iso_c_binding, only : c_ptr, c_size_t
-   implicit none
-   type(c_ptr)                          :: malloc_f
-   integer(c_size_t), value, intent(in) :: total_byte_dim
-   endfunction malloc_f
-endinterface
-#endif
+endinterface dev_alloc_unstr
 
 contains
 #define KKP R8P
@@ -103,7 +66,7 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_R8P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_R8P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_R8P_7D
-#include "fundal_dev_alloc_agnostic.INC"
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
 
 #define KKP R4P
 #define VARTYPE real
@@ -114,7 +77,7 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_R4P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_R4P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_R4P_7D
-#include "fundal_dev_alloc_agnostic.INC"
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
 
 #define KKP I8P
 #define VARTYPE integer
@@ -125,7 +88,7 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_I8P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_I8P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_I8P_7D
-#include "fundal_dev_alloc_agnostic.INC"
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
 
 #define KKP I4P
 #define VARTYPE integer
@@ -136,7 +99,7 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_I4P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_I4P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_I4P_7D
-#include "fundal_dev_alloc_agnostic.INC"
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
 
 #define KKP I2P
 #define VARTYPE integer
@@ -147,7 +110,7 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_I2P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_I2P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_I2P_7D
-#include "fundal_dev_alloc_agnostic.INC"
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
 
 #define KKP I1P
 #define VARTYPE integer
@@ -158,5 +121,5 @@ contains
 #define DEV_ALLOC_KKP_5D dev_alloc_I1P_5D
 #define DEV_ALLOC_KKP_6D dev_alloc_I1P_6D
 #define DEV_ALLOC_KKP_7D dev_alloc_I1P_7D
-#include "fundal_dev_alloc_agnostic.INC"
-endmodule fundal_dev_alloc
+#include "fundal_dev_alloc_unstructured_agnostic.INC"
+endmodule fundal_dev_alloc_unstructured
