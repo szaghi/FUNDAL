@@ -116,8 +116,8 @@ contains
    !< Initialize device.
    integer(I4P), intent(in), optional :: local_rank !< Local rank in multi-processes split ID.
 
-   call acc_init(devtype)
    devtype = dev_get_device_type()
+   call acc_init(devtype)
    devs_number = dev_get_num_devices()
    if (present(local_rank)) then
       mydev = mod(local_rank, devs_number)
