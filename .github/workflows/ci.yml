@@ -20,10 +20,5 @@ jobs:
     - name: Setup build environment
       uses: ./.github/actions/setup-build-env
 
-    - name: Run tests with coverage
-      run: FoBiS.py rule -ex makecoverage
-
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Build and run tests
+      run: FoBiS.py rule -ex build-run-tests-oac-gnu
