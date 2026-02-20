@@ -1,4 +1,9 @@
 # Changelog
+## [v1.0.4](https://github.com/szaghi/FLAP/tree/v1.0.4) (2026-02-20)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.3...v1.0.4)
+### CI/CD
+- Switch to official github pages actions deployment ([`8442804`](https://github.com/szaghi/FLAP/commit/8442804c3db11722dd214d5304b4fb0c11ccadd5))
+
 ## [v1.0.3](https://github.com/szaghi/FLAP/tree/v1.0.3) (2026-02-20)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.2...v1.0.3)
 ### CI/CD
