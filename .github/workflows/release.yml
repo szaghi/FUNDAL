@@ -10,7 +10,9 @@ jobs:
     uses: ./.github/workflows/docs.yml
     secrets: inherit
     permissions:
-      contents: write
+      contents: read
+      pages: write
+      id-token: write
 
   release:
     needs: [docs]

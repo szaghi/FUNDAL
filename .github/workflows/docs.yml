@@ -8,10 +8,8 @@ on:
 
 jobs:
 
-  deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
 
@@ -35,8 +33,23 @@ jobs:
         formal generate --mirror-sources --diagrams --project docs/ford.md --output docs/api
         cd docs && npm ci && npm run docs:build
 
-    - name: Deploy docs to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+    - name: Upload pages artifact
+      uses: actions/upload-pages-artifact@v3
       with:
-        branch: gh-pages
-        folder: docs/.vitepress/dist
+        path: docs/.vitepress/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
