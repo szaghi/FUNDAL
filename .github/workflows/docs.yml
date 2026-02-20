@@ -2,20 +2,13 @@ name: Docs
 
 on:
   push:
-    branches: ["master"]
+    branches: ["main"]
   workflow_dispatch:
   workflow_call:
 
 jobs:
 
-  coverage:
-    uses: ./.github/workflows/coverage-analysis.yml
-    secrets: inherit
-    permissions:
-      contents: read
-
   deploy:
-    needs: [coverage]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -26,12 +19,6 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: 'true'
-
-    - name: Download coverage analysis report
-      uses: actions/download-artifact@v4
-      with:
-        name: coverage-analysis-report
-        path: docs/guide/
 
     - name: Setup build environment
       uses: ./.github/actions/setup-build-env
