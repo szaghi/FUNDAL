@@ -1,4 +1,9 @@
 # Changelog
+## [v1.0.2](https://github.com/szaghi/FLAP/tree/v1.0.2) (2026-02-20)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.1...v1.0.2)
+### CI/CD
+- Remove coverage analysis workflow and simplify CI pipeline ([`61f1d18`](https://github.com/szaghi/FLAP/commit/61f1d181c13218475e7ab49ecd09e5b6230534a7))
+
 ## [v1.0.1](https://github.com/szaghi/FLAP/tree/v1.0.1) (2026-02-20)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.0-alpha...v1.0.1)
 ### Bug fixes
