@@ -1,5 +1,6 @@
 # Changelog
-## [Unreleased]
+## [v1.0.1](https://github.com/szaghi/FLAP/tree/v1.0.1) (2026-02-20)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.0-alpha...v1.0.1)
 ### Bug fixes
 - Correct bug in device initialization ([`1b9e302`](https://github.com/szaghi/FLAP/commit/1b9e302a0ad4829eadeca3954efde0a485f06d4a))
 - Bug fix in dev_init ([`87124a8`](https://github.com/szaghi/FLAP/commit/87124a8429723c04128ee95b541514769dda539b))
@@ -27,6 +28,7 @@
 - Support transposed assign ([`bf7d7f3`](https://github.com/szaghi/FLAP/commit/bf7d7f351a8a5decfaac40a7336ba2b8e29b2c4b))
 - Add routine to save device memory status ([`c857163`](https://github.com/szaghi/FLAP/commit/c85716394743165fd407a423c1b60fe11be04361))
 - Add makefile to build static library (with only NVF) ([`32ea531`](https://github.com/szaghi/FLAP/commit/32ea5314433960e2f5e070ad9ff3f98e690f7de3))
+- Add CI pipelines, VitePress docs site, and release tooling ([`eb42cf9`](https://github.com/szaghi/FLAP/commit/eb42cf922f8ccbf4d34f6caae82161d717212dd8))
 
 ### Refactoring
 - Refactor mpi handler object for adam ([`5a6c0d9`](https://github.com/szaghi/FLAP/commit/5a6c0d93aee7e7c251b6283c710129c7ddd30c0e))
