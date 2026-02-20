@@ -1,4 +1,9 @@
 # Changelog
+## [v1.0.3](https://github.com/szaghi/FLAP/tree/v1.0.3) (2026-02-20)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.2...v1.0.3)
+### CI/CD
+- Fix broken docs deployment workflow ([`0fd44ca`](https://github.com/szaghi/FLAP/commit/0fd44ca1b14a0b1aaca35d9006e85c71404b1d21))
+
 ## [v1.0.2](https://github.com/szaghi/FLAP/tree/v1.0.2) (2026-02-20)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.1...v1.0.2)
 ### CI/CD
