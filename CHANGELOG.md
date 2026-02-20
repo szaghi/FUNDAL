@@ -1,4 +1,9 @@
 # Changelog
+## [v1.0.5](https://github.com/szaghi/FLAP/tree/v1.0.5) (2026-02-20)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.4...v1.0.5)
+### Documentation
+- Update Giacomo Rossi's email to AMD address ([`c1aa19e`](https://github.com/szaghi/FLAP/commit/c1aa19ee2132d9c0ccb648fc29feba8263824bce))
+
 ## [v1.0.4](https://github.com/szaghi/FLAP/tree/v1.0.4) (2026-02-20)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.3...v1.0.4)
 ### CI/CD
