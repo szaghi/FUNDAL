@@ -18,7 +18,7 @@ OpenACC and OpenMP both offer runtime routines for device memory management (all
 ## Authors
 
 - Stefano Zaghi — [stefano.zaghi@cnr.it](mailto:stefano.zaghi@cnr.it)
-- Giacomo Rossi — [giacomo.rossi@intel.com](mailto:giacomo.rossi@intel.com)
+- Giacomo Rossi — [giacomo.rossi@amd.com](mailto:giacomo.rossi@amd.com)
 - Andrea di Mascio — [andrea.dimascio@univaq.it](mailto:andrea.dimascio@univaq.it)
 - Francesco Salvadore — [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
 
