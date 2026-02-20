@@ -1,2 +1,5 @@
 exe/
-building-errors.log
+# VitePress
+docs/node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
