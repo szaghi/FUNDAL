@@ -1,4 +1,9 @@
 # Changelog
+## [v1.0.6](https://github.com/szaghi/FLAP/tree/v1.0.6) (2026-03-02)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.5...v1.0.6)
+### New features
+- Add coverage analysis, install script, and project polish ([`1edd81a`](https://github.com/szaghi/FLAP/commit/1edd81a293ad5552be5ee23273daae57d205bc00))
+
 ## [v1.0.5](https://github.com/szaghi/FLAP/tree/v1.0.5) (2026-02-20)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.4...v1.0.5)
 ### Documentation
