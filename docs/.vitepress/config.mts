@@ -27,8 +27,9 @@ export default withMermaid({
           { text: 'Installation',   link: '/guide/installation' },
           { text: 'Usage',          link: '/guide/usage' },
           { text: 'API Reference',  link: '/guide/api-reference' },
-          { text: 'Contributing',   link: '/guide/contributing' },
-          { text: 'Changelog',      link: '/guide/changelog' },
+          { text: 'Contributing',      link: '/guide/contributing' },
+          { text: 'Changelog',         link: '/guide/changelog' },
+          { text: 'Coverage Analysis', link: '/guide/coverage-analysis' },
         ],
       },
       { text: 'Standards', link: '/standards' },
@@ -55,8 +56,9 @@ export default withMermaid({
         {
           text: 'Project',
           items: [
-            { text: 'Contributing', link: '/guide/contributing' },
-            { text: 'Changelog',    link: '/guide/changelog' },
+            { text: 'Contributing',      link: '/guide/contributing' },
+            { text: 'Changelog',         link: '/guide/changelog' },
+            { text: 'Coverage Analysis', link: '/guide/coverage-analysis' },
           ],
         },
       ],

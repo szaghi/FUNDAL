@@ -1,3 +1,12 @@
+[project]
+name       = FiNeR
+version    = VERSION
+summary    = Fortran UNified Device Acceleration Library
+repository = https://github.com/szaghi/FUNDAL
+website    = https://szaghi.github.io/FUNDAL
+email      = stefano.zaghi@gmail.it
+authors    = Stefano Zaghi
+
 [modes]
 modes = fundal-test-nvf
         fundal-test-oac-nvf
@@ -308,3 +317,30 @@ rule_2 = cd docs && npm ci && npm run docs:build
 [rule-deldoc]
 help = Delete documentation build artifacts
 rule = rm -rf docs/.vitepress/dist/ docs/.vitepress/cache/ docs/api/
+
+[rule-delexe]
+help = Delete exes
+rule = rm -rf exe/
+
+[rule-clean]
+help = Clean the project tree
+rule_1 = FoBiS.py rule -ex deldoc
+rule_2 = FoBiS.py rule -ex delexe
+rule_3 = rm -f *.gcov
+
+[rule-maketar]
+help = Make tar archive of the project
+rule = tar --xform="s%^%FUNDAL/%" -czf FiNeR.tar.gz *
+
+[rule-makecoverage]
+help   = Perform coverage analysis
+rule_1 = FoBiS.py rule -ex delexe
+rule_2 = FoBiS.py build -mode fundal-test-oac-gnu -coverage
+rule_3 = FoBiS.py rule -ex run-tests
+rule_4 = ./scripts/compute-coverage.sh
+
+[rule-makecoverage-analysis]
+help   = Perform coverage analysis and saving reports in markdown
+rule_1 = FoBiS.py rule -ex makecoverage
+rule_2 = FoBiS.py rule -gcov_analyzer docs/guide/ coverage-analysis
+rule_3 = rm -f *.gcov

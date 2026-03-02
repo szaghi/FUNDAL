@@ -1,24 +1,20 @@
 # FUNDAL
 
-**Fortran UNified Device Acceleration Library** — a pure Fortran library providing a unified API for GPU/device memory management over OpenACC and OpenMP backends.
+>#### Fortran UNified Device Acceleration Library
+>a pure Fortran library providing a unified API for GPU/device memory management over OpenACC and OpenMP backends.
 
 [![GitHub tag](https://img.shields.io/github/tag/szaghi/FUNDAL.svg)](https://github.com/szaghi/FUNDAL/releases)
 [![GitHub issues](https://img.shields.io/github/issues/szaghi/FUNDAL.svg)](https://github.com/szaghi/FUNDAL/issues)
+[![CI](https://github.com/szaghi/FUNDAL/actions/workflows/ci.yml/badge.svg)](https://github.com/szaghi/FUNDAL/actions/workflows/ci.yml)
+[![Coverage](https://img.shields.io/codecov/c/github/szaghi/FUNDAL.svg)](https://app.codecov.io/gh/szaghi/FUNDAL)
 [![License](https://img.shields.io/badge/license-GPLv3%20%7C%20BSD%20%7C%20MIT-blue.svg)](#copyrights)
 
----
+| 🔀 **Unified API**<br>OpenACC or OpenMP backend selected at compile time — no conditional code in user programs | 🧱 **Structured memory**<br>Device-only `pointer` arrays via `dev_alloc`, `dev_free`, `dev_memcpy_*` | 📦 **Unstructured memory**<br>Host `allocatable` arrays mapped to the device via `dev_alloc_unstr` | 🔄 **Assignment-style copy**<br>`dev_assign_to/from_device` with automatic reallocation on size change |
+|:---:|:---:|:---:|:---:|
+| 🖥️ **Device handling**<br>Query device type, ID, count, memory, and properties | 🌐 **MPI multi-device**<br>`mpih_object` class for multi-GPU parallel scenarios | 📐 **Full rank & kind coverage**<br>Array ranks 1–7; numeric kinds R8P, R4P, I8P, I4P, I2P, I1P | 🏗️ **Multiple build systems**<br>FoBiS, make |
 
-## Features
-
-- Unified API for both OpenACC and OpenMP backends — backend selected at compile time, no conditional code in user programs
-- Structured model: device-only memory as Fortran `pointer` arrays (`dev_alloc`, `dev_free`, `dev_memcpy_*`)
-- Unstructured model: host `allocatable` arrays mapped onto the device (`dev_alloc_unstr`, `dev_free_unstr`, `dev_memcpy_*_unstr`)
-- Assignment-style copy with automatic reallocation on size change (`dev_assign_to_device`, `dev_assign_from_device`)
-- Device handling: query type, ID, count, memory, and properties
-- MPI multi-device support via the `mpih_object` class
-- Arrays of any rank (1–7) and numeric kind (R8P, R4P, I8P, I4P, I2P, I1P)
-
-**[Documentation](https://szaghi.github.io/FUNDAL/)** | **[API Reference](https://szaghi.github.io/FUNDAL/guide/api-reference)**
+>#### [Documentation](https://szaghi.github.io/FUNDAL/)
+> For full documentation (guide, API reference, examples, etc...) see the [FUNDAL website](https://szaghi.github.io/FUNDAL/).
 
 ---
 
@@ -29,7 +25,7 @@
 - Andrea di Mascio — [andrea.dimascio@univaq.it](mailto:andrea.dimascio@univaq.it)
 - Francesco Salvadore — [f.salvadore@cineca.it](mailto:f.salvadore@cineca.it)
 
-Contributions are welcome — see the [Usage](https://szaghi.github.io/FUNDAL/guide/usage) page.
+Contributions are welcome — see the [Contributing](https://szaghi.github.io/FUNDAL/guide/contributing) page.
 
 ## Copyrights
 
@@ -43,8 +39,6 @@ This project is distributed under a multi-licensing system:
 ---
 
 ## Quick start
-
-Allocate device memory, copy data to the GPU, run a kernel, copy back:
 
 ```fortran
 program fundal_taste
@@ -77,31 +71,37 @@ call dev_free(a_dev)
 endprogram fundal_taste
 ```
 
-Device memory must be declared as `pointer`; host memory can be `pointer` or `allocatable`. OpenACC and OpenMP pragmas coexist safely — unrecognised directives are ignored by the compiler.
+See [`src/tests/`](src/tests/) for more examples including MPI multi-device and unstructured memory patterns.
 
 ---
 
 ## Install
 
-```sh
-git clone https://github.com/szaghi/FUNDAL.git
-cd FUNDAL
+### FoBiS
+
+```bash
+git clone https://github.com/szaghi/FUNDAL && cd FUNDAL
+FoBiS.py build -mode fundal-test-oac-nvf   # NVIDIA nvfortran + OpenACC
+FoBiS.py build -mode fundal-test-omp-ifx   # Intel IFX + OpenMP
+FoBiS.py build -mode fundal-test-oac-gnu   # GNU gfortran + OpenACC (partial)
+FoBiS.py build -mode fundal-test-omp-amd   # AMD Flang + OpenMP
 ```
-
-Build with [FoBiS.py](https://github.com/szaghi/FoBiS):
-
-| Compiler | Backend | Build mode |
-|----------|---------|------------|
-| NVIDIA nvfortran ≥ 12.3 | OpenACC | `FoBiS.py build -mode fundal-test-oac-nvf` |
-| Intel IFX ≥ 2024.0.2 | OpenMP | `FoBiS.py build -mode fundal-test-omp-ifx` |
-| GNU gfortran ≥ 13.1 | OpenACC (partial) | `FoBiS.py build -mode fundal-test-oac-gnu` |
-| AMD Flang | OpenMP | `FoBiS.py build -mode fundal-test-omp-amd` |
 
 Run all tests:
 
-```sh
+```bash
 utils/run_tests.sh
-# or: FoBiS.py rule -ex build-run-tests-oac-nvf
 ```
 
 Each test prints `test passed` on success.
+
+### install.sh
+
+Download and build in one step using the bundled install script from the latest release:
+
+```bash
+wget $(curl -s https://api.github.com/repos/szaghi/FUNDAL/releases/latest \
+  | jq -r '.assets[] | select(.name | test("install.sh";"i")) | .browser_download_url')
+chmod +x install.sh
+./install.sh --download wget --build fobis
+```
