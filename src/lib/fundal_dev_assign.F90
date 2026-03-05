@@ -58,7 +58,43 @@ interface dev_assign_from_device
                     dev_assign_from_device_I1P_4D,&
                     dev_assign_from_device_I1P_5D,&
                     dev_assign_from_device_I1P_6D,&
-                    dev_assign_from_device_I1P_7D
+                    dev_assign_from_device_I1P_7D,&
+                    dev_assign_from_device_R8P_2D_T,&
+                    dev_assign_from_device_R8P_3D_T,&
+                    dev_assign_from_device_R8P_4D_T,&
+                    dev_assign_from_device_R8P_5D_T,&
+                    dev_assign_from_device_R8P_6D_T,&
+                    dev_assign_from_device_R8P_7D_T,&
+                    dev_assign_from_device_R4P_2D_T,&
+                    dev_assign_from_device_R4P_3D_T,&
+                    dev_assign_from_device_R4P_4D_T,&
+                    dev_assign_from_device_R4P_5D_T,&
+                    dev_assign_from_device_R4P_6D_T,&
+                    dev_assign_from_device_R4P_7D_T,&
+                    dev_assign_from_device_I8P_2D_T,&
+                    dev_assign_from_device_I8P_3D_T,&
+                    dev_assign_from_device_I8P_4D_T,&
+                    dev_assign_from_device_I8P_5D_T,&
+                    dev_assign_from_device_I8P_6D_T,&
+                    dev_assign_from_device_I8P_7D_T,&
+                    dev_assign_from_device_I4P_2D_T,&
+                    dev_assign_from_device_I4P_3D_T,&
+                    dev_assign_from_device_I4P_4D_T,&
+                    dev_assign_from_device_I4P_5D_T,&
+                    dev_assign_from_device_I4P_6D_T,&
+                    dev_assign_from_device_I4P_7D_T,&
+                    dev_assign_from_device_I2P_2D_T,&
+                    dev_assign_from_device_I2P_3D_T,&
+                    dev_assign_from_device_I2P_4D_T,&
+                    dev_assign_from_device_I2P_5D_T,&
+                    dev_assign_from_device_I2P_6D_T,&
+                    dev_assign_from_device_I2P_7D_T,&
+                    dev_assign_from_device_I1P_2D_T,&
+                    dev_assign_from_device_I1P_3D_T,&
+                    dev_assign_from_device_I1P_4D_T,&
+                    dev_assign_from_device_I1P_5D_T,&
+                    dev_assign_from_device_I1P_6D_T,&
+                    dev_assign_from_device_I1P_7D_T
 endinterface dev_assign_from_device
 
 interface dev_assign_to_device
@@ -105,7 +141,43 @@ interface dev_assign_to_device
                     dev_assign_to_device_I1P_4D,&
                     dev_assign_to_device_I1P_5D,&
                     dev_assign_to_device_I1P_6D,&
-                    dev_assign_to_device_I1P_7D
+                    dev_assign_to_device_I1P_7D,&
+                    dev_assign_to_device_R8P_2D_T,&
+                    dev_assign_to_device_R8P_3D_T,&
+                    dev_assign_to_device_R8P_4D_T,&
+                    dev_assign_to_device_R8P_5D_T,&
+                    dev_assign_to_device_R8P_6D_T,&
+                    dev_assign_to_device_R8P_7D_T,&
+                    dev_assign_to_device_R4P_2D_T,&
+                    dev_assign_to_device_R4P_3D_T,&
+                    dev_assign_to_device_R4P_4D_T,&
+                    dev_assign_to_device_R4P_5D_T,&
+                    dev_assign_to_device_R4P_6D_T,&
+                    dev_assign_to_device_R4P_7D_T,&
+                    dev_assign_to_device_I8P_2D_T,&
+                    dev_assign_to_device_I8P_3D_T,&
+                    dev_assign_to_device_I8P_4D_T,&
+                    dev_assign_to_device_I8P_5D_T,&
+                    dev_assign_to_device_I8P_6D_T,&
+                    dev_assign_to_device_I8P_7D_T,&
+                    dev_assign_to_device_I4P_2D_T,&
+                    dev_assign_to_device_I4P_3D_T,&
+                    dev_assign_to_device_I4P_4D_T,&
+                    dev_assign_to_device_I4P_5D_T,&
+                    dev_assign_to_device_I4P_6D_T,&
+                    dev_assign_to_device_I4P_7D_T,&
+                    dev_assign_to_device_I2P_2D_T,&
+                    dev_assign_to_device_I2P_3D_T,&
+                    dev_assign_to_device_I2P_4D_T,&
+                    dev_assign_to_device_I2P_5D_T,&
+                    dev_assign_to_device_I2P_6D_T,&
+                    dev_assign_to_device_I2P_7D_T,&
+                    dev_assign_to_device_I1P_2D_T,&
+                    dev_assign_to_device_I1P_3D_T,&
+                    dev_assign_to_device_I1P_4D_T,&
+                    dev_assign_to_device_I1P_5D_T,&
+                    dev_assign_to_device_I1P_6D_T,&
+                    dev_assign_to_device_I1P_7D_T
 endinterface dev_assign_to_device
 
 interface transpose_array
@@ -158,6 +230,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_R8P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_R8P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_R8P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_R8P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_R8P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_R8P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_R8P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_R8P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_R8P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_R8P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_R8P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_R8P_3D
@@ -165,6 +243,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_R8P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_R8P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_R8P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_R8P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_R8P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_R8P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_R8P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_R8P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_R8P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
 #define KKP R4P
@@ -176,6 +260,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_R4P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_R4P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_R4P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_R4P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_R4P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_R4P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_R4P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_R4P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_R4P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_R4P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_R4P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_R4P_3D
@@ -183,6 +273,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_R4P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_R4P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_R4P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_R4P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_R4P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_R4P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_R4P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_R4P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_R4P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
 #define KKP I8P
@@ -194,6 +290,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_I8P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_I8P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_I8P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_I8P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_I8P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_I8P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_I8P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_I8P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_I8P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_I8P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_I8P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_I8P_3D
@@ -201,6 +303,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_I8P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_I8P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_I8P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_I8P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_I8P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_I8P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_I8P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_I8P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_I8P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
 #define KKP I4P
@@ -212,6 +320,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_I4P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_I4P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_I4P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_I4P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_I4P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_I4P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_I4P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_I4P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_I4P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_I4P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_I4P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_I4P_3D
@@ -219,6 +333,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_I4P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_I4P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_I4P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_I4P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_I4P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_I4P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_I4P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_I4P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_I4P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
 #define KKP I2P
@@ -230,6 +350,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_I2P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_I2P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_I2P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_I2P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_I2P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_I2P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_I2P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_I2P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_I2P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_I2P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_I2P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_I2P_3D
@@ -237,6 +363,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_I2P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_I2P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_I2P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_I2P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_I2P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_I2P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_I2P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_I2P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_I2P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
 #define KKP I1P
@@ -248,6 +380,12 @@ contains
 #define DEV_ASSIGN_FROM_DEVICE_KKP_5D dev_assign_from_device_I1P_5D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_6D dev_assign_from_device_I1P_6D
 #define DEV_ASSIGN_FROM_DEVICE_KKP_7D dev_assign_from_device_I1P_7D
+#define DEV_ASSIGN_FROM_DEVICE_KKP_2D_T dev_assign_from_device_I1P_2D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_3D_T dev_assign_from_device_I1P_3D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_4D_T dev_assign_from_device_I1P_4D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_5D_T dev_assign_from_device_I1P_5D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_6D_T dev_assign_from_device_I1P_6D_T
+#define DEV_ASSIGN_FROM_DEVICE_KKP_7D_T dev_assign_from_device_I1P_7D_T
 #define DEV_ASSIGN_TO_DEVICE_KKP_1D dev_assign_to_device_I1P_1D
 #define DEV_ASSIGN_TO_DEVICE_KKP_2D dev_assign_to_device_I1P_2D
 #define DEV_ASSIGN_TO_DEVICE_KKP_3D dev_assign_to_device_I1P_3D
@@ -255,6 +393,12 @@ contains
 #define DEV_ASSIGN_TO_DEVICE_KKP_5D dev_assign_to_device_I1P_5D
 #define DEV_ASSIGN_TO_DEVICE_KKP_6D dev_assign_to_device_I1P_6D
 #define DEV_ASSIGN_TO_DEVICE_KKP_7D dev_assign_to_device_I1P_7D
+#define DEV_ASSIGN_TO_DEVICE_KKP_2D_T dev_assign_to_device_I1P_2D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_3D_T dev_assign_to_device_I1P_3D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_4D_T dev_assign_to_device_I1P_4D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_5D_T dev_assign_to_device_I1P_5D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_6D_T dev_assign_to_device_I1P_6D_T
+#define DEV_ASSIGN_TO_DEVICE_KKP_7D_T dev_assign_to_device_I1P_7D_T
 #include "fundal_dev_assign_agnostic.INC"
 
    ! private procedures
@@ -267,6 +411,12 @@ contains
 #define TRANSPOSE_ARRAY_KKP_6D transpose_array_R8P_6D
 #define TRANSPOSE_ARRAY_KKP_7D transpose_array_R8P_7D
 #include "fundal_transpose_array_agnostic.INC"
+#undef TRANSPOSE_ARRAY_KKP_2D
+#undef TRANSPOSE_ARRAY_KKP_3D
+#undef TRANSPOSE_ARRAY_KKP_4D
+#undef TRANSPOSE_ARRAY_KKP_5D
+#undef TRANSPOSE_ARRAY_KKP_6D
+#undef TRANSPOSE_ARRAY_KKP_7D
 
 #define KKP R4P
 #define VARTYPE real
@@ -277,6 +427,12 @@ contains
 #define TRANSPOSE_ARRAY_KKP_6D transpose_array_R4P_6D
 #define TRANSPOSE_ARRAY_KKP_7D transpose_array_R4P_7D
 #include "fundal_transpose_array_agnostic.INC"
+#undef TRANSPOSE_ARRAY_KKP_2D
+#undef TRANSPOSE_ARRAY_KKP_3D
+#undef TRANSPOSE_ARRAY_KKP_4D
+#undef TRANSPOSE_ARRAY_KKP_5D
+#undef TRANSPOSE_ARRAY_KKP_6D
+#undef TRANSPOSE_ARRAY_KKP_7D
 
 #define KKP I8P
 #define VARTYPE integer
@@ -287,6 +443,12 @@ contains
 #define TRANSPOSE_ARRAY_KKP_6D transpose_array_I8P_6D
 #define TRANSPOSE_ARRAY_KKP_7D transpose_array_I8P_7D
 #include "fundal_transpose_array_agnostic.INC"
+#undef TRANSPOSE_ARRAY_KKP_2D
+#undef TRANSPOSE_ARRAY_KKP_3D
+#undef TRANSPOSE_ARRAY_KKP_4D
+#undef TRANSPOSE_ARRAY_KKP_5D
+#undef TRANSPOSE_ARRAY_KKP_6D
+#undef TRANSPOSE_ARRAY_KKP_7D
 
 #define KKP I4P
 #define VARTYPE integer
@@ -297,6 +459,12 @@ contains
 #define TRANSPOSE_ARRAY_KKP_6D transpose_array_I4P_6D
 #define TRANSPOSE_ARRAY_KKP_7D transpose_array_I4P_7D
 #include "fundal_transpose_array_agnostic.INC"
+#undef TRANSPOSE_ARRAY_KKP_2D
+#undef TRANSPOSE_ARRAY_KKP_3D
+#undef TRANSPOSE_ARRAY_KKP_4D
+#undef TRANSPOSE_ARRAY_KKP_5D
+#undef TRANSPOSE_ARRAY_KKP_6D
+#undef TRANSPOSE_ARRAY_KKP_7D
 
 #define KKP I2P
 #define VARTYPE integer
@@ -307,6 +475,12 @@ contains
 #define TRANSPOSE_ARRAY_KKP_6D transpose_array_I2P_6D
 #define TRANSPOSE_ARRAY_KKP_7D transpose_array_I2P_7D
 #include "fundal_transpose_array_agnostic.INC"
+#undef TRANSPOSE_ARRAY_KKP_2D
+#undef TRANSPOSE_ARRAY_KKP_3D
+#undef TRANSPOSE_ARRAY_KKP_4D
+#undef TRANSPOSE_ARRAY_KKP_5D
+#undef TRANSPOSE_ARRAY_KKP_6D
+#undef TRANSPOSE_ARRAY_KKP_7D
 
 #define KKP I1P
 #define VARTYPE integer

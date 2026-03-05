@@ -227,7 +227,7 @@ openmp_offload = True
 # aux rules
 [rule-run-tests]
 help   = Run all tests
-rule_1 = utils/run_tests.sh
+rule_1 = scripts/run_tests.sh
 
 [rule-build-run-tests-oac-nvf]
 help   = Build and Run all tests with OpenACC-NVF

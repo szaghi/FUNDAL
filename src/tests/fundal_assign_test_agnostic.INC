@@ -213,12 +213,12 @@
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    ! assign transposed host memory to device one
    print '(A)', '    assign transposed memory to device'
-   call dev_assign_to_device(src=a2, dst=a2_dev, transposed=.true.)
-   call dev_assign_to_device(src=a3, dst=a3_dev, transposed=.true.)
-   call dev_assign_to_device(src=a4, dst=a4_dev, transposed=.true.)
-   call dev_assign_to_device(src=a5, dst=a5_dev, transposed=.true.)
-   call dev_assign_to_device(src=a6, dst=a6_dev, transposed=.true.)
-   call dev_assign_to_device(src=a7, dst=a7_dev, transposed=.true.)
+   call dev_assign_to_device(src=a2, dst=a2_dev, ij=[1,2])
+   call dev_assign_to_device(src=a3, dst=a3_dev, ij=[1,3])
+   call dev_assign_to_device(src=a4, dst=a4_dev, ij=[1,4])
+   call dev_assign_to_device(src=a5, dst=a5_dev, ij=[1,5])
+   call dev_assign_to_device(src=a6, dst=a6_dev, ij=[1,6])
+   call dev_assign_to_device(src=a7, dst=a7_dev, ij=[1,7])
    call dev_assign_from_device(src=a2_dev, dst=b2)
    call dev_assign_from_device(src=a3_dev, dst=b3)
    call dev_assign_from_device(src=a4_dev, dst=b4)
@@ -246,12 +246,12 @@
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    ! assign transposed device memory to host one
    print '(A)', '    assign transposed memory from device'
-   call dev_assign_from_device(src=a2_dev, dst=b2, transposed=.true.)
-   call dev_assign_from_device(src=a3_dev, dst=b3, transposed=.true.)
-   call dev_assign_from_device(src=a4_dev, dst=b4, transposed=.true.)
-   call dev_assign_from_device(src=a5_dev, dst=b5, transposed=.true.)
-   call dev_assign_from_device(src=a6_dev, dst=b6, transposed=.true.)
-   call dev_assign_from_device(src=a7_dev, dst=b7, transposed=.true.)
+   call dev_assign_from_device(src=a2_dev, dst=b2, ij=[1,2])
+   call dev_assign_from_device(src=a3_dev, dst=b3, ij=[1,3])
+   call dev_assign_from_device(src=a4_dev, dst=b4, ij=[1,4])
+   call dev_assign_from_device(src=a5_dev, dst=b5, ij=[1,5])
+   call dev_assign_from_device(src=a6_dev, dst=b6, ij=[1,6])
+   call dev_assign_from_device(src=a7_dev, dst=b7, ij=[1,7])
    print '(A)', '    chek transposed results'
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - i1,I4P) /= 0_I4P) call error_print(1_I4P,'assign a2_dev transposed failed')
