@@ -1,4 +1,9 @@
 # Changelog
+## [v2.0.0](https://github.com/szaghi/FLAP/tree/v2.0.0) (2026-03-05)
+[Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.6...v2.0.0)
+### New features
+- Add general transposed device-to-host assign variants ([`08672d4`](https://github.com/szaghi/FLAP/commit/08672d4e60a75e46b3d54993598c39adf067e092))
+
 ## [v1.0.6](https://github.com/szaghi/FLAP/tree/v1.0.6) (2026-03-02)
 [Full Changelog](https://github.com/szaghi/FLAP/compare/v1.0.5...v1.0.6)
 ### New features
