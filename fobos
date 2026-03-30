@@ -297,6 +297,16 @@ rule_1 = FoBiS.py clean
 rule_2 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
 rule_4 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
 
+[rule-build-assign-lb-oac-nvf]
+help   = Build assign with lower-bounds-passed test with OpenACC-NVF
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/fundal_assign_lb_test.F90 -s src/
+
+[rule-build-memcpy-tra-oac-nvf]
+help   = Build memcpy transposed test with OpenACC-NVF
+rule_1 = FoBiS.py clean
+rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/fundal_memcpy_transposed_test.F90 -s src/
+
 [rule-build-compilers-proofs-oac-nvf]
 help   = Build compilers proofs test with OpenACC-NVF
 rule_1 = FoBiS.py clean

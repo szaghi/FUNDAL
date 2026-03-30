@@ -21,6 +21,7 @@ use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P
 use            :: DEVMODULE
 use            :: fundal_env,      only : mydev, myhos
 use            :: fundal_utilities
+use            :: fundal_transpose_array
 
 implicit none
 private
@@ -76,7 +77,43 @@ interface dev_memcpy_from_device
                     dev_memcpy_from_device_I1P_4D,&
                     dev_memcpy_from_device_I1P_5D,&
                     dev_memcpy_from_device_I1P_6D,&
-                    dev_memcpy_from_device_I1P_7D
+                    dev_memcpy_from_device_I1P_7D,&
+                    dev_memcpy_from_device_R8P_2D_T,&
+                    dev_memcpy_from_device_R8P_3D_T,&
+                    dev_memcpy_from_device_R8P_4D_T,&
+                    dev_memcpy_from_device_R8P_5D_T,&
+                    dev_memcpy_from_device_R8P_6D_T,&
+                    dev_memcpy_from_device_R8P_7D_T,&
+                    dev_memcpy_from_device_R4P_2D_T,&
+                    dev_memcpy_from_device_R4P_3D_T,&
+                    dev_memcpy_from_device_R4P_4D_T,&
+                    dev_memcpy_from_device_R4P_5D_T,&
+                    dev_memcpy_from_device_R4P_6D_T,&
+                    dev_memcpy_from_device_R4P_7D_T,&
+                    dev_memcpy_from_device_I8P_2D_T,&
+                    dev_memcpy_from_device_I8P_3D_T,&
+                    dev_memcpy_from_device_I8P_4D_T,&
+                    dev_memcpy_from_device_I8P_5D_T,&
+                    dev_memcpy_from_device_I8P_6D_T,&
+                    dev_memcpy_from_device_I8P_7D_T,&
+                    dev_memcpy_from_device_I4P_2D_T,&
+                    dev_memcpy_from_device_I4P_3D_T,&
+                    dev_memcpy_from_device_I4P_4D_T,&
+                    dev_memcpy_from_device_I4P_5D_T,&
+                    dev_memcpy_from_device_I4P_6D_T,&
+                    dev_memcpy_from_device_I4P_7D_T,&
+                    dev_memcpy_from_device_I2P_2D_T,&
+                    dev_memcpy_from_device_I2P_3D_T,&
+                    dev_memcpy_from_device_I2P_4D_T,&
+                    dev_memcpy_from_device_I2P_5D_T,&
+                    dev_memcpy_from_device_I2P_6D_T,&
+                    dev_memcpy_from_device_I2P_7D_T,&
+                    dev_memcpy_from_device_I1P_2D_T,&
+                    dev_memcpy_from_device_I1P_3D_T,&
+                    dev_memcpy_from_device_I1P_4D_T,&
+                    dev_memcpy_from_device_I1P_5D_T,&
+                    dev_memcpy_from_device_I1P_6D_T,&
+                    dev_memcpy_from_device_I1P_7D_T
 endinterface dev_memcpy_from_device
 
 interface dev_memcpy_to_device
@@ -122,7 +159,43 @@ interface dev_memcpy_to_device
                     dev_memcpy_to_device_I1P_4D,&
                     dev_memcpy_to_device_I1P_5D,&
                     dev_memcpy_to_device_I1P_6D,&
-                    dev_memcpy_to_device_I1P_7D
+                    dev_memcpy_to_device_I1P_7D,&
+                    dev_memcpy_to_device_R8P_2D_T,&
+                    dev_memcpy_to_device_R8P_3D_T,&
+                    dev_memcpy_to_device_R8P_4D_T,&
+                    dev_memcpy_to_device_R8P_5D_T,&
+                    dev_memcpy_to_device_R8P_6D_T,&
+                    dev_memcpy_to_device_R8P_7D_T,&
+                    dev_memcpy_to_device_R4P_2D_T,&
+                    dev_memcpy_to_device_R4P_3D_T,&
+                    dev_memcpy_to_device_R4P_4D_T,&
+                    dev_memcpy_to_device_R4P_5D_T,&
+                    dev_memcpy_to_device_R4P_6D_T,&
+                    dev_memcpy_to_device_R4P_7D_T,&
+                    dev_memcpy_to_device_I8P_2D_T,&
+                    dev_memcpy_to_device_I8P_3D_T,&
+                    dev_memcpy_to_device_I8P_4D_T,&
+                    dev_memcpy_to_device_I8P_5D_T,&
+                    dev_memcpy_to_device_I8P_6D_T,&
+                    dev_memcpy_to_device_I8P_7D_T,&
+                    dev_memcpy_to_device_I4P_2D_T,&
+                    dev_memcpy_to_device_I4P_3D_T,&
+                    dev_memcpy_to_device_I4P_4D_T,&
+                    dev_memcpy_to_device_I4P_5D_T,&
+                    dev_memcpy_to_device_I4P_6D_T,&
+                    dev_memcpy_to_device_I4P_7D_T,&
+                    dev_memcpy_to_device_I2P_2D_T,&
+                    dev_memcpy_to_device_I2P_3D_T,&
+                    dev_memcpy_to_device_I2P_4D_T,&
+                    dev_memcpy_to_device_I2P_5D_T,&
+                    dev_memcpy_to_device_I2P_6D_T,&
+                    dev_memcpy_to_device_I2P_7D_T,&
+                    dev_memcpy_to_device_I1P_2D_T,&
+                    dev_memcpy_to_device_I1P_3D_T,&
+                    dev_memcpy_to_device_I1P_4D_T,&
+                    dev_memcpy_to_device_I1P_5D_T,&
+                    dev_memcpy_to_device_I1P_6D_T,&
+                    dev_memcpy_to_device_I1P_7D_T
 endinterface dev_memcpy_to_device
 
 #ifdef DEV_OAC
@@ -155,6 +228,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_R8P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_R8P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_R8P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_R8P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_R8P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_R8P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_R8P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_R8P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_R8P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_R8P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_R8P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_R8P_3D
@@ -162,6 +241,12 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_R8P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_R8P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_R8P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_R8P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_R8P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_R8P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_R8P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_R8P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_R8P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 
 #define KKP R4P
@@ -173,6 +258,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_R4P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_R4P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_R4P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_R4P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_R4P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_R4P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_R4P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_R4P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_R4P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_R4P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_R4P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_R4P_3D
@@ -180,6 +271,12 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_R4P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_R4P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_R4P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_R4P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_R4P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_R4P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_R4P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_R4P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_R4P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 
 #define KKP I8P
@@ -191,6 +288,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I8P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I8P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I8P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_I8P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_I8P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_I8P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_I8P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_I8P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_I8P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I8P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I8P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I8P_3D
@@ -198,6 +301,12 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I8P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I8P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I8P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_I8P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_I8P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_I8P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_I8P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_I8P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_I8P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 
 #define KKP I4P
@@ -209,6 +318,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I4P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I4P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I4P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_I4P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_I4P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_I4P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_I4P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_I4P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_I4P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I4P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I4P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I4P_3D
@@ -216,6 +331,12 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I4P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I4P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I4P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_I4P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_I4P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_I4P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_I4P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_I4P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_I4P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 
 #define KKP I2P
@@ -227,6 +348,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I2P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I2P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I2P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_I2P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_I2P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_I2P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_I2P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_I2P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_I2P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I2P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I2P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I2P_3D
@@ -234,6 +361,12 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I2P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I2P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I2P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_I2P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_I2P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_I2P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_I2P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_I2P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_I2P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 
 #define KKP I1P
@@ -245,6 +378,12 @@ contains
 #define DEV_MEMCPY_FROM_DEVICE_KKP_5D dev_memcpy_from_device_I1P_5D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_6D dev_memcpy_from_device_I1P_6D
 #define DEV_MEMCPY_FROM_DEVICE_KKP_7D dev_memcpy_from_device_I1P_7D
+#define DEV_MEMCPY_FROM_DEVICE_KKP_2D_T dev_memcpy_from_device_I1P_2D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_3D_T dev_memcpy_from_device_I1P_3D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_4D_T dev_memcpy_from_device_I1P_4D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_5D_T dev_memcpy_from_device_I1P_5D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_6D_T dev_memcpy_from_device_I1P_6D_T
+#define DEV_MEMCPY_FROM_DEVICE_KKP_7D_T dev_memcpy_from_device_I1P_7D_T
 #define DEV_MEMCPY_TO_DEVICE_KKP_1D dev_memcpy_to_device_I1P_1D
 #define DEV_MEMCPY_TO_DEVICE_KKP_2D dev_memcpy_to_device_I1P_2D
 #define DEV_MEMCPY_TO_DEVICE_KKP_3D dev_memcpy_to_device_I1P_3D
@@ -252,5 +391,11 @@ contains
 #define DEV_MEMCPY_TO_DEVICE_KKP_5D dev_memcpy_to_device_I1P_5D
 #define DEV_MEMCPY_TO_DEVICE_KKP_6D dev_memcpy_to_device_I1P_6D
 #define DEV_MEMCPY_TO_DEVICE_KKP_7D dev_memcpy_to_device_I1P_7D
+#define DEV_MEMCPY_TO_DEVICE_KKP_2D_T dev_memcpy_to_device_I1P_2D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_3D_T dev_memcpy_to_device_I1P_3D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_4D_T dev_memcpy_to_device_I1P_4D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_5D_T dev_memcpy_to_device_I1P_5D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_6D_T dev_memcpy_to_device_I1P_6D_T
+#define DEV_MEMCPY_TO_DEVICE_KKP_7D_T dev_memcpy_to_device_I1P_7D_T
 #include "fundal_dev_memcpy_agnostic.INC"
 endmodule fundal_dev_memcpy
