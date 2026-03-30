@@ -1,4 +1,3 @@
-
 #!/bin/bash -
 
 for t in $( find exe/ -executable -type f -name *_test ); do
