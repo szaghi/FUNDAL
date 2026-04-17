@@ -284,7 +284,7 @@
                                               bb(1,2):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_2D_T
 
@@ -304,7 +304,7 @@
                                               bb(1,3):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, ij=ij, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, ij=ij, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_3D_T 
 
@@ -327,7 +327,7 @@
                                               bb(1,4):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, ij=ij, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, ij=ij, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_4D_T 
 
@@ -353,7 +353,7 @@
                                               bb(1,5):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, ij=ij, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, ij=ij, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_5D_T 
 
@@ -382,7 +382,7 @@
                                               bb(1,6):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, ij=ij, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, ij=ij, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_6D_T 
 
@@ -414,6 +414,6 @@
                                               bb(1,7):) !< Buffer (host memory).
    integer(I4P)                        :: ierr          !< Error status.
 
-   call transpose_array(bb=bb, ij=ij, a=src, tb=tb, t=buf)
+   call transpose_array(bb=tb, ij=ij, a=src, tb=bb, t=buf)
    DEVMEMCPY_TO_DEVICE(dst, buf, bytes)
    endsubroutine DEV_MEMCPY_TO_DEVICE_KKP_7D_T 

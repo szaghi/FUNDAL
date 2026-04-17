@@ -44,7 +44,7 @@ endtype mpih_object
 
 interface str
    !< Stringify integer functions overloading.
-   module procedure str_I4P, str_I8P
+   module procedure str_I4P, str_I8P, str_R8P
 endinterface
 
 contains
@@ -96,15 +96,15 @@ contains
    character(len=1), parameter     :: NL=new_line('a') !< New line character.
 
    desc =       self%myrankstr//'MPIH main data'//NL
-   desc = desc//self%myrankstr//'  myrank:              '//trim(str(self%myrank          ))//NL
-   desc = desc//self%myrankstr//'  procs_number:        '//trim(str(self%procs_number    ))//NL
-   desc = desc//self%myrankstr//'  host memory_avail:   '//trim(str(self%hos_memory_avail))//NL
-   desc = desc//self%myrankstr//'  device memory_avail: '//trim(str(self%dev_memory_avail))//NL
-   desc = desc//self%myrankstr//'  local_comm:          '//trim(str(self%local_comm      ))//NL
-   desc = desc//self%myrankstr//'  myhos:               '//trim(str(self%myhos           ))//NL
-   desc = desc//self%myrankstr//'  devtype:             '//trim(str(self%devtype         ))//NL
-   desc = desc//self%myrankstr//'  devs_number:         '//trim(str(self%devs_number     ))//NL
-   desc = desc//self%myrankstr//'  mydev:               '//trim(str(self%mydev           ))
+   desc = desc//self%myrankstr//'  myrank:                   '//trim(str(self%myrank                  ))//NL
+   desc = desc//self%myrankstr//'  procs_number:             '//trim(str(self%procs_number            ))//NL
+   desc = desc//self%myrankstr//'  host memory_avail [GB]:   '//trim(str(self%hos_memory_avail/1e6_R8P))//NL
+   desc = desc//self%myrankstr//'  device memory_avail [GB]: '//trim(str(self%dev_memory_avail/1e9_R8P))//NL
+   desc = desc//self%myrankstr//'  local_comm:               '//trim(str(self%local_comm              ))//NL
+   desc = desc//self%myrankstr//'  myhos:                    '//trim(str(self%myhos                   ))//NL
+   desc = desc//self%myrankstr//'  devtype:                  '//trim(str(self%devtype                 ))//NL
+   desc = desc//self%myrankstr//'  devs_number:              '//trim(str(self%devs_number             ))//NL
+   desc = desc//self%myrankstr//'  mydev:                    '//trim(str(self%mydev                   ))
    endfunction description
 
    subroutine error_stop(self, msg)
@@ -273,6 +273,17 @@ contains
    write(str_I8P, '(I20)') n        ! Casting of n to string.
    str_I8P = adjustl(trim(str_I8P)) ! Removing white spaces.
    endfunction str_I8P
+
+   elemental function str_R8P(n, no_sign) result(str)
+   !< Return real cast to string (R8P kind).
+   real(R8P), intent(in)           :: n       !< Real to be converted.
+   logical,   intent(in), optional :: no_sign !< Flag for leaving out the sign.
+   character(23)                   :: str     !< Returned string containing input number.
+
+   write(str, '(E23.15E3)') n        ! Casting of n to string.
+   if (n>0._R8P) str(1:1)='+'        ! Prefixing plus if n>0.
+   if (present(no_sign)) str=str(2:) ! Leaving out the sign.
+   endfunction str_R8P
 
    elemental function strz(n, nz_pad)
    !< Return integer cast to string, prefixing with the right number of zeros.
