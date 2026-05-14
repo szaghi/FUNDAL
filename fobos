@@ -10,6 +10,7 @@ authors    = Stefano Zaghi
 [modes]
 modes = fundal-test-nvf
         fundal-test-oac-nvf
+        fundal-test-oac-nvf-debug
         fundal-test-oac-mpi-nvf
         fundal-test-oac-mpi-nvf-debug
         fundal-test-gnu
@@ -40,6 +41,12 @@ exclude_dirs  = ./src/tests/mpi/
 [fundal-test-oac-nvf]
 help          = Build FUNDAL tests with OpenACC-NVF
 template      = template-oac-nvf
+src           = ./src/
+exclude_dirs  = ./src/tests/mpi/
+
+[fundal-test-oac-nvf-debug]
+help          = Build FUNDAL tests with OpenACC-NVF in debug mode
+template      = template-oac-nvf-debug
 src           = ./src/
 exclude_dirs  = ./src/tests/mpi/
 

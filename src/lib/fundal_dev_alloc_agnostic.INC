@@ -7,6 +7,7 @@
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value  !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)     !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
    integer(I8P)                       :: sizes(1)    !< Sizes.
    integer(I4P)                       :: lbounds_(1) !< Array lower bounds, local var.
@@ -18,7 +19,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -45,6 +46,7 @@
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value    !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)       !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
    integer(I8P)                       :: sizes(2)      !< Sizes.
    integer(I4P)                       :: lbounds_(2)   !< Array lower bounds, local var.
@@ -56,7 +58,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -85,6 +87,7 @@
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value      !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)         !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
    integer(I8P)                       :: sizes(3)        !< Sizes.
    integer(I4P)                       :: lbounds_(3)     !< Array lower bounds, local var.
@@ -96,7 +99,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -127,6 +130,7 @@
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value        !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)           !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
    integer(I8P)                       :: sizes(4)          !< Sizes.
    integer(I4P)                       :: lbounds_(4)       !< Array lower bounds, local var.
@@ -138,7 +142,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -171,6 +175,7 @@
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value          !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)             !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
    integer(I8P)                       :: sizes(5)            !< Sizes.
    integer(I4P)                       :: lbounds_(5)         !< Array lower bounds, local var.
@@ -182,7 +187,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -217,6 +222,7 @@
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value            !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)               !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
    integer(I8P)                       :: sizes(6)              !< Sizes.
    integer(I4P)                       :: lbounds_(6)           !< Array lower bounds, local var.
@@ -228,7 +234,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
@@ -265,6 +271,7 @@
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value              !< Optional initial value.
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
+   VARTYPE(KKP)                       :: mold(1)                 !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
    integer(I8P)                       :: sizes(7)                !< Sizes.
    integer(I4P)                       :: lbounds_(7)             !< Array lower bounds, local var.
@@ -276,7 +283,7 @@
    lbounds_ = 1 ; if (present(lbounds)) lbounds_ = lbounds
    dev_id_ = mydev ; if (present(dev_id)) dev_id_ = dev_id
    sizes = ubounds - lbounds_ + 1
-   bytes = bytes_size(a=fptr_dev,sizes=sizes)
+   bytes = bytes_size(a=mold,sizes=sizes)
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)

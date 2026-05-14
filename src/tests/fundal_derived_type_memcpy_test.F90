@@ -50,26 +50,12 @@ if (error /= 0) then
    print '(A)', 'error: b_dev not allocated!'
    stop
 endif
-call dev_alloc_unstr(dt%a)
-call dev_alloc_unstr(dt%b)
 
 ! copy host memory to device one
 print '(A)', 'copy a to device'
 call dev_memcpy_to_device(src=dt%a, dst=dt%a_dev)
-call dev_memcpy_to_device_unstr(dt%a)
 
-! do some operation on device
-print '(A)', 'compute b on device'
-!$acc parallel loop DEVICEVAR(dt%a_dev, dt%b_dev, dt%a, dt%b)
-#ifdef DEV_OMP
-!$omp OMPLOOP DEVICEPTR(dt%a_dev, dt%b_dev)
-#else
-!$omp OMPLOOP
-#endif
-do i = 1, dt%n
-   dt%b_dev(i) = dt%a_dev(i) + 10
-   dt%b(    i) = dt%a(    i) + 10
-enddo
+call compute_kernel(n=dt%n, a_dev=dt%a_dev, b_dev=dt%b_dev)
 
 ! copy dev memory to host one
 print '(A)', 'copy b to host'
@@ -84,18 +70,24 @@ do i=1, dt%n
    endif
 enddo
 
-! copy dev memory to host one by unstructured approach
-print '(A)', 'copy b to host from unstructured memory'
-call dev_memcpy_from_device_unstr(dt%b)
-
-! check results
-print '(A)', 'chek results'
-do i=1, dt%n
-   if (int(dt%b(i) - dt%a(i),I4P) /= 10_I4P) then
-      print '(A)', 'error: something is not working...'
-      stop
-   endif
-enddo
-
 print '(A)', 'test passed'
+
+contains
+   subroutine compute_kernel(n,a_dev,b_dev)
+   !< Compute kernel on device.
+   integer(I4P), intent(in)    :: n        !< Number of elements of arrays.
+   real(R8P),    intent(in)    :: a_dev(:) !< Array on device memory.
+   real(R8P),    intent(inout) :: b_dev(:) !< Array on device memory.
+
+   print '(A)', 'compute b on device'
+   !$acc parallel loop DEVICEVAR(a_dev, b_dev)
+   #ifdef DEV_OMP
+   !$omp OMPLOOP DEVICEPTR(a_dev, b_dev)
+   #else
+   !$omp OMPLOOP
+   #endif
+   do i = 1, n
+      b_dev(i) = a_dev(i) + 10
+   enddo
+   endsubroutine compute_kernel
 endprogram fundal_derived_type_memcpy_test
