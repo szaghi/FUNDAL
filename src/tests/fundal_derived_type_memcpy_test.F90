@@ -81,11 +81,11 @@ contains
 
    print '(A)', 'compute b on device'
    !$acc parallel loop DEVICEVAR(a_dev, b_dev)
-   #ifdef DEV_OMP
+#ifdef DEV_OMP
    !$omp OMPLOOP DEVICEPTR(a_dev, b_dev)
-   #else
+#else
    !$omp OMPLOOP
-   #endif
+#endif
    do i = 1, n
       b_dev(i) = a_dev(i) + 10
    enddo
