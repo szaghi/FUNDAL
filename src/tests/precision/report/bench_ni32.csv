@@ -1,0 +1,21 @@
+tag,short,full_label,storage,c_mode,median_t_s,min_t_s,max_t_s,stdev_t_s,median_bw_gbs,median_speedup_vs_v1p,median_errMax,median_drMax
+V1,V1,FP64 baseline,"(b,i,j,k,c)",c-parallel,28.5050,28.2410,28.7260,0.1827,15.77,7.2397,0.0000e+00,1.7640e-16
+V1p,V1',FP64 c-sequential (REF),"(b,i,j,k,c)",c-sequential,206.6490,204.4550,229.2230,10.5961,2.18,1.0000,0.0000e+00,1.7640e-16
+V1B,V1B,FP64 shape B c-parallel,"(c,i,j,k,b)",c-parallel,28.4250,27.6600,29.2630,0.5823,15.81,7.2807,0.0000e+00,1.7640e-16
+V1Bp,V1B',FP64 shape B c-sequential,"(c,i,j,k,b)",c-sequential,206.6330,206.3480,211.1260,2.2098,2.18,0.9915,0.0000e+00,1.7640e-16
+V2,V2,FP32 store + FP64 compute,"(b,i,j,k,c)",c-parallel,28.9310,28.6370,29.0100,0.1507,7.77,7.1395,1.1080e-06,5.2030e-08
+V3,V3,FP32 naive,"(b,i,j,k,c)",c-parallel,1.6700,1.5030,3.5950,0.8906,134.62,122.7861,1.1090e-06,5.0650e-08
+V2b,V2b,FP32 + FP64 beta only,"(b,i,j,k,c)",c-parallel,23.2780,22.6840,23.6690,0.4239,9.66,9.0118,1.1070e-06,5.2140e-08
+V3b,V3b,FP32 + Neumaier RK1,"(b,i,j,k,c)",c-parallel,1.7160,1.6560,1.8250,0.0757,130.95,121.1856,7.4690e-08,2.1830e-09
+V3c,V3c,FP32 + Klein 2nd-order RK1,"(b,i,j,k,c)",c-parallel,1.8560,1.8410,1.9830,0.0691,121.10,110.6501,1.6810e-07,2.6560e-09
+V3e,V3e,FP32 + branchless FastTwoSum RK1,"(b,i,j,k,c)",c-parallel,1.8370,1.7090,6.5980,2.1020,122.34,112.2762,7.4690e-08,2.1830e-09
+V3d,V3d,FP32 + Graillat-Langlois compdot,"(b,i,j,k,c)",c-parallel,1.9710,1.8610,6.7890,2.1792,114.02,104.8447,7.4680e-08,2.2260e-09
+V3h,V3h,FP32 + compensated Horner beta,"(b,i,j,k,c)",c-parallel,2.1520,1.9820,4.4880,1.0806,104.44,95.1423,7.4700e-08,2.1830e-09
+V3f,V3f,FP32 + Dekker double storage,"(b,i,j,k,c)",c-parallel,2.6440,2.4810,9.1600,2.9418,170.00,77.3279,6.4580e-08,1.4140e-15
+V3g,V3g,V3f + Graillat-Langlois compdot,"(b,i,j,k,c)",c-parallel,2.8220,2.6660,48.3480,20.2001,159.30,73.1764,6.4590e-08,1.0360e-15
+V3fp,V3f',Dekker with collapse(5),"(b,i,j,k,c)",c-parallel,2.3860,2.2880,6.9690,2.0672,188.38,85.6894,6.4580e-08,1.4140e-15
+V3fpp,"V3f""","Dekker with bad loop order (b,k,j,i,c)","(b,i,j,k,c)",c-parallel,23.5380,22.6260,112.1690,39.7270,19.10,8.6920,6.4580e-08,1.4140e-15
+V3fAF,V3fA-F,realistic Dekker shape A order F,"(b,i,j,k,c)",c-sequential,43.6510,42.8860,50.8770,3.3597,10.30,4.7418,6.4580e-08,1.4140e-15
+V3fAG,V3fA-G,realistic Dekker shape A order G,"(b,i,j,k,c)",c-sequential,44.9950,44.4680,111.4510,29.6500,9.99,4.5439,6.4580e-08,1.4140e-15
+V3fBF,V3fB-F,realistic Dekker shape B order F,"(c,i,j,k,b)",c-sequential,42.3460,41.5340,114.4530,31.9902,10.62,4.8938,6.4580e-08,1.4140e-15
+V3fBG,V3fB-G,realistic Dekker shape B order G,"(c,i,j,k,b)",c-sequential,46.0330,44.6810,46.9410,0.9660,9.77,4.5539,6.4580e-08,1.4140e-15
