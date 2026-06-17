@@ -243,11 +243,20 @@ lflags    = -cpp
 openmp    = True
 
 [template-omp-amd]
+# DEV_HIP enables the HIP-->Fortran interfaces (device memory status, etc.) and
+# links the HIP runtime (libamdhip64). It is set ONLY for AMD builds: the same
+# OpenMP-offload backend (DEV_OMP) is also used by Intel IFX, which must NOT link
+# HIP libraries (they are not available outside the AMD/ROCm stack).
+# NOTE: the HIP runtime is found through the shell environment (LIBRARY_PATH at
+# link time, LD_LIBRARY_PATH at run time), which a sourced ROCm environment
+# populates from $ROCM_PATH. FoBiS runs the compiler with shell=False and does
+# not expand environment variables in flags, so no path is hardcoded here; make
+# sure $ROCM_PATH (and the ROCm lib dir) are in your environment before building.
 template = template-base
 compiler = amd
-preproc  = -DDEV_OMP
+preproc  = -DDEV_OMP -DDEV_HIP
 cflags   = -c -cpp --offload-arch=$GPU_ARCH
-lflags   = -cpp --offload-arch=$GPU_ARCH
+lflags   = -cpp --offload-arch=$GPU_ARCH -lamdhip64
 openmp   = True
 
 [template-ifx]

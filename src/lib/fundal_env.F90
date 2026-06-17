@@ -15,6 +15,10 @@ public :: mydev
 public :: myhos
 public :: devtype
 public :: IDK
+#ifndef DEV_OAC
+public :: FUNDAL_DEVICE_HOST
+public :: FUNDAL_DEVICE_GPU
+#endif
 
 integer(I4P), target :: devs_number=0_I4P          !< Number of devices.
 integer(I8P), target :: dev_memory_avail=0_I8P     !< Device memory available (GB).
@@ -25,7 +29,9 @@ integer(I4P), target :: myhos=0_I4P                !< Host ID.
 integer, parameter   :: IDK=ACC_DEVICE_KIND        !< Kind parameter for device type definitio.
 integer(IDK), target :: devtype=ACC_DEVICE_DEFAULT !< OpenACC device type.
 #else
-integer, parameter   :: IDK=I4P                    !< Kind parameter for device type definitio.
-integer(IDK), target :: devtype=0_I4P              !< OpenACC device type.
+integer, parameter      :: IDK=I4P                  !< Kind parameter for device type definitio.
+integer(IDK), target    :: devtype=0_I4P            !< Device type.
+integer(I4P), parameter :: FUNDAL_DEVICE_HOST=0_I4P !< Device type: host (no offload device available).
+integer(I4P), parameter :: FUNDAL_DEVICE_GPU =1_I4P !< Device type: accelerator/GPU offload device.
 #endif
 endmodule fundal_env
