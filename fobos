@@ -7,6 +7,41 @@ website    = https://szaghi.github.io/FUNDAL
 email      = stefano.zaghi@gmail.it
 authors    = Stefano Zaghi
 
+# user-tunable variables (FoBiS fobos variables)
+[common-variables]
+# AMD GPU target architecture(s) for amdflang OpenMP offload.
+# Set to match your GPU, e.g. gfx90a, gfx942, gfx1100, or a comma-separated list.
+# This is the default value; it can be completely overwritten from the CLI by
+# selecting one of the [varset:*] sections below, e.g.
+#   FoBiS.py build -mode fundal-test-omp-amd --varset gfx1100
+$GPU_ARCH = gfx942
+
+# CLI-selectable GPU architecture overrides.
+# Each varset fully replaces $GPU_ARCH (last-write-wins); pick one with --varset.
+[varset:gfx906]
+$GPU_ARCH = gfx906
+
+[varset:gfx908]
+$GPU_ARCH = gfx908
+
+[varset:gfx90a]
+$GPU_ARCH = gfx90a
+
+[varset:gfx940]
+$GPU_ARCH = gfx940
+
+[varset:gfx942]
+$GPU_ARCH = gfx942
+
+[varset:gfx950]
+$GPU_ARCH = gfx950
+
+[varset:gfx1030]
+$GPU_ARCH = gfx1030
+
+[varset:gfx1100]
+$GPU_ARCH = gfx1100
+
 [modes]
 modes = fundal-test-nvf
         fundal-test-oac-nvf
@@ -211,8 +246,8 @@ openmp    = True
 template = template-base
 compiler = amd
 preproc  = -DDEV_OMP
-cflags   = -c -cpp --offload-arch=gfx90a,gfx942
-lflags   = -cpp --offload-arch=gfx90a,gfx942
+cflags   = -c -cpp --offload-arch=$GPU_ARCH
+lflags   = -cpp --offload-arch=$GPU_ARCH
 openmp   = True
 
 [template-ifx]
