@@ -174,9 +174,17 @@ contains
    if (present(memory)) memory = 0_I8P
    endsubroutine dev_get_property_string
 
-   subroutine dev_init()
+   subroutine dev_init(local_rank)
    !< Initialize device.
-   !< Note: OpenMP does not provide such a runtime routine, added only for seamless unified API.
+   integer(I4P), intent(in), optional :: local_rank !< Local rank in multi-processes split ID.
+
+   devs_number = dev_get_num_devices()
+   if (present(local_rank)) then
+      mydev = mod(local_rank, devs_number)
+   else
+      mydev = dev_get_device_num()
+   endif
+   myhos = dev_get_host_num()
    endsubroutine dev_init
 #else
    subroutine dev_get_device_memory_info(mem_free, mem_total)
