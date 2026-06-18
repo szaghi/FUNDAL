@@ -21,7 +21,7 @@ type :: mpih_object
    real(R8P)                 :: timing(1:2)              !< Tic toc timing.
    integer(I4P)              :: tictoc=1_I4P             !< Next is tic or toc?
    integer(I4P), allocatable :: req_send_recv(:)         !< MPI request receive flags.
-   integer(I4P), pointer     :: devs_number=0_I4P        !< Number of devices.
+   integer(I4P), pointer     :: devs_number=>null()      !< Number of devices.
    integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory available (GB).
    integer(I4P), pointer     :: mydev=>null()            !< Device ID.
    integer(I4P), pointer     :: local_comm=>null()       !< Local communicator.
