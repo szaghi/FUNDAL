@@ -64,7 +64,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_1D
 
@@ -77,7 +77,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_2D
 
@@ -90,7 +90,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_3D
 
@@ -103,7 +103,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_4D
 
@@ -116,7 +116,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_5D
 
@@ -129,7 +129,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_6D
 
@@ -142,7 +142,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R8P_7D
 
@@ -155,7 +155,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_1D
 
@@ -168,7 +168,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_2D
 
@@ -181,7 +181,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_3D
 
@@ -194,7 +194,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_4D
 
@@ -207,7 +207,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_5D
 
@@ -220,7 +220,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_6D
 
@@ -233,7 +233,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_R4P_7D
 
@@ -246,7 +246,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_1D
 
@@ -259,7 +259,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_2D
 
@@ -272,7 +272,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_3D
 
@@ -285,7 +285,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_4D
 
@@ -298,7 +298,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_5D
 
@@ -311,7 +311,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_6D
 
@@ -324,7 +324,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I8P_7D
 
@@ -337,7 +337,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_1D
 
@@ -350,7 +350,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_2D
 
@@ -363,7 +363,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_3D
 
@@ -376,7 +376,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_4D
 
@@ -389,7 +389,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_5D
 
@@ -402,7 +402,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_6D
 
@@ -415,7 +415,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I4P_7D
 
@@ -428,7 +428,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_1D
 
@@ -441,7 +441,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_2D
 
@@ -454,7 +454,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_3D
 
@@ -467,7 +467,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_4D
 
@@ -480,7 +480,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_5D
 
@@ -493,7 +493,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_6D
 
@@ -506,7 +506,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I2P_7D
 
@@ -519,7 +519,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_1D
 
@@ -532,7 +532,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_2D
 
@@ -545,7 +545,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_3D
 
@@ -558,7 +558,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_4D
 
@@ -571,7 +571,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_5D
 
@@ -584,7 +584,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_6D
 
@@ -597,7 +597,7 @@ contains
    if (present(sizes)) then
       bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(product(sizes), c_size_t)
    else
-      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a), c_size_t)
+      bytes = int(storage_size(a,kind=I8P)/8_I8P, c_size_t) * int(size(a, kind=I8P), c_size_t)
    endif
    endfunction bytes_size_I1P_7D
 endmodule fundal_utilities
