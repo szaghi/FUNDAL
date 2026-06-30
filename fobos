@@ -1,5 +1,5 @@
 [project]
-name       = FiNeR
+name       = FUNDAL
 version    = VERSION
 summary    = Fortran UNified Device Acceleration Library
 repository = https://github.com/szaghi/FUNDAL
