@@ -116,7 +116,7 @@ contains
    msg_ = '' ; if (present(msg)) msg_ = msg
    write(stderr, '(A)') self%myrankstr//'error stop '//msg_
    call self%finalize
-   stop
+   stop 1
    endsubroutine error_stop
 
    subroutine finalize(self)
