@@ -107,7 +107,7 @@ exclude_dirs  = ./src/tests/mpi/
 help          = Build FUNDAL tests with OpenACC-GNU
 template      = template-oac-gnu
 src           = ./src/
-exclude_dirs  = ./src/tests/mpi/ ./src/tests/laplace/
+exclude_dirs  = ./src/tests/mpi/ ./src/tests/laplace/ ./src/tests/precision/
 
 [fundal-test-oac-mpi-gnu]
 help     = Build FUNDAL tests with OpenACC-MPI-GNU
