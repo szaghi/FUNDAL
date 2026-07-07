@@ -108,6 +108,7 @@ help          = Build FUNDAL tests with OpenACC-GNU
 template      = template-oac-gnu
 src           = ./src/
 exclude_dirs  = ./src/tests/mpi/
+exclude       = ./src/tests/laplace/fundal_laplace_dev_routine.F90
 
 [fundal-test-oac-mpi-gnu]
 help     = Build FUNDAL tests with OpenACC-MPI-GNU
