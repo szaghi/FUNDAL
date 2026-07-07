@@ -28,7 +28,7 @@ contains
       enddo
    enddo
 
-   !$acc parallel loop deviceptr(A,Anew)
+   !$acc parallel loop DEVICEVAR(A,Anew)
    !$omp OMPLOOP DEVICEPTR(A,Anew)
    do j=1,m-2
       do i=1,n-2
