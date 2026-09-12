@@ -10,6 +10,7 @@ implicit none
 private
 public :: devs_number
 public :: dev_memory_avail
+public :: dev_memory_total
 public :: local_comm
 public :: mydev
 public :: myhos
@@ -21,7 +22,8 @@ public :: FUNDAL_DEVICE_GPU
 #endif
 
 integer(I4P), target :: devs_number=0_I4P          !< Number of devices.
-integer(I8P), target :: dev_memory_avail=0_I8P     !< Device memory available (GB).
+integer(I8P), target :: dev_memory_avail=0_I8P     !< Device memory FREE at init (bytes).
+integer(I8P), target :: dev_memory_total=0_I8P     !< Device memory TOTAL, a machine property (bytes).
 integer(I4P), target :: local_comm=0_I4P           !< Local communicator.
 integer(I4P), target :: mydev=0_I4P                !< Device ID.
 integer(I4P), target :: myhos=0_I4P                !< Host ID.

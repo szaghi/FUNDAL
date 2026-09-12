@@ -16,7 +16,8 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          dev_get_property_string,    &
                                                          dev_init,                   &
                                                          dev_set_device_num
-use            :: fundal_env,                     only : devs_number, dev_memory_avail, local_comm, mydev, myhos, devtype, IDK
+use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
+                                                        mydev, myhos, devtype, IDK
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
 
 implicit none
@@ -43,6 +44,7 @@ public :: save_memory_status
 ! environment global variables
 public :: devs_number
 public :: dev_memory_avail
+public :: dev_memory_total
 public :: local_comm
 public :: mydev
 public :: myhos

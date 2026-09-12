@@ -30,7 +30,7 @@ use            :: omp_lib,         only : dev_get_device_num =>omp_get_default_d
                                           dev_set_device_num =>omp_set_default_device
 use            :: fundal_env,      only : FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
 #endif
-use            :: fundal_env,      only : devs_number, mydev, devtype, dev_memory_avail, myhos
+use            :: fundal_env,      only : devs_number, mydev, devtype, dev_memory_avail, dev_memory_total, myhos
 
 implicit none
 private
@@ -179,7 +179,11 @@ contains
    endif
    myhos = dev_get_host_num()
    call dev_set_device_num(mydev)
-   call dev_get_device_memory_info(dev_memory_avail)
+   ! Keyword-passed: the first positional dummy is mem_free, so the previous
+   ! positional call bound the FREE value only. Capacity budgeting wants TOTAL
+   ! (a machine property, reproducible run to run); diagnostics want FREE.
+   ! Both are published; consumers choose.
+   call dev_get_device_memory_info(mem_free=dev_memory_avail, mem_total=dev_memory_total)
    endsubroutine dev_init
 
    subroutine dev_set_device_num(dev_num)
@@ -291,7 +295,11 @@ contains
    endif
    myhos = dev_get_host_num()
    call dev_set_device_num(mydev)
-   call dev_get_device_memory_info(dev_memory_avail)
+   ! Keyword-passed: the first positional dummy is mem_free, so the previous
+   ! positional call bound the FREE value only. Capacity budgeting wants TOTAL
+   ! (a machine property, reproducible run to run); diagnostics want FREE.
+   ! Both are published; consumers choose.
+   call dev_get_device_memory_info(mem_free=dev_memory_avail, mem_total=dev_memory_total)
    endsubroutine dev_init
 #else
    subroutine dev_get_device_memory_info(mem_free, mem_total)

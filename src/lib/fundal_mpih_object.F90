@@ -22,7 +22,8 @@ type :: mpih_object
    integer(I4P)              :: tictoc=1_I4P             !< Next is tic or toc?
    integer(I4P), allocatable :: req_send_recv(:)         !< MPI request receive flags.
    integer(I4P), pointer     :: devs_number=>null()      !< Number of devices.
-   integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory available (GB).
+   integer(I8P), pointer     :: dev_memory_avail=>null() !< Device memory FREE at init (bytes).
+   integer(I8P), pointer     :: dev_memory_total=>null() !< Device memory TOTAL (bytes).
    integer(I4P), pointer     :: mydev=>null()            !< Device ID.
    integer(I4P), pointer     :: local_comm=>null()       !< Local communicator.
    integer(I4P), pointer     :: myhos=>null()            !< Host ID.
@@ -100,6 +101,7 @@ contains
    desc = desc//self%myrankstr//'  procs_number:             '//trim(str(self%procs_number            ))//NL
    desc = desc//self%myrankstr//'  host memory_avail [GB]:   '//trim(str(self%hos_memory_avail/1e6_R8P))//NL
    desc = desc//self%myrankstr//'  device memory_avail [GB]: '//trim(str(self%dev_memory_avail/1e9_R8P))//NL
+   desc = desc//self%myrankstr//'  device memory_total [GB]: '//trim(str(self%dev_memory_total/1e9_R8P))//NL
    desc = desc//self%myrankstr//'  local_comm:               '//trim(str(self%local_comm              ))//NL
    desc = desc//self%myrankstr//'  myhos:                    '//trim(str(self%myhos                   ))//NL
    desc = desc//self%myrankstr//'  devtype:                  '//trim(str(self%devtype                 ))//NL
@@ -144,6 +146,7 @@ contains
    ! associate handler members to the global env FUNDAL variables
    self%devs_number      => devs_number
    self%dev_memory_avail => dev_memory_avail
+   self%dev_memory_total => dev_memory_total
    self%local_comm       => local_comm
    self%myhos            => myhos
    self%mydev            => mydev
