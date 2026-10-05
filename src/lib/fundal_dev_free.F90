@@ -68,6 +68,13 @@ interface dev_free
 endinterface dev_free
 
 #ifdef DEV_OAC
+! OpenACC runtime routines are bound directly to their C API (void*, size_t) on purpose, instead of being taken from the
+! vendor `openacc` module, whose Fortran interfaces are not portable (verified on nvhpc 26.1 and gfortran 16, see #2):
+! - nvfortran declares acc_malloc/acc_free/acc_memcpy_* with the NVIDIA-only type(c_devptr), not type(c_ptr);
+! - gfortran declares the host side of acc_memcpy_* as type(*), dimension(*): passing c_loc(x) compiles, but copies the
+!   bytes of the temporary c_ptr instead of the data.
+! The C symbols are defined by the OpenACC specification and exported by every implementation. The `_f` suffix avoids
+! clashing with the names exported by the vendor module (used via DEVMODULE).
 interface
    ! interface to C runtime routines
    subroutine acc_free_f(dev_ptr) bind(c, name="acc_free")

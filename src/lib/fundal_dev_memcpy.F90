@@ -199,6 +199,13 @@ interface dev_memcpy_to_device
 endinterface dev_memcpy_to_device
 
 #ifdef DEV_OAC
+! OpenACC runtime routines are bound directly to their C API (void*, size_t) on purpose, instead of being taken from the
+! vendor `openacc` module, whose Fortran interfaces are not portable (verified on nvhpc 26.1 and gfortran 16, see #2):
+! - nvfortran declares acc_malloc/acc_free/acc_memcpy_* with the NVIDIA-only type(c_devptr), not type(c_ptr);
+! - gfortran declares the host side of acc_memcpy_* as type(*), dimension(*): passing c_loc(x) compiles, but copies the
+!   bytes of the temporary c_ptr instead of the data.
+! The C symbols are defined by the OpenACC specification and exported by every implementation. The `_f` suffix avoids
+! clashing with the names exported by the vendor module (used via DEVMODULE).
 interface
    subroutine acc_memcpy_to_device_f(dev_ptr, host_ptr, total_byte_dim) bind(c, name="acc_memcpy_to_device")
    use iso_c_binding, only : c_ptr, c_size_t
