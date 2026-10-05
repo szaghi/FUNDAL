@@ -61,6 +61,7 @@ The `fundal_mpih_object` module provides an auxiliary `mpih_object` class for MP
 | `dev_get_device_num` | ✅ | ✅ |
 | `dev_get_host_num` | ✅ | ✅ |
 | `dev_get_num_devices` | ✅ | ✅ |
+| `dev_is_host_fallback` | ✅ | ✅ |
 | `dev_get_device_type` | ✅ | ❌ (returns 0) |
 | `dev_get_property_string` | ✅ | ❌ (returns empty string) |
 

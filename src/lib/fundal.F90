@@ -16,6 +16,8 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          dev_get_num_devices,        &
                                                          dev_get_property_string,    &
                                                          dev_init,                   &
+                                                         dev_is_host_fallback,       &
+                                                         FUNDAL_ERR_NO_DEVICE,       &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
                                                         mydev, myhos, devtype, IDK, dev_allocs_live, dev_bytes_live
@@ -40,6 +42,7 @@ public :: dev_get_host_num
 public :: dev_get_num_devices
 public :: dev_get_property_string
 public :: dev_init
+public :: dev_is_host_fallback, FUNDAL_ERR_NO_DEVICE
 public :: dev_set_device_num
 ! auxiliary routines
 public :: dev_get_alloc_stats

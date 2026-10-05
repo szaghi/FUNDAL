@@ -9,6 +9,7 @@ use            :: openacc,         only : ACC_DEVICE_KIND, ACC_DEVICE_DEFAULT
 implicit none
 private
 public :: dev_allocs_live
+public :: dev_host_fallback
 public :: dev_bytes_live
 public :: devs_number
 public :: dev_memory_avail
@@ -24,6 +25,7 @@ public :: FUNDAL_DEVICE_GPU
 #endif
 
 integer(I8P), target :: dev_allocs_live=0_I8P      !< Live structured device allocations (dev_alloc not yet dev_free-d).
+logical,      target :: dev_host_fallback=.false. !< Compiled for a device backend but running on the host.
 integer(I8P), target :: dev_bytes_live=0_I8P       !< Bytes of live structured device allocations.
 integer(I4P), target :: devs_number=0_I4P          !< Number of devices.
 integer(I8P), target :: dev_memory_avail=0_I8P     !< Device memory FREE at init (bytes).

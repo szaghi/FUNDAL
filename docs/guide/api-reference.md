@@ -30,6 +30,7 @@ public :: dev_get_host_num
 public :: dev_get_num_devices
 public :: dev_get_property_string
 public :: dev_init
+public :: dev_is_host_fallback, FUNDAL_ERR_NO_DEVICE
 public :: dev_set_device_num
 ! auxiliary routines
 public :: dev_get_alloc_stats
@@ -445,7 +446,59 @@ Limits:
 
 ### `dev_init` {#dev_init}
 
-Initialises the device environment. Sets the global variables `myhos`, `devtype`, `mydev`, `devs_number`, and `dev_memory_avail`.
+Initialises the device environment. Sets the global variables `myhos`, `devtype`, `mydev`, `devs_number`,
+`dev_memory_avail` and `dev_memory_total`. It can be called more than once.
+
+```fortran
+subroutine dev_init(local_rank, require_device, ierr)
+```
+
+| Argument | Intent | Description |
+|----------|--------|-------------|
+| `local_rank` | `in`, optional | Local rank (e.g. within a node): the device is `mod(local_rank, devs_number)`. Safe with zero devices. |
+| `require_device` | `in`, optional | Forbid the [host fallback](#host-fallback) (default `.false.`) |
+| `ierr` | `out`, optional | Error status: 0, or `FUNDAL_ERR_NO_DEVICE` when a device is required and none is available. If absent, that case is an `error stop`. |
+
+#### Host fallback {#host-fallback}
+
+When FUNDAL is compiled for a device backend (OpenACC or OpenMP) but no device is available at run time, the runtime
+falls back to the host: "device" memory and kernels live on the CPU. `dev_init` makes this explicit:
+
+- `dev_is_host_fallback()` returns `.true.`;
+- a one-line warning is written to standard error, once per process;
+- it is an **error** if a device is required, by the caller or by the environment:
+
+| Requirement | Effect without a device |
+|-------------|-------------------------|
+| `dev_init(require_device=.true.)` | error |
+| OpenACC: `ACC_DEVICE_TYPE` set to a non-host type (e.g. `nvidia`) | error |
+| OpenMP: `OMP_TARGET_OFFLOAD=MANDATORY` | error |
+| OpenACC: `ACC_DEVICE_TYPE=host` (or `multicore`); OpenMP: `OMP_TARGET_OFFLOAD=DISABLED` | explicit host request: fallback, no warning |
+| none | fallback with warning |
+
+The fallback is allowed by default so that the same build runs on GPU-less machines (development, CI). Production runs
+should forbid it: on a node where the GPUs are not visible a silent fallback runs orders of magnitude slower, and it
+hides bugs, because host code that wrongly dereferences a "device" pointer works on the host.
+
+The compile-time CPU mode (no `DEV_OAC`/`DEV_OMP` macro) is an explicit build choice, not a fallback:
+`dev_is_host_fallback()` is `.false.` and `require_device` is ignored.
+
+```fortran
+use :: fundal
+integer(I4P) :: ierr
+
+call dev_init(require_device=.true., ierr=ierr)
+if (ierr == FUNDAL_ERR_NO_DEVICE) error stop 'no GPU available on this node'
+```
+
+### `dev_is_host_fallback` {#dev_is_host_fallback}
+
+```fortran
+logical function dev_is_host_fallback()
+```
+
+Returns `.true.` if `dev_init` found no device while FUNDAL is compiled for a device backend. See
+[host fallback](#host-fallback).
 
 ---
 

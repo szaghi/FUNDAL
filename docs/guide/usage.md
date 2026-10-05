@@ -29,6 +29,18 @@ mydev   = dev_get_device_num()
 After `dev_init`, inspect the device with `dev_get_property_string` before allocating large arrays to verify available memory.
 :::
 
+::: warning Host fallback
+Without a device, a device build silently ran on the CPU in earlier versions. `dev_init` now reports it (a warning and
+`dev_is_host_fallback()`), and production runs can forbid it:
+
+```fortran
+call dev_init(require_device=.true.)   ! error stop if no device is available
+```
+
+The same can be required from the environment, without code changes: `ACC_DEVICE_TYPE=nvidia` (OpenACC) or
+`OMP_TARGET_OFFLOAD=MANDATORY` (OpenMP). See [host fallback](./api-reference#host-fallback).
+:::
+
 ---
 
 ## Structured memory model
