@@ -80,6 +80,7 @@ Free device memory OpenACC backend.
 ### dev_free_R8P_1D
 
 Free array from device, R8P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_1D(fptr, dev_id)
@@ -103,6 +104,7 @@ flowchart TD
 ### dev_free_R8P_2D
 
 Free array from device, R8P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_2D(fptr, dev_id)
@@ -126,6 +128,7 @@ flowchart TD
 ### dev_free_R8P_3D
 
 Free array from device, R8P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_3D(fptr, dev_id)
@@ -149,6 +152,7 @@ flowchart TD
 ### dev_free_R8P_4D
 
 Free array from device, R8P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_4D(fptr, dev_id)
@@ -172,6 +176,7 @@ flowchart TD
 ### dev_free_R8P_5D
 
 Free array from device, R8P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_5D(fptr, dev_id)
@@ -195,6 +200,7 @@ flowchart TD
 ### dev_free_R8P_6D
 
 Free array from device, R8P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_6D(fptr, dev_id)
@@ -218,6 +224,7 @@ flowchart TD
 ### dev_free_R8P_7D
 
 Free array from device, R8P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R8P_7D(fptr, dev_id)
@@ -241,6 +248,7 @@ flowchart TD
 ### dev_free_R4P_1D
 
 Free array from device, R4P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_1D(fptr, dev_id)
@@ -264,6 +272,7 @@ flowchart TD
 ### dev_free_R4P_2D
 
 Free array from device, R4P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_2D(fptr, dev_id)
@@ -287,6 +296,7 @@ flowchart TD
 ### dev_free_R4P_3D
 
 Free array from device, R4P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_3D(fptr, dev_id)
@@ -310,6 +320,7 @@ flowchart TD
 ### dev_free_R4P_4D
 
 Free array from device, R4P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_4D(fptr, dev_id)
@@ -333,6 +344,7 @@ flowchart TD
 ### dev_free_R4P_5D
 
 Free array from device, R4P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_5D(fptr, dev_id)
@@ -356,6 +368,7 @@ flowchart TD
 ### dev_free_R4P_6D
 
 Free array from device, R4P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_6D(fptr, dev_id)
@@ -379,6 +392,7 @@ flowchart TD
 ### dev_free_R4P_7D
 
 Free array from device, R4P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_R4P_7D(fptr, dev_id)
@@ -402,6 +416,7 @@ flowchart TD
 ### dev_free_I8P_1D
 
 Free array from device, I8P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_1D(fptr, dev_id)
@@ -425,6 +440,7 @@ flowchart TD
 ### dev_free_I8P_2D
 
 Free array from device, I8P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_2D(fptr, dev_id)
@@ -448,6 +464,7 @@ flowchart TD
 ### dev_free_I8P_3D
 
 Free array from device, I8P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_3D(fptr, dev_id)
@@ -471,6 +488,7 @@ flowchart TD
 ### dev_free_I8P_4D
 
 Free array from device, I8P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_4D(fptr, dev_id)
@@ -494,6 +512,7 @@ flowchart TD
 ### dev_free_I8P_5D
 
 Free array from device, I8P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_5D(fptr, dev_id)
@@ -517,6 +536,7 @@ flowchart TD
 ### dev_free_I8P_6D
 
 Free array from device, I8P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_6D(fptr, dev_id)
@@ -540,6 +560,7 @@ flowchart TD
 ### dev_free_I8P_7D
 
 Free array from device, I8P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I8P_7D(fptr, dev_id)
@@ -563,6 +584,7 @@ flowchart TD
 ### dev_free_I4P_1D
 
 Free array from device, I4P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_1D(fptr, dev_id)
@@ -586,6 +608,7 @@ flowchart TD
 ### dev_free_I4P_2D
 
 Free array from device, I4P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_2D(fptr, dev_id)
@@ -609,6 +632,7 @@ flowchart TD
 ### dev_free_I4P_3D
 
 Free array from device, I4P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_3D(fptr, dev_id)
@@ -632,6 +656,7 @@ flowchart TD
 ### dev_free_I4P_4D
 
 Free array from device, I4P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_4D(fptr, dev_id)
@@ -655,6 +680,7 @@ flowchart TD
 ### dev_free_I4P_5D
 
 Free array from device, I4P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_5D(fptr, dev_id)
@@ -678,6 +704,7 @@ flowchart TD
 ### dev_free_I4P_6D
 
 Free array from device, I4P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_6D(fptr, dev_id)
@@ -701,6 +728,7 @@ flowchart TD
 ### dev_free_I4P_7D
 
 Free array from device, I4P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I4P_7D(fptr, dev_id)
@@ -724,6 +752,7 @@ flowchart TD
 ### dev_free_I2P_1D
 
 Free array from device, I2P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_1D(fptr, dev_id)
@@ -747,6 +776,7 @@ flowchart TD
 ### dev_free_I2P_2D
 
 Free array from device, I2P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_2D(fptr, dev_id)
@@ -770,6 +800,7 @@ flowchart TD
 ### dev_free_I2P_3D
 
 Free array from device, I2P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_3D(fptr, dev_id)
@@ -793,6 +824,7 @@ flowchart TD
 ### dev_free_I2P_4D
 
 Free array from device, I2P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_4D(fptr, dev_id)
@@ -816,6 +848,7 @@ flowchart TD
 ### dev_free_I2P_5D
 
 Free array from device, I2P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_5D(fptr, dev_id)
@@ -839,6 +872,7 @@ flowchart TD
 ### dev_free_I2P_6D
 
 Free array from device, I2P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_6D(fptr, dev_id)
@@ -862,6 +896,7 @@ flowchart TD
 ### dev_free_I2P_7D
 
 Free array from device, I2P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I2P_7D(fptr, dev_id)
@@ -885,6 +920,7 @@ flowchart TD
 ### dev_free_I1P_1D
 
 Free array from device, I1P kind, rank 1.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_1D(fptr, dev_id)
@@ -908,6 +944,7 @@ flowchart TD
 ### dev_free_I1P_2D
 
 Free array from device, I1P kind, rank 2.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_2D(fptr, dev_id)
@@ -931,6 +968,7 @@ flowchart TD
 ### dev_free_I1P_3D
 
 Free array from device, I1P kind, rank 3.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_3D(fptr, dev_id)
@@ -954,6 +992,7 @@ flowchart TD
 ### dev_free_I1P_4D
 
 Free array from device, I1P kind, rank 4.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_4D(fptr, dev_id)
@@ -977,6 +1016,7 @@ flowchart TD
 ### dev_free_I1P_5D
 
 Free array from device, I1P kind, rank 5.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_5D(fptr, dev_id)
@@ -1000,6 +1040,7 @@ flowchart TD
 ### dev_free_I1P_6D
 
 Free array from device, I1P kind, rank 6.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_6D(fptr, dev_id)
@@ -1023,6 +1064,7 @@ flowchart TD
 ### dev_free_I1P_7D
 
 Free array from device, I1P kind, rank 7.
+ No-op if fptr is not associated; fptr is nullified on return.
 
 ```fortran
 subroutine dev_free_I1P_7D(fptr, dev_id)

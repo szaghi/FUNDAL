@@ -10,6 +10,7 @@ Auto-generated from Fortran source doc comments using [FORMAL](https://github.co
 
 - [fundal](/api/src/lib/fundal)
 - [fundal_dev_alloc](/api/src/lib/fundal_dev_alloc)
+- [fundal_dev_alloc_replace](/api/src/lib/fundal_dev_alloc_replace)
 - [fundal_dev_alloc_unstructured](/api/src/lib/fundal_dev_alloc_unstructured)
 - [fundal_dev_assign](/api/src/lib/fundal_dev_assign)
 - [fundal_dev_free](/api/src/lib/fundal_dev_free)
@@ -19,4 +20,5 @@ Auto-generated from Fortran source doc comments using [FORMAL](https://github.co
 - [fundal_dev_memcpy_unstructured](/api/src/lib/fundal_dev_memcpy_unstructured)
 - [fundal_env](/api/src/lib/fundal_env)
 - [fundal_mpih_object](/api/src/lib/fundal_mpih_object)
+- [fundal_transpose_array](/api/src/lib/fundal_transpose_array)
 - [fundal_utilities](/api/src/lib/fundal_utilities)

@@ -35,6 +35,7 @@ graph LR
 - [cton](#cton)
 - [str_I4P](#str-i4p)
 - [str_I8P](#str-i8p)
+- [str_R8P](#str-r8p)
 - [strz](#strz)
 
 ## Derived Types
@@ -55,7 +56,8 @@ MPI handler class.
 | `tictoc` | integer(kind=I4P) |  | Next is tic or toc? |
 | `req_send_recv` | integer(kind=I4P) | allocatable | MPI request receive flags. |
 | `devs_number` | integer(kind=I4P) | pointer | Number of devices. |
-| `dev_memory_avail` | integer(kind=I8P) | pointer | Device memory available (GB). |
+| `dev_memory_avail` | integer(kind=I8P) | pointer | Device memory FREE at init (bytes). |
+| `dev_memory_total` | integer(kind=I8P) | pointer | Device memory TOTAL (bytes). |
 | `mydev` | integer(kind=I4P) | pointer | Device ID. |
 | `local_comm` | integer(kind=I4P) | pointer | Local communicator. |
 | `myhos` | integer(kind=I4P) | pointer | Host ID. |
@@ -83,7 +85,7 @@ MPI handler class.
 
 Stringify integer functions overloading.
 
-**Module procedures**: [`str_I4P`](/api/src/lib/fundal_mpih_object#str-i4p), [`str_I8P`](/api/src/lib/fundal_mpih_object#str-i8p)
+**Module procedures**: [`str_I4P`](/api/src/lib/fundal_mpih_object#str-i4p), [`str_I8P`](/api/src/lib/fundal_mpih_object#str-i8p), [`str_R8P`](/api/src/lib/fundal_mpih_object#str-r8p)
 
 ## Subroutines
 
@@ -387,6 +389,25 @@ function str_I8P(n)
 | Name | Type | Intent | Attributes | Description |
 |------|------|--------|------------|-------------|
 | `n` | integer(kind=I8P) | in |  | Integer to be converted. |
+
+### str_R8P
+
+Return real cast to string (R8P kind).
+
+**Attributes**: elemental
+
+**Returns**: `character(len=23)`
+
+```fortran
+function str_R8P(n, no_sign) result(str)
+```
+
+**Arguments**
+
+| Name | Type | Intent | Attributes | Description |
+|------|------|--------|------------|-------------|
+| `n` | real(kind=R8P) | in |  | Real to be converted. |
+| `no_sign` | logical | in | optional | Flag for leaving out the sign. |
 
 ### strz
 

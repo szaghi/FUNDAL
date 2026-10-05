@@ -12,6 +12,10 @@
         "link": "/api/src/lib/fundal_dev_alloc"
       },
       {
+        "text": "fundal_dev_alloc_replace",
+        "link": "/api/src/lib/fundal_dev_alloc_replace"
+      },
+      {
         "text": "fundal_dev_alloc_unstructured",
         "link": "/api/src/lib/fundal_dev_alloc_unstructured"
       },
@@ -46,6 +50,10 @@
       {
         "text": "fundal_mpih_object",
         "link": "/api/src/lib/fundal_mpih_object"
+      },
+      {
+        "text": "fundal_transpose_array",
+        "link": "/api/src/lib/fundal_transpose_array"
       },
       {
         "text": "fundal_utilities",

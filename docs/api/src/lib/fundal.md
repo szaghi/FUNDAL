@@ -13,6 +13,7 @@ title: fundal
 ```mermaid
 graph LR
   fundal["fundal"] --> fundal_dev_alloc["fundal_dev_alloc"]
+  fundal["fundal"] --> fundal_dev_alloc_replace["fundal_dev_alloc_replace"]
   fundal["fundal"] --> fundal_dev_alloc_unstructured["fundal_dev_alloc_unstructured"]
   fundal["fundal"] --> fundal_dev_assign["fundal_dev_assign"]
   fundal["fundal"] --> fundal_dev_free["fundal_dev_free"]
@@ -26,9 +27,26 @@ graph LR
 
 ## Contents
 
+- [dev_get_alloc_stats](#dev-get-alloc-stats)
 - [save_memory_status](#save-memory-status)
 
 ## Subroutines
+
+### dev_get_alloc_stats
+
+Return the number and the bytes of live structured device allocations, i.e. made by dev_alloc/dev_alloc_replace and
+ not yet released by dev_free. Backend independent: it counts FUNDAL calls, it does not query the device runtime.
+
+```fortran
+subroutine dev_get_alloc_stats(allocs, bytes)
+```
+
+**Arguments**
+
+| Name | Type | Intent | Attributes | Description |
+|------|------|--------|------------|-------------|
+| `allocs` | integer(kind=I8P) | out | optional | Number of live allocations. |
+| `bytes` | integer(kind=I8P) | out | optional | Bytes of live allocations. |
 
 ### save_memory_status
 

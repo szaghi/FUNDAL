@@ -78,7 +78,7 @@ graph LR
 
 Allocate device memory.
 
-**Module procedures**: [`dev_alloc_R8P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-1d), [`dev_alloc_R8P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-2d), [`dev_alloc_R8P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-3d), [`dev_alloc_R8P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-4d), [`dev_alloc_R8P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-5d), [`dev_alloc_R8P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-6d), [`dev_alloc_R8P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r8p-7d), [`dev_alloc_R4P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-1d), [`dev_alloc_R4P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-2d), [`dev_alloc_R4P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-3d), [`dev_alloc_R4P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-4d), [`dev_alloc_R4P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-5d), [`dev_alloc_R4P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-6d), [`dev_alloc_R4P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-r4p-7d), [`dev_alloc_I8P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-1d), [`dev_alloc_I8P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-2d), [`dev_alloc_I8P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-3d), [`dev_alloc_I8P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-4d), [`dev_alloc_I8P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-5d), [`dev_alloc_I8P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-6d), [`dev_alloc_I8P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i8p-7d), [`dev_alloc_I4P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-1d), [`dev_alloc_I4P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-2d), [`dev_alloc_I4P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-3d), [`dev_alloc_I4P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-4d), [`dev_alloc_I4P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-5d), [`dev_alloc_I4P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-6d), [`dev_alloc_I4P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i4p-7d), [`dev_alloc_I2P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-1d), [`dev_alloc_I2P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-2d), [`dev_alloc_I2P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-3d), [`dev_alloc_I2P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-4d), [`dev_alloc_I2P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-5d), [`dev_alloc_I2P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-6d), [`dev_alloc_I2P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i2p-7d), [`dev_alloc_I1P_1D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-1d), [`dev_alloc_I1P_2D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-2d), [`dev_alloc_I1P_3D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-3d), [`dev_alloc_I1P_4D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-4d), [`dev_alloc_I1P_5D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-5d), [`dev_alloc_I1P_6D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-6d), [`dev_alloc_I1P_7D`](/api/src/lib/fundal_dev_alloc_unstructured#dev-alloc-i1p-7d)
+**Module procedures**: [`dev_alloc_R8P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-1d), [`dev_alloc_R8P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-2d), [`dev_alloc_R8P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-3d), [`dev_alloc_R8P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-4d), [`dev_alloc_R8P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-5d), [`dev_alloc_R8P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-6d), [`dev_alloc_R8P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r8p-7d), [`dev_alloc_R4P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-1d), [`dev_alloc_R4P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-2d), [`dev_alloc_R4P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-3d), [`dev_alloc_R4P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-4d), [`dev_alloc_R4P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-5d), [`dev_alloc_R4P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-6d), [`dev_alloc_R4P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-r4p-7d), [`dev_alloc_I8P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-1d), [`dev_alloc_I8P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-2d), [`dev_alloc_I8P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-3d), [`dev_alloc_I8P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-4d), [`dev_alloc_I8P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-5d), [`dev_alloc_I8P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-6d), [`dev_alloc_I8P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i8p-7d), [`dev_alloc_I4P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-1d), [`dev_alloc_I4P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-2d), [`dev_alloc_I4P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-3d), [`dev_alloc_I4P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-4d), [`dev_alloc_I4P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-5d), [`dev_alloc_I4P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-6d), [`dev_alloc_I4P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i4p-7d), [`dev_alloc_I2P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-1d), [`dev_alloc_I2P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-2d), [`dev_alloc_I2P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-3d), [`dev_alloc_I2P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-4d), [`dev_alloc_I2P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-5d), [`dev_alloc_I2P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-6d), [`dev_alloc_I2P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i2p-7d), [`dev_alloc_I1P_1D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-1d), [`dev_alloc_I1P_2D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-2d), [`dev_alloc_I1P_3D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-3d), [`dev_alloc_I1P_4D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-4d), [`dev_alloc_I1P_5D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-5d), [`dev_alloc_I1P_6D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-6d), [`dev_alloc_I1P_7D`](/api/src/lib/fundal_dev_alloc#dev-alloc-i1p-7d)
 
 ### malloc_f
 
@@ -87,6 +87,8 @@ Allocate device memory.
 ### dev_alloc_R8P_1D
 
 Allocate array, R8P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -115,6 +117,8 @@ flowchart TD
 ### dev_alloc_R8P_2D
 
 Allocate array, R8P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -143,6 +147,8 @@ flowchart TD
 ### dev_alloc_R8P_3D
 
 Allocate array, R8P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -171,6 +177,8 @@ flowchart TD
 ### dev_alloc_R8P_4D
 
 Allocate array, R8P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -199,6 +207,8 @@ flowchart TD
 ### dev_alloc_R8P_5D
 
 Allocate array, R8P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -227,6 +237,8 @@ flowchart TD
 ### dev_alloc_R8P_6D
 
 Allocate array, R8P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -255,6 +267,8 @@ flowchart TD
 ### dev_alloc_R8P_7D
 
 Allocate array, R8P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R8P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -283,6 +297,8 @@ flowchart TD
 ### dev_alloc_R4P_1D
 
 Allocate array, R4P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -311,6 +327,8 @@ flowchart TD
 ### dev_alloc_R4P_2D
 
 Allocate array, R4P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -339,6 +357,8 @@ flowchart TD
 ### dev_alloc_R4P_3D
 
 Allocate array, R4P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -367,6 +387,8 @@ flowchart TD
 ### dev_alloc_R4P_4D
 
 Allocate array, R4P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -395,6 +417,8 @@ flowchart TD
 ### dev_alloc_R4P_5D
 
 Allocate array, R4P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -423,6 +447,8 @@ flowchart TD
 ### dev_alloc_R4P_6D
 
 Allocate array, R4P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -451,6 +477,8 @@ flowchart TD
 ### dev_alloc_R4P_7D
 
 Allocate array, R4P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_R4P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -479,6 +507,8 @@ flowchart TD
 ### dev_alloc_I8P_1D
 
 Allocate array, I8P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -507,6 +537,8 @@ flowchart TD
 ### dev_alloc_I8P_2D
 
 Allocate array, I8P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -535,6 +567,8 @@ flowchart TD
 ### dev_alloc_I8P_3D
 
 Allocate array, I8P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -563,6 +597,8 @@ flowchart TD
 ### dev_alloc_I8P_4D
 
 Allocate array, I8P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -591,6 +627,8 @@ flowchart TD
 ### dev_alloc_I8P_5D
 
 Allocate array, I8P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -619,6 +657,8 @@ flowchart TD
 ### dev_alloc_I8P_6D
 
 Allocate array, I8P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -647,6 +687,8 @@ flowchart TD
 ### dev_alloc_I8P_7D
 
 Allocate array, I8P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I8P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -675,6 +717,8 @@ flowchart TD
 ### dev_alloc_I4P_1D
 
 Allocate array, I4P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -703,6 +747,8 @@ flowchart TD
 ### dev_alloc_I4P_2D
 
 Allocate array, I4P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -731,6 +777,8 @@ flowchart TD
 ### dev_alloc_I4P_3D
 
 Allocate array, I4P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -759,6 +807,8 @@ flowchart TD
 ### dev_alloc_I4P_4D
 
 Allocate array, I4P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -787,6 +837,8 @@ flowchart TD
 ### dev_alloc_I4P_5D
 
 Allocate array, I4P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -815,6 +867,8 @@ flowchart TD
 ### dev_alloc_I4P_6D
 
 Allocate array, I4P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -843,6 +897,8 @@ flowchart TD
 ### dev_alloc_I4P_7D
 
 Allocate array, I4P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I4P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -871,6 +927,8 @@ flowchart TD
 ### dev_alloc_I2P_1D
 
 Allocate array, I2P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -899,6 +957,8 @@ flowchart TD
 ### dev_alloc_I2P_2D
 
 Allocate array, I2P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -927,6 +987,8 @@ flowchart TD
 ### dev_alloc_I2P_3D
 
 Allocate array, I2P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -955,6 +1017,8 @@ flowchart TD
 ### dev_alloc_I2P_4D
 
 Allocate array, I2P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -983,6 +1047,8 @@ flowchart TD
 ### dev_alloc_I2P_5D
 
 Allocate array, I2P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1011,6 +1077,8 @@ flowchart TD
 ### dev_alloc_I2P_6D
 
 Allocate array, I2P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1039,6 +1107,8 @@ flowchart TD
 ### dev_alloc_I2P_7D
 
 Allocate array, I2P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I2P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1067,6 +1137,8 @@ flowchart TD
 ### dev_alloc_I1P_1D
 
 Allocate array, I1P kind, rank 1.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1095,6 +1167,8 @@ flowchart TD
 ### dev_alloc_I1P_2D
 
 Allocate array, I1P kind, rank 2.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1123,6 +1197,8 @@ flowchart TD
 ### dev_alloc_I1P_3D
 
 Allocate array, I1P kind, rank 3.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1151,6 +1227,8 @@ flowchart TD
 ### dev_alloc_I1P_4D
 
 Allocate array, I1P kind, rank 4.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1179,6 +1257,8 @@ flowchart TD
 ### dev_alloc_I1P_5D
 
 Allocate array, I1P kind, rank 5.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1207,6 +1287,8 @@ flowchart TD
 ### dev_alloc_I1P_6D
 
 Allocate array, I1P kind, rank 6.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
@@ -1235,6 +1317,8 @@ flowchart TD
 ### dev_alloc_I1P_7D
 
 Allocate array, I1P kind, rank 7.
+ Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+ Use dev_alloc_replace to free an associated pointer before allocating.
 
 ```fortran
 subroutine dev_alloc_I1P_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
