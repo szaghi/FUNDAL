@@ -4,6 +4,11 @@ All notable changes to this project are documented here.
 Versions follow [Semantic Versioning](https://semver.org/).
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.2] — 2026-10-05
+### Added
+- **dev**: Add allocation registry for structured device memory
+
+
 ## [2.1.1] — 2026-10-05
 ### Fixed
 - **dev_handling**: Make host fallback explicit and fix dev_init crash
