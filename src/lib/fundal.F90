@@ -4,6 +4,10 @@ module fundal
 use            :: fundal_dev_alloc_unstructured,  only : dev_alloc_unstr
 use            :: fundal_dev_alloc,               only : dev_alloc, FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
 use            :: fundal_dev_alloc_replace,       only : dev_alloc_replace
+use            :: fundal_registry,                only : dev_set_registry_policy, registry_report, registry_stats, &
+                                                         FUNDAL_REGISTRY_OFF, FUNDAL_REGISTRY_WARN,             &
+                                                         FUNDAL_REGISTRY_ERROR, FUNDAL_ERR_NOT_REGISTERED,      &
+                                                         FUNDAL_ERR_DEV_ID_MISMATCH
 use            :: fundal_dev_free_unstructured,   only : dev_free_unstr
 use            :: fundal_dev_free,                only : dev_free
 use            :: fundal_dev_memcpy_unstructured, only : dev_memcpy_from_device_unstr, dev_memcpy_to_device_unstr
@@ -20,7 +24,7 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          FUNDAL_ERR_NO_DEVICE,       &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
-                                                        mydev, myhos, devtype, IDK, dev_allocs_live, dev_bytes_live
+                                                        mydev, myhos, devtype, IDK
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
 
 implicit none
@@ -45,7 +49,11 @@ public :: dev_init
 public :: dev_is_host_fallback, FUNDAL_ERR_NO_DEVICE
 public :: dev_set_device_num
 ! auxiliary routines
+public :: dev_alloc_report
 public :: dev_get_alloc_stats
+public :: dev_set_registry_policy
+public :: FUNDAL_REGISTRY_OFF, FUNDAL_REGISTRY_WARN, FUNDAL_REGISTRY_ERROR
+public :: FUNDAL_ERR_NOT_REGISTERED, FUNDAL_ERR_DEV_ID_MISMATCH
 public :: save_memory_status
 ! environment global variables
 public :: devs_number
@@ -58,15 +66,24 @@ public :: devtype
 public :: IDK
 
 contains
-   subroutine dev_get_alloc_stats(allocs, bytes)
+   subroutine dev_alloc_report(unit)
+   !< Write the live structured allocations (address, bytes, device, label) and a summary line, e.g. at teardown to find
+   !< leaks. Backend independent: it reads the allocation registry, it does not query the device runtime.
+   integer(I4P), intent(in), optional :: unit !< Output unit (default standard output).
+
+   call registry_report(unit=unit)
+   endsubroutine dev_alloc_report
+
+   subroutine dev_get_alloc_stats(allocs, bytes, dev_id)
    !< Return the number and the bytes of live structured device allocations, i.e. made by dev_alloc/dev_alloc_replace and
-   !< not yet released by dev_free. Backend independent: it counts FUNDAL calls, it does not query the device runtime.
+   !< not yet released by dev_free, optionally only those living on one device. Backend independent: it reads the
+   !< allocation registry, it does not query the device runtime.
    !< @NOTE Unstructured allocations (dev_alloc_unstr) are not counted.
    integer(I8P), intent(out), optional :: allocs !< Number of live allocations.
    integer(I8P), intent(out), optional :: bytes  !< Bytes of live allocations.
+   integer(I4P), intent(in),  optional :: dev_id !< Count only allocations living on this device.
 
-   if (present(allocs)) allocs = dev_allocs_live
-   if (present(bytes)) bytes = dev_bytes_live
+   call registry_stats(allocs=allocs, bytes=bytes, dev_id=dev_id)
    endsubroutine dev_get_alloc_stats
 
    subroutine save_memory_status(file_name, tag)

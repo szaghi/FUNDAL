@@ -15,11 +15,15 @@ module fundal_dev_free
 use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: DEVMODULE
-use            :: fundal_env,      only : dev_allocs_live, dev_bytes_live, mydev
+use            :: fundal_env,      only : devtype, mydev
+use            :: fundal_registry, only : registry_address, registry_entry, registry_lookup, registry_misuse, &
+                                          registry_policy, registry_remove, FUNDAL_REGISTRY_OFF,               &
+                                          FUNDAL_ERR_DEV_ID_MISMATCH, FUNDAL_ERR_NOT_REGISTERED
 
 implicit none
 private
 public :: dev_free
+public :: free_checked
 
 interface dev_free
    !< Free device memory OpenACC backend.
@@ -95,6 +99,81 @@ endinterface
 #endif
 
 contains
+   subroutine free_checked(cptr, contiguous, freed, dev_id, ierr, check_dev_id)
+   !< Free a structured allocation through the allocation registry (rank-agnostic core of dev_free).
+   !< A registered buffer is freed on the device where it lives (recorded at allocation). With policy off, or for a
+   !< pointer the registry does not know (double free, foreign or section pointer) under policy warn, the buffer is freed
+   !< exactly as before the registry existed: on dev_id (or mydev) for OpenMP, on the current device for OpenACC.
+   !< Errors are returned through ierr if present (nothing is freed), otherwise handled by the policy (warn/error stop).
+   type(c_ptr),  intent(in)            :: cptr         !< Address of the buffer (c_loc of the Fortran pointer).
+   logical,      intent(in)            :: contiguous   !< The Fortran pointer is contiguous.
+   logical,      intent(out)           :: freed        !< The buffer has been freed (the pointer must be nullified).
+   integer(I4P), intent(in),  optional :: dev_id       !< Device ID claimed by the caller.
+   integer(I4P), intent(out), optional :: ierr         !< Error status.
+   logical,      intent(in),  optional :: check_dev_id !< Check dev_id against the recorded device (default true).
+   type(registry_entry)                :: entry        !< Registered allocation.
+   logical                             :: found        !< The buffer is registered.
+   logical                             :: check_       !< Check dev_id, local var.
+   integer(I4P)                        :: legacy_dev   !< Device of the legacy (pre-registry) free.
+   character(64)                       :: msg          !< Message buffer.
+
+   freed = .false.
+   if (present(ierr)) ierr = 0_I4P
+   check_ = .true. ; if (present(check_dev_id)) check_ = check_dev_id
+   legacy_dev = mydev ; if (present(dev_id)) legacy_dev = dev_id
+   found = .false.
+   if (registry_policy() == FUNDAL_REGISTRY_OFF) then
+      ! no checks: forget the buffer if registered (statistics) and free it as before the registry existed
+      if (contiguous) call registry_remove(registry_address(cptr), found)
+      DEVFREE(cptr, int(legacy_dev, c_int))
+      freed = .true.
+      return
+   endif
+   if (contiguous) call registry_lookup(registry_address(cptr), found, entry)
+   if (.not.found) then
+      if (present(ierr)) then
+         ierr = FUNDAL_ERR_NOT_REGISTERED
+         return
+      endif
+      call registry_misuse(msg='dev_free: pointer not allocated by FUNDAL (double free, foreign or section pointer)', &
+                           action='freed as before the allocation registry')
+      DEVFREE(cptr, int(legacy_dev, c_int))
+      freed = .true.
+      return
+   endif
+   if (check_ .and. present(dev_id)) then
+      if (dev_id /= entry%dev_id) then
+         if (present(ierr)) then
+            ierr = FUNDAL_ERR_DEV_ID_MISMATCH
+            return
+         endif
+         write(msg, '(A,I0,A,I0)') 'dev_id=', dev_id, ' but the buffer lives on device ', entry%dev_id
+         call registry_misuse(msg='dev_free: '//trim(msg), action='freed there')
+      endif
+   endif
+   call registry_remove(entry%addr, found)
+   call free_on_device(cptr, entry%dev_id)
+   freed = .true.
+   endsubroutine free_checked
+
+   subroutine free_on_device(cptr, dev)
+   !< Free a buffer on a given device: OpenMP takes the device as argument, OpenACC frees on the current device, which is
+   !< switched to the buffer's device (and restored) when they differ.
+   type(c_ptr),  intent(in) :: cptr    !< Address of the buffer.
+   integer(I4P), intent(in) :: dev     !< Device where the buffer lives.
+#if defined DEV_OAC
+   integer(I4P)             :: current !< Current device.
+
+   current = acc_get_device_num(devtype)
+   if (current /= dev) call acc_set_device_num(dev, devtype)
+   DEVFREE(cptr, int(dev, c_int))
+   if (current /= dev) call acc_set_device_num(current, devtype)
+#else
+
+   DEVFREE(cptr, int(dev, c_int))
+#endif
+   endsubroutine free_on_device
+
 #define KKP R8P
 #define VARTYPE real
 #define DEV_FREE_KKP_1D dev_free_R8P_1D

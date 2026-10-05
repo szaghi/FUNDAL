@@ -7,6 +7,8 @@ module fundal_dev_alloc_replace
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: fundal_dev_alloc
 use            :: fundal_dev_free
+use            :: fundal_registry, only : registry_policy, FUNDAL_REGISTRY_ERROR
+use, intrinsic :: iso_c_binding,   only : c_loc
 
 implicit none
 private
@@ -15,8 +17,8 @@ public :: dev_alloc_replace
 interface dev_alloc_replace
    !< Allocate device memory, freeing the buffer the pointer is associated with, if any.
    !< @NOTE Contents are NOT preserved (unlike C realloc): they are undefined unless init_value is passed.
-   !< @NOTE The actual argument must have a defined association status (=>null(), nullify, or a previous allocation) and
-   !< an existing buffer must have been allocated on the same dev_id.
+   !< @NOTE The actual argument must have a defined association status (=>null(), nullify, or a previous allocation).
+   !< The existing buffer is freed on the device where it lives (allocation registry), whatever dev_id is.
    module procedure dev_alloc_replace_R8P_1D,&
                     dev_alloc_replace_R8P_2D,&
                     dev_alloc_replace_R8P_3D,&

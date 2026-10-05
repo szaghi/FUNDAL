@@ -1,4 +1,4 @@
-   subroutine DEV_ALLOC_KKP_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 1.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -8,6 +8,7 @@
    integer(I4P), intent(in), optional :: dev_id      !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(1)  !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value  !< Optional initial value.
+   character(*), intent(in), optional :: label       !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)     !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev    !< C pointer.
@@ -25,10 +26,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
@@ -43,7 +41,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_1D
 
-   subroutine DEV_ALLOC_KKP_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 2.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -53,6 +51,7 @@
    integer(I4P), intent(in), optional :: dev_id        !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(2)    !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value    !< Optional initial value.
+   character(*), intent(in), optional :: label         !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)       !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev      !< C pointer.
@@ -70,10 +69,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
@@ -90,7 +86,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_2D
 
-   subroutine DEV_ALLOC_KKP_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 3.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -100,6 +96,7 @@
    integer(I4P), intent(in), optional :: dev_id          !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(3)      !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value      !< Optional initial value.
+   character(*), intent(in), optional :: label           !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)         !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev        !< C pointer.
@@ -117,10 +114,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
@@ -139,7 +133,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_3D
 
-   subroutine DEV_ALLOC_KKP_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 4.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -149,6 +143,7 @@
    integer(I4P), intent(in), optional :: dev_id            !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(4)        !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value        !< Optional initial value.
+   character(*), intent(in), optional :: label             !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)           !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev          !< C pointer.
@@ -166,10 +161,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
@@ -190,7 +182,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_4D
 
-   subroutine DEV_ALLOC_KKP_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 5.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -200,6 +192,7 @@
    integer(I4P), intent(in), optional :: dev_id              !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(5)          !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value          !< Optional initial value.
+   character(*), intent(in), optional :: label               !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)             !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev            !< C pointer.
@@ -217,10 +210,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
@@ -243,7 +233,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_5D
 
-   subroutine DEV_ALLOC_KKP_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 6.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -253,6 +243,7 @@
    integer(I4P), intent(in), optional :: dev_id                !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(6)            !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value            !< Optional initial value.
+   character(*), intent(in), optional :: label                 !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)               !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev              !< C pointer.
@@ -270,10 +261,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
@@ -298,7 +286,7 @@
    endif
    endsubroutine DEV_ALLOC_KKP_6D
 
-   subroutine DEV_ALLOC_KKP_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+   subroutine DEV_ALLOC_KKP_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
    !< Allocate array, KKP kind, rank 7.
    !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
    !< Use dev_alloc_replace to free an associated pointer before allocating.
@@ -308,6 +296,7 @@
    integer(I4P), intent(in), optional :: dev_id                  !< Device ID (not used, necessary for unified OpenMP API).
    integer(I4P), intent(in), optional :: lbounds(7)              !< Array lower bounds, 1 if not passed.
    VARTYPE(KKP), intent(in), optional :: init_value              !< Optional initial value.
+   character(*), intent(in), optional :: label                   !< Label of the allocation (allocation registry).
    VARTYPE(KKP), pointer              :: fptr(:,:,:,:,:,:,:)     !< Fortran pointer with lbounds=1.
    VARTYPE(KKP)                       :: mold(1)                 !< Mold, same type/kind as fptr_dev, for storage_size.
    type(c_ptr)                        :: cptr_dev                !< C pointer.
@@ -325,10 +314,7 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
-      !$omp atomic update
-      dev_allocs_live = dev_allocs_live + 1_I8P
-      !$omp atomic update
-      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
+      call register_allocation(cptr=cptr_dev, bytes=bytes, dev_id_used=dev_id_, dev_id=dev_id, label=label)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)

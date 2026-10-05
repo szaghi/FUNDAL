@@ -17,6 +17,8 @@ use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P
 use            :: DEVMODULE
 use            :: fundal_env
 use            :: fundal_utilities
+use            :: fundal_registry, only : registry_address, registry_insert, registry_policy, FUNDAL_REGISTRY_OFF
+use, intrinsic :: iso_fortran_env, only : error_unit
 
 implicit none
 private
@@ -101,6 +103,34 @@ endinterface
 #endif
 
 contains
+   subroutine register_allocation(cptr, bytes, dev_id_used, dev_id, label)
+   !< Record a successful allocation in the allocation registry, with the device where it actually lives.
+   !< On OpenACC acc_malloc allocates on the current device and dev_id is documented as not used: the current device is
+   !< recorded, and a dev_id that differs from it is reported (unless the registry policy is off).
+   type(c_ptr),       intent(in)           :: cptr        !< Address of the buffer.
+   integer(c_size_t), intent(in)           :: bytes       !< Size of the buffer [bytes].
+   integer(I4P),      intent(in)           :: dev_id_used !< Device passed to the allocator (dev_id or mydev).
+   integer(I4P),      intent(in), optional :: dev_id      !< Device ID requested by the caller.
+   character(*),      intent(in), optional :: label       !< Label of the allocation.
+   integer(I4P)                            :: actual      !< Device where the buffer lives.
+   logical                                 :: replaced    !< The address was already registered.
+
+#if defined DEV_OAC
+   actual = acc_get_device_num(devtype)
+   if (present(dev_id)) then
+      if (dev_id /= actual .and. registry_policy() /= FUNDAL_REGISTRY_OFF) &
+         write(error_unit, '(A,I0,A,I0,A)') 'FUNDAL warning: dev_alloc: dev_id=', dev_id, &
+            ' is not used by the OpenACC backend, buffer allocated on the current device ', actual, ' and recorded there'
+   endif
+#else
+   actual = dev_id_used
+#endif
+   call registry_insert(registry_address(cptr), int(bytes, I8P), actual, label=label, replaced=replaced)
+   if (replaced .and. registry_policy() /= FUNDAL_REGISTRY_OFF) &
+      write(error_unit, '(A)') 'FUNDAL warning: dev_alloc: address already registered, its previous buffer was '// &
+                               'released outside FUNDAL'
+   endsubroutine register_allocation
+
 #define KKP R8P
 #define VARTYPE real
 #define DEV_ALLOC_KKP_1D dev_alloc_R8P_1D

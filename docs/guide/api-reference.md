@@ -33,7 +33,11 @@ public :: dev_init
 public :: dev_is_host_fallback, FUNDAL_ERR_NO_DEVICE
 public :: dev_set_device_num
 ! auxiliary routines
+public :: dev_alloc_report
 public :: dev_get_alloc_stats
+public :: dev_set_registry_policy
+public :: FUNDAL_REGISTRY_OFF, FUNDAL_REGISTRY_WARN, FUNDAL_REGISTRY_ERROR
+public :: FUNDAL_ERR_NOT_REGISTERED, FUNDAL_ERR_DEV_ID_MISMATCH
 public :: save_memory_status
 ! environment global variables
 public :: dev_memory_avail
@@ -122,7 +126,7 @@ call mpih%initialize(do_mpi_init=.true., do_device_init=.true.)
 Allocates space directly on the device and returns a Fortran `pointer` to it. The device memory is **not** mapped to any host memory.
 
 ```fortran
-subroutine dev_alloc(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+subroutine dev_alloc(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value, label)
 ```
 
 | Argument | Intent | Description |
@@ -130,9 +134,13 @@ subroutine dev_alloc(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
 | `fptr_dev` | `out`, pointer | Pointer to allocated device memory (ranks 1–7, kinds R8P/R4P/I8P/I4P/I2P/I1P) |
 | `ubounds(:)` | `in` | Upper bounds of `fptr_dev` |
 | `ierr` | `out` | Error status (0 = success; `FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED` on failure) |
-| `dev_id` | `in`, optional | Device ID. For OpenMP defaults to global `mydev`. |
+| `dev_id` | `in`, optional | Device ID. For OpenMP defaults to global `mydev`. Not used by OpenACC, which allocates on the current device (a different `dev_id` is reported by the [registry](#allocation-registry)). |
 | `lbounds(:)` | `in`, optional | Lower bounds of `fptr_dev` (default: 1) |
 | `init_value` | `in`, optional | Scalar initial value; if provided, initialises `fptr_dev` with a parallel device loop |
+| `label` | `in`, optional | Label shown by [`dev_alloc_report`](#dev_alloc_report) (up to 32 characters) |
+
+Every allocation is recorded in the [allocation registry](#allocation-registry) with its size and the device where it
+actually lives.
 
 ```fortran
 use :: fundal
@@ -172,8 +180,8 @@ subroutine dev_alloc_replace(fptr_dev, ubounds, ierr, dev_id, lbounds, init_valu
 - **Precondition:** the actual argument must have a *defined* association status: `=>null()` at declaration,
   `nullify()`, or a previous allocation. A local pointer declared without `=>null()` and never assigned is undefined:
   passing it is undefined behaviour.
-- **Precondition:** an existing buffer must have been allocated on the same `dev_id`. FUNDAL does not record the device
-  of an allocation, and freeing on the wrong device is undefined behaviour on the OpenMP backend.
+- The existing buffer is freed on the device where it lives (recorded by the [registry](#allocation-registry)); `dev_id`
+  is the device of the new buffer, so a buffer can be moved to another device. Optional `label` as in `dev_alloc`.
 
 ```fortran
 use :: fundal
@@ -213,16 +221,19 @@ call dev_alloc_unstr(fptr_dev=a, init_value=1._R8P)
 ### `dev_free` {#dev_free}
 
 Frees memory that was directly allocated on the device with `dev_alloc` or `dev_alloc_replace`. The pointer is
-nullified on return. Calling it on a disassociated (null) pointer is a no-op, so a second `dev_free` is harmless.
+nullified on return. Calling it on a disassociated (null) pointer is a no-op, so a second `dev_free` on the *same*
+pointer is harmless. The buffer is freed on the device where it lives, as recorded by the
+[allocation registry](#allocation-registry), whatever the current device is.
 
 ```fortran
-subroutine dev_free(fptr, dev_id)
+subroutine dev_free(fptr, dev_id, ierr)
 ```
 
 | Argument | Intent | Description |
 |----------|--------|-------------|
 | `fptr` | `inout`, pointer | Pointer to device memory to free; must have a defined association status |
-| `dev_id` | `in`, optional | Device ID. For OpenMP defaults to global `mydev`. |
+| `dev_id` | `in`, optional | Device ID: redundant with the registry, only checked against it (kept for compatibility) |
+| `ierr` | `out`, optional | Error status: `FUNDAL_ERR_NOT_REGISTERED` (pointer not allocated by FUNDAL: double free through an alias, foreign or section pointer) or `FUNDAL_ERR_DEV_ID_MISMATCH`; on error nothing is freed and `fptr` is untouched. If absent, misuse is handled by the [registry policy](#allocation-registry). |
 
 ```fortran
 use :: fundal
@@ -398,28 +409,82 @@ The structured-model routines follow two ownership models. Pick the routine by w
 | Routine | Pointer intent | Called on an associated pointer | Caller must ensure |
 |---------|----------------|---------------------------------|--------------------|
 | `dev_alloc` | `out` | **leaks** the buffer (like pointer `ALLOCATE`) | never allocated, or `dev_free` called first |
-| `dev_alloc_replace` | `inout` | frees, then allocates; contents undefined unless `init_value` | defined association status; same `dev_id` as the existing buffer |
+| `dev_alloc_replace` | `inout` | frees (on the recorded device), then allocates; contents undefined unless `init_value` | defined association status |
 | `dev_assign_to_device` | `inout` | frees, allocates, copies | defined association status |
-| `dev_free` | `inout` | frees and nullifies; no-op if null | defined association status; buffer from `dev_alloc`/`dev_alloc_replace` |
+| `dev_free` | `inout` | frees (on the recorded device) and nullifies; no-op if null | defined association status; buffer from `dev_alloc`/`dev_alloc_replace` (checked by the registry) |
 
 Why `dev_alloc` keeps `intent(out)`: an `intent(inout)` guard would read the association status of local pointers
 declared without `=>null()` (a `=>null()` initializer on a local implies `SAVE`, so omitting it is common and
 deliberate), which is undefined behaviour.
 
+## Allocation registry {#allocation-registry}
+
+FUNDAL records every structured allocation (`dev_alloc`, `dev_alloc_replace`, `dev_assign_to_device`) in a host-side
+registry: base address, size, device where the buffer actually lives, optional label. It is used to
+
+- free each buffer on its own device, whatever the current device is (switching device on OpenACC);
+- detect misuse of `dev_free`: double free through an alias, pointers not allocated by FUNDAL, section pointers,
+  a `dev_id` that contradicts the recorded device;
+- provide exact statistics and leak reports on every backend, including the host fallback.
+
+Misuse handling is set by a process-wide **policy**, with [`dev_set_registry_policy`](#dev_set_registry_policy) or,
+without code changes, the environment variable `FUNDAL_REGISTRY`:
+
+| Policy | Misuse of `dev_free` without `ierr` |
+|--------|-------------------------------------|
+| `warn` (default) | warning on stderr, then the buffer is freed as before the registry existed (compatible behaviour) |
+| `error` | `error stop` |
+| `off` | no checks and no warnings: exactly the behaviour before the registry existed |
+
+With `ierr` present, misuse is always returned as an error code and nothing is freed. A `dev_id` that contradicts the
+recorded device is warned about and the buffer is freed on the recorded device. Statistics and reports work under every
+policy. Not tracked: the unstructured model (`dev_alloc_unstr`), handled by the runtime present table.
+
+Limits: the registry proves FUNDAL *called* free for each buffer, not that the runtime released it (use
+`compute-sanitizer --leak-check full` on CUDA builds); its updates are serialized by an OpenMP `critical` section, so
+it is thread-safe only when FUNDAL is compiled with OpenMP.
+
+### `dev_set_registry_policy` {#dev_set_registry_policy}
+
+```fortran
+subroutine dev_set_registry_policy(policy, ierr)
+```
+
+| Argument | Intent | Description |
+|----------|--------|-------------|
+| `policy` | `in` | `'off'`, `'warn'` or `'error'` (case insensitive); overrides `FUNDAL_REGISTRY` |
+| `ierr` | `out`, optional | 1 if the name is not valid (policy unchanged) |
+
+### `dev_alloc_report` {#dev_alloc_report}
+
+Writes the live allocations, one per line (address, bytes, device, label), and a summary line: e.g. at teardown, to
+find what leaked.
+
+```fortran
+subroutine dev_alloc_report(unit)
+```
+
+```text
+FUNDAL live allocation: address=0x00007F3A40000000 bytes=80 device=0 label="rho"
+FUNDAL live allocations: 1 (80 bytes)
+```
+
 ### `dev_get_alloc_stats` {#dev_get_alloc_stats}
 
 Returns the number and the bytes of live structured allocations: made by `dev_alloc`/`dev_alloc_replace` and not yet
-released by `dev_free`. It counts FUNDAL calls rather than querying the device runtime, so it works identically on every
-backend, including the host fallback. Use it to assert at teardown that nothing leaked.
+released by `dev_free`, optionally only those living on one device. It reads the allocation registry rather than the
+device runtime, so it works identically on every backend, including the host fallback. Use it to assert at teardown
+that nothing leaked.
 
 ```fortran
-subroutine dev_get_alloc_stats(allocs, bytes)
+subroutine dev_get_alloc_stats(allocs, bytes, dev_id)
 ```
 
 | Argument | Intent | Description |
 |----------|--------|-------------|
 | `allocs` | `out`, optional | Number of live allocations |
 | `bytes` | `out`, optional | Bytes of live allocations |
+| `dev_id` | `in`, optional | Count only allocations living on this device |
 
 ```fortran
 use :: fundal
@@ -429,14 +494,7 @@ call dev_get_alloc_stats(allocs=allocs, bytes=bytes)
 if (allocs /= 0_I8P) error stop 'device memory leaked'
 ```
 
-Limits:
-
-- It proves FUNDAL *called* free for each buffer, not that the runtime released it; use
-  `compute-sanitizer --leak-check full` for that on CUDA builds.
-- Unstructured allocations (`dev_alloc_unstr`) are not counted.
-- Updates are `!$omp atomic`: they are not thread-safe when `dev_alloc`/`dev_free` are called from several host threads
-  in a build without OpenMP enabled.
-- The byte count drifts if `dev_free` is called on a pointer re-pointed at a section of a buffer (already a misuse).
+See the [allocation registry](#allocation-registry) for its limits.
 
 ---
 

@@ -47,6 +47,7 @@ The `fundal_mpih_object` module provides an auxiliary `mpih_object` class for MP
 | `dev_alloc_replace` | ✅ | ✅ |
 | `dev_free` | ✅ | ✅ |
 | `dev_get_alloc_stats` | ✅ | ✅ |
+| `dev_alloc_report` / `dev_set_registry_policy` | ✅ | ✅ |
 | `dev_memcpy_to_device` | ✅ | ✅ |
 | `dev_memcpy_from_device` | ✅ | ✅ |
 | `dev_assign_to_device` | ✅ | ✅ |

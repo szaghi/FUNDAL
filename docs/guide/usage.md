@@ -98,6 +98,25 @@ call dev_free(a_dev)                                                  ! nullifie
 `dev_get_alloc_stats(allocs, bytes)` reports the live structured allocations, on every backend: assert `allocs == 0` at
 teardown to catch leaks. See the [ownership contract](./api-reference#ownership-contract).
 
+### Finding leaks and misuse
+
+Every structured allocation is recorded by the [allocation registry](./api-reference#allocation-registry). Label the
+allocations and print what is still alive at teardown:
+
+```fortran
+call dev_alloc(fptr_dev=rho, ubounds=[n], ierr=ierr, label='rho')
+! ...
+call dev_alloc_report()        ! lists live allocations with label, size and device
+```
+
+`dev_free` detects double frees through aliases, foreign and section pointers: by default it warns and behaves as
+before. Make misuse fatal while debugging, without code changes, with `FUNDAL_REGISTRY=error`, or check it explicitly:
+
+```fortran
+call dev_free(p, ierr=ierr)
+if (ierr == FUNDAL_ERR_NOT_REGISTERED) print *, 'p was not allocated by FUNDAL (or already freed)'
+```
+
 ---
 
 ## Unstructured memory model
