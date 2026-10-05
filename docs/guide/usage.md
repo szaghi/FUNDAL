@@ -69,6 +69,23 @@ call dev_free(a_dev)
 Device memory **must** be declared as `pointer`, never `allocatable`. Use `allocatable` for host-side arrays.
 :::
 
+### Re-allocating a device pointer
+
+`dev_alloc` has pointer-`ALLOCATE` semantics: called on a pointer that already holds a buffer, it overwrites the pointer
+and **leaks** the buffer, with no diagnostic (its `intent(out)` dummy cannot be tested for association). To re-allocate,
+either free first or use `dev_alloc_replace`, which frees an associated pointer before allocating:
+
+```fortran
+real(R8P), pointer :: a_dev(:,:,:)=>null()   ! defined association status is required
+
+call dev_alloc_replace(fptr_dev=a_dev, ubounds=[n,n,n], ierr=ierr)   ! first call: plain allocation
+call dev_alloc_replace(fptr_dev=a_dev, ubounds=[m,m,m], ierr=ierr)   ! old buffer freed, contents NOT preserved
+call dev_free(a_dev)                                                  ! nullifies; a second dev_free is a no-op
+```
+
+`dev_get_alloc_stats(allocs, bytes)` reports the live structured allocations, on every backend: assert `allocs == 0` at
+teardown to catch leaks. See the [ownership contract](./api-reference#ownership-contract).
+
 ---
 
 ## Unstructured memory model

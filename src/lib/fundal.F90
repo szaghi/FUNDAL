@@ -3,6 +3,7 @@ module fundal
 !< FUNDAL, Fortran UNified Device Acceleration Library.
 use            :: fundal_dev_alloc_unstructured,  only : dev_alloc_unstr
 use            :: fundal_dev_alloc,               only : dev_alloc, FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
+use            :: fundal_dev_alloc_replace,       only : dev_alloc_replace
 use            :: fundal_dev_free_unstructured,   only : dev_free_unstr
 use            :: fundal_dev_free,                only : dev_free
 use            :: fundal_dev_memcpy_unstructured, only : dev_memcpy_from_device_unstr, dev_memcpy_to_device_unstr
@@ -17,7 +18,7 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          dev_init,                   &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
-                                                        mydev, myhos, devtype, IDK
+                                                        mydev, myhos, devtype, IDK, dev_allocs_live, dev_bytes_live
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
 
 implicit none
@@ -25,6 +26,7 @@ private
 ! runtime memory routines
 public :: dev_alloc_unstr
 public :: dev_alloc, FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
+public :: dev_alloc_replace
 public :: dev_free_unstr
 public :: dev_free
 public :: dev_memcpy_from_device_unstr, dev_memcpy_to_device_unstr
@@ -40,6 +42,7 @@ public :: dev_get_property_string
 public :: dev_init
 public :: dev_set_device_num
 ! auxiliary routines
+public :: dev_get_alloc_stats
 public :: save_memory_status
 ! environment global variables
 public :: devs_number
@@ -52,6 +55,17 @@ public :: devtype
 public :: IDK
 
 contains
+   subroutine dev_get_alloc_stats(allocs, bytes)
+   !< Return the number and the bytes of live structured device allocations, i.e. made by dev_alloc/dev_alloc_replace and
+   !< not yet released by dev_free. Backend independent: it counts FUNDAL calls, it does not query the device runtime.
+   !< @NOTE Unstructured allocations (dev_alloc_unstr) are not counted.
+   integer(I8P), intent(out), optional :: allocs !< Number of live allocations.
+   integer(I8P), intent(out), optional :: bytes  !< Bytes of live allocations.
+
+   if (present(allocs)) allocs = dev_allocs_live
+   if (present(bytes)) bytes = dev_bytes_live
+   endsubroutine dev_get_alloc_stats
+
    subroutine save_memory_status(file_name, tag)
    !< Save the current device-memory status into a file.
    !< File is accessed in append position.

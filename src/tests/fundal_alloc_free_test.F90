@@ -15,6 +15,7 @@ character(8), parameter :: ECHO_I2P='test I2P' !< Description message for test I
 character(8), parameter :: ECHO_I1P='test I1P' !< Description message for test I1P kind.
 character(5), parameter :: FORMATRP='F12.9'    !< Format output for test RxP.
 character(2), parameter :: FORMATIP='I3'       !< Format output for test IxP.
+integer(I8P)            :: allocs, bytes       !< Live device allocations stats.
 
 call dev_init
 call test_R8P
@@ -29,6 +30,11 @@ call test_I2P
 call test_I2P(init_value=2_I2P)
 call test_I1P
 call test_I1P(init_value=1_I1P)
+call dev_get_alloc_stats(allocs=allocs, bytes=bytes)
+if (allocs /= 0_I8P .or. bytes /= 0_I8P) then
+   print '(A)', 'error: live device allocations after dev_free'
+   error stop 1
+endif
 
 print '(A)', 'test passed'
 

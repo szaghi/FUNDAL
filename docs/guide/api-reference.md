@@ -15,6 +15,7 @@ use :: fundal
 ```fortran
 ! memory routines
 public :: dev_alloc,              FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
+public :: dev_alloc_replace
 public :: dev_alloc_unstr
 public :: dev_free
 public :: dev_free_unstr
@@ -30,6 +31,9 @@ public :: dev_get_num_devices
 public :: dev_get_property_string
 public :: dev_init
 public :: dev_set_device_num
+! auxiliary routines
+public :: dev_get_alloc_stats
+public :: save_memory_status
 ! environment global variables
 public :: dev_memory_avail
 public :: local_comm
@@ -137,6 +141,50 @@ integer(I4P)       :: ierr
 call dev_alloc(fptr_dev=a, lbounds=[-1,-2,-3], ubounds=[1,2,3], init_value=1._R8P, ierr=ierr)
 ```
 
+::: warning Pointer-`ALLOCATE` semantics
+`fptr_dev` is `intent(out)`: its association status is undefined on entry, so `dev_alloc` cannot detect a pointer that
+already holds a buffer. Calling it on an associated pointer **leaks** that buffer. Call [`dev_free`](#dev_free) first, or
+use [`dev_alloc_replace`](#dev_alloc_replace). See [Ownership contract](#ownership-contract).
+:::
+
+---
+
+### `dev_alloc_replace` {#dev_alloc_replace}
+
+Allocates space directly on the device like [`dev_alloc`](#dev_alloc), but first frees the buffer `fptr_dev` is
+associated with, if any. Calling it repeatedly on the same pointer does not leak.
+
+```fortran
+subroutine dev_alloc_replace(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
+```
+
+| Argument | Intent | Description |
+|----------|--------|-------------|
+| `fptr_dev` | `inout`, pointer | Pointer to device memory (ranks 1–7, kinds R8P/R4P/I8P/I4P/I2P/I1P); freed if associated, then allocated |
+| `ubounds(:)` | `in` | Upper bounds of `fptr_dev` |
+| `ierr` | `out` | Error status (0 = success; `FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED` on failure) |
+| `dev_id` | `in`, optional | Device ID, used both to free the old buffer and to allocate the new one. Defaults to global `mydev`. |
+| `lbounds(:)` | `in`, optional | Lower bounds of `fptr_dev` (default: 1) |
+| `init_value` | `in`, optional | Scalar initial value |
+
+- **Contents are not preserved** (unlike C `realloc`): they are undefined after the call unless `init_value` is passed.
+- **Precondition:** the actual argument must have a *defined* association status: `=>null()` at declaration,
+  `nullify()`, or a previous allocation. A local pointer declared without `=>null()` and never assigned is undefined:
+  passing it is undefined behaviour.
+- **Precondition:** an existing buffer must have been allocated on the same `dev_id`. FUNDAL does not record the device
+  of an allocation, and freeing on the wrong device is undefined behaviour on the OpenMP backend.
+
+```fortran
+use :: fundal
+real(R8P), pointer :: a(:,:,:)=>null()
+integer(I4P)       :: ierr, n
+
+do n=10, 100, 10
+   call dev_alloc_replace(fptr_dev=a, ubounds=[n,n,n], ierr=ierr)  ! previous buffer is freed
+enddo
+call dev_free(a)
+```
+
 ---
 
 ### `dev_alloc_unstr` {#dev_alloc_unstr}
@@ -163,22 +211,23 @@ call dev_alloc_unstr(fptr_dev=a, init_value=1._R8P)
 
 ### `dev_free` {#dev_free}
 
-Frees memory that was directly allocated on the device with `dev_alloc`.
+Frees memory that was directly allocated on the device with `dev_alloc` or `dev_alloc_replace`. The pointer is
+nullified on return. Calling it on a disassociated (null) pointer is a no-op, so a second `dev_free` is harmless.
 
 ```fortran
-subroutine dev_free(fptr_dev, dev_id)
+subroutine dev_free(fptr, dev_id)
 ```
 
 | Argument | Intent | Description |
 |----------|--------|-------------|
-| `fptr_dev` | `out`, pointer | Pointer to device memory to free |
+| `fptr` | `inout`, pointer | Pointer to device memory to free; must have a defined association status |
 | `dev_id` | `in`, optional | Device ID. For OpenMP defaults to global `mydev`. |
 
 ```fortran
 use :: fundal
 real(R8P), pointer :: a(:,:,:)
 
-call dev_free(fptr_dev=a)
+call dev_free(fptr=a)
 ```
 
 ---
@@ -294,16 +343,19 @@ call dev_memcpy_from_device_unstr(dst=a)
 
 ### `dev_assign_to_device` {#dev_assign_to_device}
 
-Copies host memory to device memory, reallocating the device array if the size has changed. Mimics Fortran's automatic left-hand-side reallocation.
+Copies host memory to device memory, (re)allocating the device array with the bounds of `src`. Mimics Fortran's
+automatic left-hand-side reallocation. The previous buffer of `dst`, if any, is freed via
+[`dev_alloc_replace`](#dev_alloc_replace), so `dst` must have a defined association status.
 
 ```fortran
-subroutine dev_assign_to_device(dst, src)
+subroutine dev_assign_to_device(dst, src, ierr)
 ```
 
 | Argument | Intent | Description |
 |----------|--------|-------------|
-| `dst` | `inout`, pointer | Device memory (reallocated if needed) |
+| `dst` | `inout`, pointer | Device memory (always reallocated with the bounds of `src`) |
 | `src` | `in` | Host memory source |
+| `ierr` | `out`, optional | Error status (0 = success). If absent, an allocation failure is an `error stop`. |
 
 ```fortran
 use :: fundal
@@ -335,6 +387,55 @@ real(R8P), allocatable :: b(:,:,:)
 
 call dev_assign_from_device(dst=b, src=a)
 ```
+
+---
+
+## Ownership contract {#ownership-contract}
+
+The structured-model routines follow two ownership models. Pick the routine by what the pointer may hold on entry.
+
+| Routine | Pointer intent | Called on an associated pointer | Caller must ensure |
+|---------|----------------|---------------------------------|--------------------|
+| `dev_alloc` | `out` | **leaks** the buffer (like pointer `ALLOCATE`) | never allocated, or `dev_free` called first |
+| `dev_alloc_replace` | `inout` | frees, then allocates; contents undefined unless `init_value` | defined association status; same `dev_id` as the existing buffer |
+| `dev_assign_to_device` | `inout` | frees, allocates, copies | defined association status |
+| `dev_free` | `inout` | frees and nullifies; no-op if null | defined association status; buffer from `dev_alloc`/`dev_alloc_replace` |
+
+Why `dev_alloc` keeps `intent(out)`: an `intent(inout)` guard would read the association status of local pointers
+declared without `=>null()` (a `=>null()` initializer on a local implies `SAVE`, so omitting it is common and
+deliberate), which is undefined behaviour.
+
+### `dev_get_alloc_stats` {#dev_get_alloc_stats}
+
+Returns the number and the bytes of live structured allocations: made by `dev_alloc`/`dev_alloc_replace` and not yet
+released by `dev_free`. It counts FUNDAL calls rather than querying the device runtime, so it works identically on every
+backend, including the host fallback. Use it to assert at teardown that nothing leaked.
+
+```fortran
+subroutine dev_get_alloc_stats(allocs, bytes)
+```
+
+| Argument | Intent | Description |
+|----------|--------|-------------|
+| `allocs` | `out`, optional | Number of live allocations |
+| `bytes` | `out`, optional | Bytes of live allocations |
+
+```fortran
+use :: fundal
+integer(I8P) :: allocs, bytes
+
+call dev_get_alloc_stats(allocs=allocs, bytes=bytes)
+if (allocs /= 0_I8P) error stop 'device memory leaked'
+```
+
+Limits:
+
+- It proves FUNDAL *called* free for each buffer, not that the runtime released it; use
+  `compute-sanitizer --leak-check full` for that on CUDA builds.
+- Unstructured allocations (`dev_alloc_unstr`) are not counted.
+- Updates are `!$omp atomic`: they are not thread-safe when `dev_alloc`/`dev_free` are called from several host threads
+  in a build without OpenMP enabled.
+- The byte count drifts if `dev_free` is called on a pointer re-pointed at a section of a buffer (already a misuse).
 
 ---
 

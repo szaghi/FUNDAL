@@ -6,9 +6,9 @@ title: Features
 
 ## Memory Management
 
-- **Structured model** — purely device-allocated memory returned as Fortran `pointer` arrays (`dev_alloc`, `dev_free`, `dev_memcpy_*`). Device memory is not mapped to any host memory.
+- **Structured model** — purely device-allocated memory returned as Fortran `pointer` arrays (`dev_alloc`, `dev_alloc_replace`, `dev_free`, `dev_memcpy_*`). Device memory is not mapped to any host memory.
 - **Unstructured model** — host `allocatable` arrays mapped onto the device (`dev_alloc_unstr`, `dev_free_unstr`, `dev_memcpy_*_unstr`).
-- **Assignment-style copy** — `dev_assign_to_device` / `dev_assign_from_device` deallocate and reallocate automatically on size change, mimicking Fortran's left-hand-side reallocation for allocatables.
+- **Assignment-style copy** — `dev_assign_to_device` / `dev_assign_from_device` deallocate and reallocate the destination automatically, mimicking Fortran's left-hand-side reallocation for allocatables.
 
 ## Device Handling
 
@@ -44,7 +44,9 @@ The `fundal_mpih_object` module provides an auxiliary `mpih_object` class for MP
 | Routine | OpenACC | OpenMP |
 |---------|:-------:|:------:|
 | `dev_alloc` | ✅ | ✅ |
+| `dev_alloc_replace` | ✅ | ✅ |
 | `dev_free` | ✅ | ✅ |
+| `dev_get_alloc_stats` | ✅ | ✅ |
 | `dev_memcpy_to_device` | ✅ | ✅ |
 | `dev_memcpy_from_device` | ✅ | ✅ |
 | `dev_assign_to_device` | ✅ | ✅ |

@@ -6,6 +6,7 @@ module fundal_dev_assign
 !< FUNDAL, memory assignment routines module.
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: fundal_dev_alloc
+use            :: fundal_dev_alloc_replace
 use            :: fundal_dev_free
 use            :: fundal_dev_memcpy
 use            :: fundal_transpose_array

@@ -15,7 +15,7 @@ module fundal_dev_free
 use, intrinsic :: iso_c_binding
 use, intrinsic :: iso_fortran_env, only : I1P=>int8, I2P=>int16, I4P=>int32, I8P=>int64, R4P=>real32, R8P=>real64
 use            :: DEVMODULE
-use            :: fundal_env,      only : mydev
+use            :: fundal_env,      only : dev_allocs_live, dev_bytes_live, mydev
 
 implicit none
 private

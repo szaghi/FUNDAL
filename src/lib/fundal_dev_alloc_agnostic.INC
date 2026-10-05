@@ -1,5 +1,7 @@
    subroutine DEV_ALLOC_KKP_1D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 1.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(1)  !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr        !< Error status.
@@ -23,6 +25,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(1) DEVICEVAR(fptr_dev)
@@ -39,6 +45,8 @@
 
    subroutine DEV_ALLOC_KKP_2D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 2.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(2)    !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr          !< Error status.
@@ -62,6 +70,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(2) DEVICEVAR(fptr_dev)
@@ -80,6 +92,8 @@
 
    subroutine DEV_ALLOC_KKP_3D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 3.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(3)      !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr            !< Error status.
@@ -103,6 +117,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(3) DEVICEVAR(fptr_dev)
@@ -123,6 +141,8 @@
 
    subroutine DEV_ALLOC_KKP_4D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 4.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(4)        !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr              !< Error status.
@@ -146,6 +166,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(4) DEVICEVAR(fptr_dev)
@@ -168,6 +192,8 @@
 
    subroutine DEV_ALLOC_KKP_5D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 5.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(5)          !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                !< Error status.
@@ -191,6 +217,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(5) DEVICEVAR(fptr_dev)
@@ -215,6 +245,8 @@
 
    subroutine DEV_ALLOC_KKP_6D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 6.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(6)            !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                  !< Error status.
@@ -238,6 +270,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(6) DEVICEVAR(fptr_dev)
@@ -264,6 +300,8 @@
 
    subroutine DEV_ALLOC_KKP_7D(fptr_dev, ubounds, ierr, dev_id, lbounds, init_value)
    !< Allocate array, KKP kind, rank 7.
+   !< Pointer-ALLOCATE semantics: fptr_dev is intent(out), calling on an associated pointer leaks its buffer.
+   !< Use dev_alloc_replace to free an associated pointer before allocating.
    VARTYPE(KKP), intent(out), pointer :: fptr_dev(:,:,:,:,:,:,:) !< Pointer to allocated memory.
    integer(I4P), intent(in)           :: ubounds(7)              !< Array upper bounds.
    integer(I4P), intent(out)          :: ierr                    !< Error status.
@@ -287,6 +325,10 @@
    cptr_dev = DEVALLOC(bytes, int(dev_id_, c_int))
    if (c_associated(cptr_dev)) then
       call c_f_pointer(cptr_dev, fptr, shape=sizes)
+      !$omp atomic update
+      dev_allocs_live = dev_allocs_live + 1_I8P
+      !$omp atomic update
+      dev_bytes_live = dev_bytes_live + int(bytes, I8P)
       fptr_dev(lbounds_(1):,lbounds_(2):,lbounds_(3):,lbounds_(4):,lbounds_(5):,lbounds_(6):,lbounds_(7):) => fptr
       if (present(init_value)) then
          !$acc parallel loop collapse(7) DEVICEVAR(fptr_dev)
