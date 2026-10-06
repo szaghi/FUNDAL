@@ -100,41 +100,60 @@ With policy `off` there are no checks: `ierr`, if present, is 0. Pass a pointer 
 ### dev_memcpy_to_device {#dev-memcpy-to-device}
 
 ```fortran
-subroutine dev_memcpy_to_device(dst, src)
-VARTYPE(KKP), intent(out), target :: dst(:)
-VARTYPE(KKP), intent(in),  target :: src(:)
+subroutine dev_memcpy_to_device(dst, src, ierr)
+VARTYPE(KKP), intent(out), target             :: dst(:)
+VARTYPE(KKP), intent(in),  target, contiguous :: src(:)
+integer(I4P), intent(out), optional           :: ierr
 ```
 
 | Argument | Intent | Description |
 |---|---|---|
-| `dst` | out, target | Device array |
-| `src` | in, target | Host array |
+| `dst` | out, target | Device array: a FUNDAL buffer or a contiguous section of it |
+| `src` | in, target, contiguous | Host array |
+| `ierr` | out, optional | Error status: 0, `FUNDAL_ERR_NOT_CONTIGUOUS`, `FUNDAL_ERR_NOT_REGISTERED` or `FUNDAL_ERR_MEMCPY_FAILED`; nothing is copied on error |
 
 ### dev_memcpy_from_device {#dev-memcpy-from-device}
 
 ```fortran
-subroutine dev_memcpy_from_device(dst, src)
-VARTYPE(KKP), intent(out), target :: dst(:)
-VARTYPE(KKP), intent(in),  target :: src(:)
+subroutine dev_memcpy_from_device(dst, src, ierr)
+VARTYPE(KKP), intent(out), target, contiguous :: dst(:)
+VARTYPE(KKP), intent(in),  target             :: src(:)
+integer(I4P), intent(out), optional           :: ierr
 ```
 
 | Argument | Intent | Description |
 |---|---|---|
-| `dst` | out, target | Host array |
-| `src` | in, target | Device array |
+| `dst` | out, target, contiguous | Host array |
+| `src` | in, target | Device array: a FUNDAL buffer or a contiguous section of it |
+| `ierr` | out, optional | As for `dev_memcpy_to_device` |
 
 Rules of both copies:
 
-- The number of bytes copied is that of **`src`**; the size of `dst` is not checked. Arrays of the same size, please.
-- Both arrays must be **contiguous** (a whole array, or a contiguous section such as `a(i:j)` of a rank-1 array).
-- `acc_memcpy_to_device`/`acc_memcpy_from_device` (OpenACC), `omp_target_memcpy` between `mydev` and the host
-  (OpenMP; its return code is discarded), an assignment (CPU mode).
+- The number of bytes copied is that of the **source**; the size of the destination is not checked. Arrays of the same
+  size, please.
+- **The copy happens on the device where the buffer lives**, found in the [allocation registry](./registry): the whole
+  buffer or a contiguous section of it (`a(i:j)`, `b(:,j)`). OpenACC makes that device current for the copy and
+  restores the previous one; OpenMP passes it to `omp_target_memcpy`. Device memory the registry does not know (not
+  allocated by FUNDAL), and every copy under policy `off`, is copied as before: on `mydev` (OpenMP), on the current
+  device (OpenACC).
+- **The device argument must be contiguous.** A strided section (`a(1:n:2)`) returns `FUNDAL_ERR_NOT_CONTIGUOUS` (105)
+  with `ierr`; without `ierr` it is a registry misuse: a warning and the copy as before under policy `warn`, a stop
+  under policy `error`. With nvfortran the routine never sees a strided argument: the compiler passes it through a
+  contiguous host temporary, which reads device memory on the host. Do not pass strided device sections.
+- A device range that ends beyond its allocation (pointer remapping) returns `FUNDAL_ERR_NOT_REGISTERED` (103); so does
+  device memory not allocated by FUNDAL under policy `error`.
+- The **host argument** may be any section: it is declared `contiguous`, so a strided host section is copied through a
+  temporary made by the compiler.
+- A copy the OpenMP runtime reports as failed returns `FUNDAL_ERR_MEMCPY_FAILED` (106), or stops without `ierr`
+  (except under policy `off`, where it is ignored as before). OpenACC copies report no status.
+- The CPU mode assigns the arrays.
 
 <<< @/examples/snippets/heat_1-copy.F90{fortran}
 
 ### Transposed copies {#transposed-copies}
 
-The copies also exist with a transposition, through a host buffer, for ranks 2 to 7:
+The copies also exist with a transposition, through a host buffer `buf` (contiguous), for ranks 2 to 7. They take the
+same optional `ierr`, last, and follow the same rules; `buf` is the host side of the copy.
 
 ```fortran
 ! rank 2

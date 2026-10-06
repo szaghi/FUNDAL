@@ -101,7 +101,8 @@ $(DOBJ)/fundal_dev_handling.o:      $(DOBJ)/fundal_env.o
 $(DOBJ)/fundal_dev_alloc.o:         $(DOBJ)/fundal_env.o $(DOBJ)/fundal_registry.o $(DOBJ)/fundal_utilities.o
 $(DOBJ)/fundal_dev_free.o:          $(DOBJ)/fundal_env.o $(DOBJ)/fundal_registry.o
 $(DOBJ)/fundal_dev_alloc_replace.o: $(DOBJ)/fundal_dev_alloc.o $(DOBJ)/fundal_dev_free.o $(DOBJ)/fundal_registry.o
-$(DOBJ)/fundal_dev_memcpy.o:        $(DOBJ)/fundal_env.o $(DOBJ)/fundal_transpose_array.o $(DOBJ)/fundal_utilities.o
+$(DOBJ)/fundal_dev_memcpy.o:        $(DOBJ)/fundal_env.o $(DOBJ)/fundal_registry.o $(DOBJ)/fundal_transpose_array.o \
+                                    $(DOBJ)/fundal_utilities.o
 $(DOBJ)/fundal_dev_assign.o:        $(DOBJ)/fundal_dev_alloc.o $(DOBJ)/fundal_dev_alloc_replace.o $(DOBJ)/fundal_dev_free.o \
                                     $(DOBJ)/fundal_dev_memcpy.o $(DOBJ)/fundal_transpose_array.o
 $(DOBJ)/fundal.o:                   $(filter-out $(DOBJ)/fundal.o $(DOBJ)/fundal_mpih_object.o,$(LIBOBJS))

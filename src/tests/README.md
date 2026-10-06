@@ -10,16 +10,19 @@ some tests include.
 | `fundal_array_access_test` | kernels with different loop orders and collapse depths on rank-4 device arrays (prints timings) |
 | `fundal_assign_test` | `dev_assign_to_device`/`dev_assign_from_device` for every kind and rank |
 | `fundal_assign_lb_test` | the lower-bounds-first `dev_assign_*` forms, lower bound -2 |
+| `fundal_assign_xfail_unregistered_test` | expected failure: `dev_assign_to_device` on a pointer not allocated by FUNDAL, policy `error` |
 | `fundal_compat_test` | legacy call forms and legacy behaviour under the registry policies |
 | `fundal_derived_type_memcpy_test` | device arrays as components of a derived type, kernel in a procedure |
 | `fundal_device_handling_test` | device queries: selects each device in turn and prints its properties |
 | `fundal_external_routine_test` | kernels in procedures: structured (`DEVICEVAR`) and unstructured (`present`) arrays |
 | `fundal_host_fallback_test` | `dev_init` policy: fallback warning, `require_device`, `local_rank` without devices |
+| `fundal_memcpy_registry_test` | registry-aware copies: sections, strided host and device arguments, a range beyond the allocation, foreign memory |
 | `fundal_memcpy_test` | `dev_memcpy_to_device`/`dev_memcpy_from_device` for every kind and rank |
 | `fundal_memcpy_transposed_test` | transposed copies, lower bound -2 |
-| `fundal_registry_test` | the allocation registry itself (host only, no device memory) |
+| `fundal_memcpy_xfail_overflow_test` | expected failure: a copy beyond the end of its allocation under policy `error` must `error stop` |
+| `fundal_registry_test` | the allocation registry itself, range lookups included (host only, no device memory) |
 | `fundal_registry_behaviour_test` | labels, statistics, report, misuse detection through `ierr` |
-| `fundal_registry_two_devices_test` | a buffer freed on the device where it lives (skipped with fewer than two devices) |
+| `fundal_registry_two_devices_test` | a buffer copied and freed on the device where it lives (skipped with fewer than two devices) |
 | `fundal_registry_xfail_double_free_test` | expected failure: a double free under policy `error` must `error stop` |
 | `fundal_save_memory_status_test` | `save_memory_status` |
 | `fundal_use_test` | `use fundal` compiles and links |

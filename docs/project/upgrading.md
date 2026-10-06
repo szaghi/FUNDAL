@@ -9,6 +9,17 @@ calls compile unchanged. The full list of commits is in the [changelog](./change
 
 ## Unreleased
 
+- **Copies run on the device where the buffer lives** (#8). `dev_memcpy_to_device`/`dev_memcpy_from_device` look the
+  device argument up in the allocation registry (the whole buffer or a contiguous section) and copy on its device: before,
+  OpenMP always used `mydev` and OpenACC the current device, wrong for a buffer on another device. Memory not allocated by
+  FUNDAL, and every copy under policy `off`, is copied as before.
+- **New optional `ierr`** (last argument) on the copies, also the transposed ones. New codes `FUNDAL_ERR_NOT_CONTIGUOUS`
+  (105: strided device argument) and `FUNDAL_ERR_MEMCPY_FAILED` (106: the OpenMP runtime reported a failure, which was
+  silently ignored before). A device range beyond the end of its allocation returns 103. **Behaviour change**: without
+  `ierr`, a strided device argument or a range beyond its allocation now writes a `FUNDAL warning` (policy `warn`) or
+  stops (policy `error`); a failed OpenMP copy stops (except under policy `off`).
+- **Strided host arguments are copied correctly**: the host argument is declared `contiguous`, so the compiler passes a
+  strided host section through a temporary. Before, the bytes after its first element were copied.
 - **`dev_set_device_num` updates `mydev`** in every backend, so after `call dev_set_device_num(1)` OpenMP allocates and
   copies on device 1, as OpenACC already did (before, OpenMP kept using the old `mydev`). The usual
   `mydev = dev_get_device_num()` after the call is now redundant and harmless. On OpenMP the routine is no longer a

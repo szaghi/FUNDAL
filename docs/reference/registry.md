@@ -8,6 +8,8 @@ FUNDAL records every structured allocation (`dev_alloc`, `dev_alloc_replace`, `d
 table: base address, size in bytes, device where the buffer lives, optional label. With it
 
 - [`dev_free`](./structured#dev-free) frees each buffer on its own device, whatever the current device;
+- [`dev_memcpy_*`](./structured#copies) copy a buffer, or a contiguous section of it, on its own device, and reject a
+  strided device argument or a range beyond the end of its allocation;
 - `dev_free` recognizes a pointer that is not a live FUNDAL allocation (double free through an alias, a section, a
   pointer from elsewhere) and a `dev_id` that contradicts the recorded device;
 - the statistics and the report are exact on every backend, host fallback and CPU mode included.
@@ -19,8 +21,8 @@ that names another device is reported by a warning.
 
 ## Policy {#policy}
 
-What `dev_free` does on a misuse is set by a process-wide policy (for `dev_alloc_replace` see
-[its rules](./structured#dev-alloc-replace)):
+What `dev_free` does on a misuse is set by a process-wide policy (for `dev_alloc_replace` and the copies see
+[their rules](./structured#dev-alloc-replace), [copies](./structured#copies)):
 
 | Policy | Misuse without `ierr` | Misuse with `ierr` |
 |---|---|---|

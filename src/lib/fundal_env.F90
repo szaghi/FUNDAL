@@ -20,6 +20,7 @@ public :: myhos
 public :: devtype
 public :: IDK
 public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED, FUNDAL_ERR_NO_DEVICE, FUNDAL_ERR_NOT_REGISTERED, FUNDAL_ERR_DEV_ID_MISMATCH
+public :: FUNDAL_ERR_NOT_CONTIGUOUS, FUNDAL_ERR_MEMCPY_FAILED
 public :: dev_error_message
 public :: FUNDAL_DEVICE_HOST
 public :: FUNDAL_DEVICE_GPU
@@ -38,6 +39,8 @@ integer(I4P), parameter :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101_I4P !< Device m
 integer(I4P), parameter :: FUNDAL_ERR_NO_DEVICE=102_I4P              !< No device available, host fallback forbidden.
 integer(I4P), parameter :: FUNDAL_ERR_NOT_REGISTERED=103_I4P         !< Pointer not allocated by FUNDAL.
 integer(I4P), parameter :: FUNDAL_ERR_DEV_ID_MISMATCH=104_I4P        !< dev_id differs from the recorded device.
+integer(I4P), parameter :: FUNDAL_ERR_NOT_CONTIGUOUS=105_I4P         !< Device argument of a copy not contiguous.
+integer(I4P), parameter :: FUNDAL_ERR_MEMCPY_FAILED=106_I4P          !< The device runtime reported a failed copy.
 ! Device types returned by dev_get_device_type on the OpenMP backend (OpenACC returns acc_device_* values) and in CPU mode.
 integer(I4P), parameter :: FUNDAL_DEVICE_HOST=0_I4P !< Device type: host (no offload device available).
 integer(I4P), parameter :: FUNDAL_DEVICE_GPU =1_I4P !< Device type: accelerator/GPU offload device.
@@ -64,9 +67,13 @@ contains
    case(FUNDAL_ERR_NO_DEVICE)
       msg = 'no device available and host fallback forbidden'
    case(FUNDAL_ERR_NOT_REGISTERED)
-      msg = 'pointer not allocated by FUNDAL (double free, foreign or section pointer): nothing freed'
+      msg = 'pointer not allocated by FUNDAL (double free, foreign or section pointer, or a range beyond its allocation)'
    case(FUNDAL_ERR_DEV_ID_MISMATCH)
       msg = 'dev_id differs from the device where the buffer lives: nothing freed'
+   case(FUNDAL_ERR_NOT_CONTIGUOUS)
+      msg = 'device argument of a copy is not contiguous (strided section): nothing copied'
+   case(FUNDAL_ERR_MEMCPY_FAILED)
+      msg = 'the device runtime reported a failed copy'
    case default
       write(code, '(I0)') ierr
       msg = 'unknown FUNDAL error code '//trim(code)

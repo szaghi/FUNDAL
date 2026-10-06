@@ -8,6 +8,8 @@ module fundal_registry
 !< Host-side open-addressing hash table (linear probing, backward-shift deletion, doubling at load 0.5) keyed by the base
 !< address of the buffer; key 0 marks an empty slot (a successful allocation never returns a null address). The registry
 !< owns the live-allocation totals and mirrors them into the fundal_env counters (dev_allocs_live, dev_bytes_live).
+!< A second structure, the base addresses sorted in ascending order, finds the allocation containing an address (a section
+!< of a buffer) by binary search: O(log n) lookup, O(n) insertion and removal.
 !< Updates are serialized by an OpenMP critical section: thread-safe only when the library is compiled with OpenMP.
 use, intrinsic :: iso_c_binding,   only : c_intptr_t, c_ptr
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64, output_unit, error_unit
@@ -21,6 +23,7 @@ public :: registry_address
 public :: registry_insert
 public :: registry_remove
 public :: registry_lookup
+public :: registry_lookup_range
 public :: registry_stats
 public :: registry_report
 public :: registry_clear
@@ -47,6 +50,7 @@ type :: registry_entry
 endtype registry_entry
 
 type(registry_entry), allocatable, save :: table(:)       !< Hash table, slots 0:capacity-1.
+integer(c_intptr_t),  allocatable, save :: sorted(:)      !< Base addresses in ascending order, sorted(1:used).
 integer(I8P),                      save :: used=0_I8P     !< Number of occupied slots.
 integer(I4P),                      save :: policy_=-1_I4P !< Registry policy, -1 = not yet resolved.
 
@@ -80,6 +84,7 @@ contains
    if (found) then
       call totals_update(-1_I8P, -table(slot)%bytes)
    else
+      call sorted_insert(addr)
       used = used + 1_I8P
    endif
    table(slot)%addr   = addr
@@ -107,6 +112,7 @@ contains
          if (present(entry)) entry = table(slot)
          call totals_update(-1_I8P, -table(slot)%bytes)
          call table_delete(slot)
+         call sorted_remove(addr)
          used = used - 1_I8P
       endif
    endif
@@ -128,6 +134,42 @@ contains
    endif
    !$omp end critical (fundal_registry)
    endsubroutine registry_lookup
+
+   subroutine registry_lookup_range(addr, bytes, found, entry, overflow)
+   !< Look up the allocation containing the range [addr, addr+bytes): the whole buffer (exact hash lookup) or a part of it
+   !< (binary search of the sorted base addresses). A range that starts inside an allocation but ends beyond it is not
+   !< found and sets overflow.
+   integer(c_intptr_t),  intent(in)            :: addr     !< Start address of the range.
+   integer(I8P),         intent(in)            :: bytes    !< Size of the range [bytes].
+   logical,              intent(out)           :: found    !< The range lies inside a registered allocation.
+   type(registry_entry), intent(out), optional :: entry    !< Entry of the containing allocation.
+   logical,              intent(out), optional :: overflow !< The range starts inside an allocation but ends beyond it.
+   type(registry_entry)                        :: entry_   !< Containing allocation, local var.
+   logical                                     :: inside   !< The start address lies inside an allocation.
+   integer(I8P)                                :: slot     !< Slot of the base address.
+   integer(I8P)                                :: pos      !< Position in the sorted base addresses.
+
+   found = .false.
+   inside = .false.
+   !$omp critical (fundal_registry)
+   if (allocated(table) .and. addr /= 0_c_intptr_t) then
+      call table_find(addr, slot, inside)
+      if (.not.inside) then
+         pos = sorted_position(addr) - 1_I8P ! last base address <= addr (addr itself is not a base address)
+         if (pos >= 1_I8P) then
+            call table_find(sorted(pos), slot, inside)
+            if (inside) inside = (addr - table(slot)%addr < table(slot)%bytes)
+         endif
+      endif
+      if (inside) then
+         entry_ = table(slot)
+         found = (addr - entry_%addr + bytes <= entry_%bytes)
+      endif
+   endif
+   !$omp end critical (fundal_registry)
+   if (present(entry) .and. found) entry = entry_
+   if (present(overflow)) overflow = inside .and. (.not.found)
+   endsubroutine registry_lookup_range
 
    subroutine registry_stats(allocs, bytes, dev_id)
    !< Return the number and the bytes of live allocations, optionally only those on one device.
@@ -180,6 +222,7 @@ contains
 
    !$omp critical (fundal_registry)
    if (allocated(table)) deallocate(table)
+   if (allocated(sorted)) deallocate(sorted)
    used = 0_I8P
    dev_allocs_live = 0_I8P
    dev_bytes_live = 0_I8P
@@ -280,6 +323,52 @@ contains
    h = ieor(h, ishft(h, -5))
    slot = modulo(h, capacity)
    endfunction home_slot
+
+   pure function sorted_position(addr) result(pos)
+   !< Return the position of the first sorted base address >= addr (used + 1 if none), by binary search.
+   integer(c_intptr_t), intent(in) :: addr   !< Address.
+   integer(I8P)                    :: pos    !< Position.
+   integer(I8P)                    :: hi, mi !< Search bounds.
+
+   pos = 1_I8P
+   hi = used + 1_I8P
+   do while (pos < hi)
+      mi = pos + (hi - pos) / 2_I8P
+      if (sorted(mi) < addr) then
+         pos = mi + 1_I8P
+      else
+         hi = mi
+      endif
+   enddo
+   endfunction sorted_position
+
+   subroutine sorted_insert(addr)
+   !< Insert a new base address in the sorted list (called before used is incremented).
+   integer(c_intptr_t), intent(in)  :: addr   !< Address.
+   integer(c_intptr_t), allocatable :: old(:) !< Old list.
+   integer(I8P)                     :: pos    !< Insertion position.
+
+   if (.not.allocated(sorted)) allocate(sorted(INITIAL_CAPACITY))
+   if (used + 1_I8P > size(sorted, kind=I8P)) then
+      call move_alloc(sorted, old)
+      allocate(sorted(2_I8P * size(old, kind=I8P)))
+      sorted(1:used) = old(1:used)
+   endif
+   pos = sorted_position(addr)
+   sorted(pos+1_I8P:used+1_I8P) = sorted(pos:used)
+   sorted(pos) = addr
+   endsubroutine sorted_insert
+
+   subroutine sorted_remove(addr)
+   !< Remove a base address from the sorted list (called before used is decremented).
+   integer(c_intptr_t), intent(in) :: addr !< Address.
+   integer(I8P)                    :: pos  !< Position.
+
+   pos = sorted_position(addr)
+   if (pos > used) return
+   if (sorted(pos) /= addr) return
+   sorted(pos:used-1_I8P) = sorted(pos+1_I8P:used)
+   endsubroutine sorted_remove
 
    subroutine table_init(capacity)
    !< Allocate an empty table.

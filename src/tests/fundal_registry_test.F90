@@ -3,7 +3,8 @@
 program fundal_registry_test
 !< FUNDAL, allocation registry unit test (host only, no device memory involved).
 !< Model-based: random insert/remove/lookup sequences on synthetic aligned addresses are checked against a plain array
-!< model, covering collisions, backward-shift deletion and growth; then totals, per-device stats, report and policy.
+!< model, covering collisions, backward-shift deletion and growth; range lookups (sections) are checked against a brute-force
+!< search; then totals, per-device stats, report and policy.
 
 use, intrinsic :: iso_c_binding,   only : c_intptr_t
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
@@ -18,6 +19,11 @@ integer(I8P)            :: size_(POOL)     !< Model: bytes of the address.
 integer(I4P)            :: dev_(POOL)      !< Model: device of the address.
 type(registry_entry)    :: entry           !< Registry entry.
 logical                 :: found, replaced !< Flags.
+logical                 :: overflow        !< Range lookup flag.
+logical                 :: found_, overflow_ !< Brute-force range lookup.
+integer(c_intptr_t)     :: a               !< Range start.
+integer(I8P)            :: l               !< Range length.
+integer(I4P)            :: j, nrange       !< Counters.
 integer(I8P)            :: allocs, bytes   !< Stats.
 integer(I4P)            :: op, k, ierr, u  !< Counters, status, unit.
 real                    :: r               !< Random number.
@@ -29,12 +35,13 @@ call random_seed(size=k) ; allocate(seed(k)) ; seed = 20261005 ; call random_see
 live = .false. ; size_ = 0_I8P ; dev_ = 0_I4P
 call registry_clear()
 
-print '(A)', 'random insert/remove/lookup against a model'
+print '(A)', 'random insert/remove/lookup/range lookup against a model'
+nrange = 0
 do op=1, OPS
    call random_number(r) ; k = min(1_I4P + int(r * POOL, I4P), POOL)
    call random_number(r)
    if (r < 0.55) then
-      size_(k) = int(8 * k, I8P) ; dev_(k) = mod(k, 3_I4P)
+      size_(k) = int(8 * (1 + mod(k, 32_I4P)), I8P) ; dev_(k) = mod(k, 3_I4P) ! <= 256 bytes: disjoint allocations
       call registry_insert(addr(k), size_(k), dev_(k), label='a', replaced=replaced)
       call check(replaced .eqv. live(k), 'replaced flag')
       live(k) = .true.
@@ -43,10 +50,26 @@ do op=1, OPS
       call check(found .eqv. live(k), 'remove found flag')
       if (found) call check(entry%bytes == size_(k) .and. entry%dev_id == dev_(k), 'removed entry content')
       live(k) = .false.
-   else
+   elseif (r < 0.92) then
       call registry_lookup(addr(k), found, entry)
       call check(found .eqv. live(k), 'lookup found flag')
       if (found) call check(entry%bytes == size_(k) .and. entry%dev_id == dev_(k), 'looked up entry content')
+   else
+      ! range [a, a+l) starting anywhere in the 256 bytes after addr(k), possibly beyond its allocation or in a gap
+      call random_number(r) ; a = addr(k) + int(r * 256, c_intptr_t)
+      call random_number(r) ; l = 1_I8P + int(r * 64, I8P)
+      call registry_lookup_range(a, l, found, entry, overflow)
+      found_ = .false. ; overflow_ = .false.
+      do j=1, POOL
+         if (.not.live(j)) cycle
+         if (addr(j) <= a .and. a < addr(j) + size_(j)) then
+            found_ = (a + l <= addr(j) + size_(j))
+            overflow_ = .not.found_
+            if (found_) call check(entry%addr == addr(j) .and. entry%dev_id == dev_(j), 'range lookup entry')
+         endif
+      enddo
+      call check((found .eqv. found_) .and. (overflow .eqv. overflow_), 'range lookup against brute force')
+      nrange = nrange + 1
    endif
    call check(dev_allocs_live == count(live, kind=I8P), 'live count mirrored in fundal_env')
    call check(dev_bytes_live == sum(size_, mask=live), 'live bytes mirrored in fundal_env')
@@ -56,6 +79,7 @@ do k=1, POOL ! full sweep: every address agrees with the model
    call check(found .eqv. live(k), 'final sweep')
 enddo
 print '(A,I0,A)', '    live entries at the end: ', count(live), ' (table grown past several doublings)'
+print '(A,I0)', '    range lookups checked: ', nrange
 
 print '(A)', 'per-device stats'
 do k=0, 2
