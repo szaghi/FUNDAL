@@ -199,37 +199,37 @@
    print '(A)', '    check results'
    do i1=1, n
       if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo
    do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo ; enddo
    do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo
    do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo
    do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
-         print '(A)', '    error: something is not working...' ; stop
+         print '(A)', '    error: something is not working...' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    print '(A)', '    test unstructured memory'
@@ -362,49 +362,49 @@
       if (int(b1(i1) - a1(i1),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(1):', int(b1(i1) - a1(i1),I4P)
-         stop
+         error stop 1
       endif
    enddo
    do i2=1, n ; do i1=1, n
       if (int(b2(i1,i2) - a2(i1,i2),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(2):', int(b2(i1,i2) - a2(i1,i2),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo
    do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(3):', int(b3(i1,i2,i3) - a3(i1,i2,i3),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo ; enddo
    do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(4):', int(b4(i1,i2,i3,i4) - a4(i1,i2,i3,i4),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo ; enddo ; enddo
    do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(5):', int(b5(i1,i2,i3,i4,i5) - a5(i1,i2,i3,i4,i5),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo
    do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(6):', int(b6(i1,i2,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    do i7=1, n ; do i6=1, n ; do i5=1, n ; do i4=1, n ; do i3=1, n ; do i2=1, n ; do i1=1, n
       if (int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P) /= 10_I4P) then
          print '(A)', '    error: something is not working...'
          print '(A,I3)', '    b-a(7):', int(b7(i1,i2,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7),I4P)
-         stop
+         error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    call dev_free(a1_dev,dev_id=mydev) ; call dev_free_unstr(a1)

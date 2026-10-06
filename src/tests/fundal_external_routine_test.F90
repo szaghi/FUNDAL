@@ -66,7 +66,7 @@ call dev_memcpy_from_device(dst=b, src=a)
 
 if ((int(minval(b),I4P)/=-n**2).or.(int(maxval(b),I4P)/=n**3)) then
    print '(A)', 'error: result is wrong'
-   stop
+   error stop 1
 endif
 
 call dev_free(A,mydev)
@@ -80,7 +80,7 @@ call dev_memcpy_from_device_unstr(b)
 
 if ((int(minval(b),I4P)/=-n**2).or.(int(maxval(b),I4P)/=n**3)) then
    print '(A)', 'error: result is wrong'
-   stop
+   error stop 1
 endif
 
 deallocate(b)

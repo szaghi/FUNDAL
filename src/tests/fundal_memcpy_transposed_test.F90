@@ -50,7 +50,7 @@ contains
 
    if (error /= 0) then
       print '(A)', 'error: '//trim(adjustl(msg))
-      stop
+      error stop 1
    endif
    endsubroutine error_print
 

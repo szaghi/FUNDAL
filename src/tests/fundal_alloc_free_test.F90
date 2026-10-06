@@ -46,7 +46,7 @@ contains
 
    if (error /= 0) then
       print '(A)', 'error: '//trim(adjustl(msg))//' not allocated!'
-      stop
+      error stop 1
    endif
    endsubroutine error_print
 

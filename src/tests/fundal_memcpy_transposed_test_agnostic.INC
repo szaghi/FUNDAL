@@ -231,14 +231,14 @@
    print '(A)', '    check results'
    do i2=-2, n ; do i1=-2, n
       if (int(t2(i2,i1) - a2(i1,i2), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 2 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 2 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo
    if (lbound(t2,1) /= -2) call error_print(1_I4P,'t2 lower bound dim 1 is not -2')
    if (lbound(t2,2) /= -2) call error_print(1_I4P,'t2 lower bound dim 2 is not -2')
    do i3=-2, n ; do i2=-2, n ; do i1=-2, n
       if (int(t3(i2,i1,i3) - a3(i1,i2,i3), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 3 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 3 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo ; enddo
    if (lbound(t3,1) /= -2) call error_print(1_I4P,'t3 lower bound dim 1 is not -2')
@@ -246,7 +246,7 @@
    if (lbound(t3,3) /= -2) call error_print(1_I4P,'t3 lower bound dim 3 is not -2')
    do i4=-2, n ; do i3=-2, n ; do i2=-2, n ; do i1=-2, n
       if (int(t4(i2,i1,i3,i4) - a4(i1,i2,i3,i4), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 4 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 4 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo
    if (lbound(t4,1) /= -2) call error_print(1_I4P,'t4 lower bound dim 1 is not -2')
@@ -255,7 +255,7 @@
    if (lbound(t4,4) /= -2) call error_print(1_I4P,'t4 lower bound dim 4 is not -2')
    do i5=-2, n ; do i4=-2, n ; do i3=-2, n ; do i2=-2, n ; do i1=-2, n
       if (int(t5(i2,i1,i3,i4,i5) - a5(i1,i2,i3,i4,i5), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 5 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 5 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo
    if (lbound(t5,1) /= -2) call error_print(1_I4P,'t5 lower bound dim 1 is not -2')
@@ -265,7 +265,7 @@
    if (lbound(t5,5) /= -2) call error_print(1_I4P,'t5 lower bound dim 5 is not -2')
    do i6=-2, n ; do i5=-2, n ; do i4=-2, n ; do i3=-2, n ; do i2=-2, n ; do i1=-2, n
       if (int(t6(i2,i1,i3,i4,i5,i6) - a6(i1,i2,i3,i4,i5,i6), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 6 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 6 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    if (lbound(t6,1) /= -2) call error_print(1_I4P,'t6 lower bound dim 1 is not -2')
@@ -276,7 +276,7 @@
    if (lbound(t6,6) /= -2) call error_print(1_I4P,'t6 lower bound dim 6 is not -2')
    do i7=-2, n ; do i6=-2, n ; do i5=-2, n ; do i4=-2, n ; do i3=-2, n ; do i2=-2, n ; do i1=-2, n
       if (int(t7(i2,i1,i3,i4,i5,i6,i7) - a7(i1,i2,i3,i4,i5,i6,i7), I4P) /= 10_I4P) then
-         print '(A)', '    error: rank 7 transposed memcpy incorrect' ; stop
+         print '(A)', '    error: rank 7 transposed memcpy incorrect' ; error stop 1
       endif
    enddo ; enddo ; enddo ; enddo ; enddo ; enddo ; enddo
    if (lbound(t7,1) /= -2) call error_print(1_I4P,'t7 lower bound dim 1 is not -2')

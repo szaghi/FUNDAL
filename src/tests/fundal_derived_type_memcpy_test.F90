@@ -43,12 +43,12 @@ enddo
 call dev_alloc(fptr_dev=dt%a_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
    print '(A)', 'error: a_dev not allocated!'
-   stop
+   error stop 1
 endif
 call dev_alloc(fptr_dev=dt%b_dev, ubounds=[dt%n], ierr=error)
 if (error /= 0) then
    print '(A)', 'error: b_dev not allocated!'
-   stop
+   error stop 1
 endif
 
 ! copy host memory to device one
@@ -66,7 +66,7 @@ print '(A)', 'chek results'
 do i=1, dt%n
    if (int(dt%b(i) - dt%a(i),I4P) /= 10_I4P) then
       print '(A)', 'error: something is not working...'
-      stop
+      error stop 1
    endif
 enddo
 
