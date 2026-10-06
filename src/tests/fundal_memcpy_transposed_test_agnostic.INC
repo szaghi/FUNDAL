@@ -65,7 +65,8 @@
    allocate(a4(-2:n,-2:n,-2:n,-2:n), buf4(-2:n,-2:n,-2:n,-2:n), t4(-2:n,-2:n,-2:n,-2:n))
    allocate(a5(-2:n,-2:n,-2:n,-2:n,-2:n), buf5(-2:n,-2:n,-2:n,-2:n,-2:n), t5(-2:n,-2:n,-2:n,-2:n,-2:n))
    allocate(a6(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), buf6(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), t6(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n))
-   allocate(a7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), buf7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), t7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n))
+   allocate(a7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), buf7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n), &
+            t7(-2:n,-2:n,-2:n,-2:n,-2:n,-2:n,-2:n))
 
    ! Initialize source arrays: value = first index i1
    do i2=-2, n ; do i1=-2, n
