@@ -24,7 +24,7 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          FUNDAL_ERR_NO_DEVICE,       &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
-                                                        mydev, myhos, devtype, IDK
+                                                        mydev, myhos, devtype, IDK, FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
 
 implicit none
@@ -64,6 +64,7 @@ public :: mydev
 public :: myhos
 public :: devtype
 public :: IDK
+public :: FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
 
 contains
    subroutine dev_alloc_report(unit)

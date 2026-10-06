@@ -128,13 +128,14 @@ contains
    call MPI_FINALIZE(self%error)
    endsubroutine finalize
 
-   subroutine initialize(self, do_mpi_init, do_device_init, myrankstr_char_length, verbose)
+   subroutine initialize(self, do_mpi_init, do_device_init, myrankstr_char_length, verbose, require_device)
    !< Initialize MPI handler.
    class(mpih_object), intent(out)          :: self                   !< MPI handler.
    logical,            intent(in), optional :: do_mpi_init            !< Flag to activate MPI init call.
    logical,            intent(in), optional :: do_device_init         !< Flag to activate device init call (used by backends).
    integer(I4P),       intent(in), optional :: myrankstr_char_length  !< MPI ID string length.
    logical,            intent(in), optional :: verbose                !< Trigger verbose output.
+   logical,            intent(in), optional :: require_device         !< Forbid the host fallback in dev_init (default .false.).
    logical                                  :: verbose_               !< Trigger verbose output, local variable.
    integer(I4P)                             :: myrankstr_char_length_ !< MPI ID string length, local variable.
    integer(I8P)                             :: mem_free, mem_total    !< CPU memory.
@@ -166,7 +167,7 @@ contains
       if (do_device_init) then
          call MPI_COMM_SPLIT_TYPE(MPI_COMM_WORLD, MPI_COMM_TYPE_SHARED, 0, MPI_INFO_NULL, self%local_comm, self%error)
          call MPI_COMM_RANK(self%local_comm, local_rank, self%error)
-         call dev_init(local_rank)
+         call dev_init(local_rank=local_rank, require_device=require_device)
       endif
    endif
    if (verbose_) call self%print_message('mpih_object%initialize finish')
