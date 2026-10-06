@@ -87,7 +87,24 @@ make COMPILER=nvf BACKEND=oac GPU=cc89     # build/nvf-oac/libfundal.a and build
 make COMPILER=gnu BACKEND=oac MPI=1        # also the MPI handler, compiled by mpif90
 ```
 
-`COMPILER=gnu|nvf|ifx|amd`, `BACKEND=none|oac|omp`; see the
+`COMPILER=gnu|nvf|ifx|amd`, `BACKEND=none|oac|omp`.
+
+### CMake
+
+```bash
+cmake -B build -DFUNDAL_BACKEND=oac        # none|oac|omp; -DCMAKE_Fortran_COMPILER=nvfortran|ifx|amdflang, -DFUNDAL_MPI=ON
+cmake --build build && ctest --test-dir build
+cmake --install build --prefix <prefix>    # then find_package(FUNDAL) and link FUNDAL::fundal
+```
+
+### fpm
+
+```bash
+fpm build                                              # compile-time CPU mode (no MPI handler)
+fpm build --flag "-DDEV_OAC -DCOMPILER_GNU -fopenacc"  # gfortran + OpenACC
+```
+
+See the
 [installation guide](https://szaghi.github.io/FUNDAL/guide/install) for every option and for using FUNDAL in your
 project.
 

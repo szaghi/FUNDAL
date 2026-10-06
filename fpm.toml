@@ -1,0 +1,123 @@
+name = "FUNDAL"
+version = "2.1.3"
+author = "Stefano Zaghi"
+maintainer = "stefano.zaghi@gmail.com"
+copyright = "Copyright © 2024, Stefano Zaghi"
+license = "Multiple licenses"
+description = "Fortran UNified Device Acceleration Library: unified API for GPU/device memory over OpenACC and OpenMP"
+homepage = "https://github.com/szaghi/FUNDAL"
+
+# Default build: gfortran (or any compiler), compile-time CPU mode (no backend macro), without the MPI handler.
+# A device backend is selected with extra flags, e.g. OpenACC with gfortran:
+#   fpm build --flag "-DDEV_OAC -DCOMPILER_GNU -fopenacc"
+# fpm cannot exclude a file from the library: FUNDAL_NO_MPI leaves fundal_mpih_object empty (use FoBiS, make MPI=1 or
+# CMake -DFUNDAL_MPI=ON for the MPI handler).
+
+[library]
+source-dir = "src/lib"
+include-dir = ["src/lib"]
+
+[install]
+library = true
+
+[build]
+auto-executables = false
+auto-examples = false
+auto-tests = false
+# modules named by backend-selected `use` statements (DEVMODULE is the fundal.H macro): not FUNDAL sources
+external-modules = ["devmodule", "openacc", "omp_lib", "mpi"]
+
+[fortran]
+implicit-typing = false
+implicit-external = false
+source-form = "free"
+
+[preprocess]
+[preprocess.cpp]
+suffixes = ["F90"]
+macros = ["FUNDAL_NO_MPI"]
+
+[[test]]
+name = "fundal_alloc_free_test"
+source-dir = "src/tests"
+main = "fundal_alloc_free_test.F90"
+
+[[test]]
+name = "fundal_alloc_replace_test"
+source-dir = "src/tests"
+main = "fundal_alloc_replace_test.F90"
+
+[[test]]
+name = "fundal_array_access_test"
+source-dir = "src/tests"
+main = "fundal_array_access_test.F90"
+
+[[test]]
+name = "fundal_assign_lb_test"
+source-dir = "src/tests"
+main = "fundal_assign_lb_test.F90"
+
+[[test]]
+name = "fundal_assign_test"
+source-dir = "src/tests"
+main = "fundal_assign_test.F90"
+
+[[test]]
+name = "fundal_compat_test"
+source-dir = "src/tests"
+main = "fundal_compat_test.F90"
+
+[[test]]
+name = "fundal_derived_type_memcpy_test"
+source-dir = "src/tests"
+main = "fundal_derived_type_memcpy_test.F90"
+
+[[test]]
+name = "fundal_device_handling_test"
+source-dir = "src/tests"
+main = "fundal_device_handling_test.F90"
+
+[[test]]
+name = "fundal_external_routine_test"
+source-dir = "src/tests"
+main = "fundal_external_routine_test.F90"
+
+[[test]]
+name = "fundal_host_fallback_test"
+source-dir = "src/tests"
+main = "fundal_host_fallback_test.F90"
+
+[[test]]
+name = "fundal_memcpy_test"
+source-dir = "src/tests"
+main = "fundal_memcpy_test.F90"
+
+[[test]]
+name = "fundal_memcpy_transposed_test"
+source-dir = "src/tests"
+main = "fundal_memcpy_transposed_test.F90"
+
+[[test]]
+name = "fundal_registry_behaviour_test"
+source-dir = "src/tests"
+main = "fundal_registry_behaviour_test.F90"
+
+[[test]]
+name = "fundal_registry_test"
+source-dir = "src/tests"
+main = "fundal_registry_test.F90"
+
+[[test]]
+name = "fundal_registry_two_devices_test"
+source-dir = "src/tests"
+main = "fundal_registry_two_devices_test.F90"
+
+[[test]]
+name = "fundal_save_memory_status_test"
+source-dir = "src/tests"
+main = "fundal_save_memory_status_test.F90"
+
+[[test]]
+name = "fundal_use_test"
+source-dir = "src/tests"
+main = "fundal_use_test.F90"

@@ -4,6 +4,8 @@
 
 module fundal_mpih_object
 !< MPI handler classs definition.
+!< FUNDAL_NO_MPI (set by fpm.toml: fpm cannot exclude a file from the library) leaves the module empty.
+#if !defined FUNDAL_NO_MPI
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64, R8P=>real64, stderr=>error_unit
 use            :: mpi
 use            :: fundal
@@ -299,4 +301,5 @@ contains
    strz=strz(2:)                                  ! Leaving out the sign.
    if (present(nz_pad)) strz=strz(11-nz_pad:11-1) ! Leaving out the extra zeros padding
    endfunction strz
+#endif
 endmodule fundal_mpih_object

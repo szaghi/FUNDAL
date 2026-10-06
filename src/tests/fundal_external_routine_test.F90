@@ -50,7 +50,9 @@ use, intrinsic :: iso_fortran_env, only : I4P=>int32, R8P=>real64
 use            :: fundal
 use            :: fundal_routine_definition
 
+implicit none
 integer(I4P), parameter :: n=128  !< Array dimension.
+integer(I4P)            :: ierr   !< Error status.
 real(R8P), pointer      :: a(:,:) !< Array on device memory.
 real(R8P), allocatable  :: b(:,:) !< Array on host   memory.
 

@@ -9,6 +9,14 @@ calls compile unchanged. The full list of commits is in the [changelog](./change
 
 ## Unreleased
 
+- **CMake and fpm builds.** `CMakeLists.txt` builds the library and the tests (`-DFUNDAL_BACKEND=none|oac|omp`,
+  `-DFUNDAL_GPU`, `-DFUNDAL_MPI=ON`) and installs a package: `find_package(FUNDAL)` and link `FUNDAL::fundal`, which
+  carries the backend macros and offload flags. `fpm.toml` builds the library in the compile-time CPU mode (a backend
+  through `--flag`), without the MPI handler. See [Installation](/guide/install#build-with-cmake). Nothing changes for
+  FoBiS and make builds.
+
+## 2.1.3
+
 - **make builds FUNDAL again.** The makefile was a stale export that could not build the current sources. It now
   mirrors the fobos templates: `make COMPILER=gnu|nvf|ifx|amd BACKEND=none|oac|omp [GPU=...] [MPI=1]`, output in
   `build/<COMPILER>-<BACKEND>/` (`libfundal.a`, `mod/`), never in FoBiS's `exe/`. See [Installation](/guide/install#build-with-make).

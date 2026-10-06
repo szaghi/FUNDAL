@@ -35,6 +35,19 @@ make COMPILER=gnu|nvf|ifx|amd BACKEND=none|oac|omp [GPU=cc89|gfx90a|...] [MPI=1]
 Output: `build/<COMPILER>-<BACKEND>/{libfundal.a, mod/, obj/, tests/}` (gitignored, never touches `exe/`). `MPI=1`
 compiles everything with `$(MPIFC)` (default `mpif90`) and adds `fundal_mpih_object`.
 
+### CMake and fpm
+
+```bash
+cmake -B build -DFUNDAL_BACKEND=none|oac|omp [-DFUNDAL_GPU=cc89] [-DFUNDAL_MPI=ON]   # compiler macros from the compiler ID
+cmake --build build && ctest --test-dir build     # xfail tests have WILL_FAIL
+fpm build && fpm test                             # CPU mode; backend via --flag "-DDEV_OAC -DCOMPILER_GNU -fopenacc"
+```
+
+`CMakeLists.txt` mirrors the fobos/makefile templates and exports `FUNDAL::fundal` (macros and offload flags are
+PUBLIC). `fpm.toml` lists the non-xfail tests of `src/tests` explicitly and sets `FUNDAL_NO_MPI`, which empties
+`fundal_mpih_object` (fpm cannot exclude a file); its `version` is bumped by `scripts/release.sh`. A new library module
+must be added to the makefile `LIBMODS` and to `FUNDAL_SOURCES` in `CMakeLists.txt`; a new test to `fpm.toml`.
+
 ### Running tests
 
 ```bash
