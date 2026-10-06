@@ -4,6 +4,23 @@ All notable changes to this project are documented here.
 Versions follow [Semantic Versioning](https://semver.org/).
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.3] — 2026-10-06
+### Added
+- **dev**: Export device-type constants and forward require_device in mpih
+
+
+### Documentation
+- Refactor into tutorial, cookbook and reference with compiled examples
+
+
+### Fixed
+- **build**: Repair the makefile and fix inconsistent fobos modes and rules
+
+- **tests**: Exit non-zero on failure instead of a plain stop
+
+- **dev**: Report the actual error when dev_assign_to_device stops
+
+
 ## [2.1.2] — 2026-10-05
 ### Added
 - **dev**: Add allocation registry for structured device memory
