@@ -4,6 +4,11 @@ All notable changes to this project are documented here.
 Versions follow [Semantic Versioning](https://semver.org/).
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.1.5] — 2026-10-06
+### Fixed
+- **tests**: Keep test lines within 132 columns
+
+
 ## [2.1.3] — 2026-10-06
 ### Added
 - **dev**: Export device-type constants and forward require_device in mpih
