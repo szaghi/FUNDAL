@@ -1,259 +1,132 @@
 #!/usr/bin/make
+# FUNDAL makefile: build the static library (and, optionally, the tests) without FoBiS.
+# FoBiS (fobos) remains the primary build system; this makefile mirrors its compiler templates.
+#
+# Usage:
+#   make                                      # gfortran, compile-time CPU mode (no device backend)
+#   make COMPILER=gnu BACKEND=oac             # gfortran + OpenACC
+#   make COMPILER=nvf BACKEND=oac GPU=cc89    # nvfortran + OpenACC (GPU: compute capability, e.g. cc80, cc90)
+#   make COMPILER=ifx BACKEND=omp             # Intel ifx + OpenMP offload (spir64)
+#   make COMPILER=amd BACKEND=omp GPU=gfx90a  # AMD flang + OpenMP offload (needs a ROCm environment)
+#   make ... MPI=1                            # also build fundal_mpih_object with the MPI wrapper ($(MPIFC))
+#   make ... tests                            # build the unit tests of src/tests (not laplace/, precision/, mpi/)
+#   make ... clean                            # remove the build directory of the selected configuration
+#
+# Output: build/<COMPILER>-<BACKEND>/{libfundal.a, mod/, obj/, tests/}. Users compile against mod/ and link libfundal.a,
+# with the same -DDEV_* / -DCOMPILER_* macros and -I<path to src/lib> (for fundal.H) used here.
 
-#main building variables
-MAKELIB = ar -rcs $(DEXE)libfundal.a $(DOBJ)*.o ; ranlib $(DEXE)libfundal.a
-RULE    = FUNDAL
-DSRC    = src
-DOBJ    = exe/obj/
-DMOD    = exe/mod/
-DEXE    = exe/
-LIBS    =
-FC      = mpif90
-OPTSC   = -cpp -c -acc -gpu=cc86 -fast -Minfo=all -DDEV_OAC -DCOMPILER_NVF -module exe/mod
-OPTSL   = -acc -gpu=cc86 -fast -Minfo=all -module exe/mod
-VPATH   = $(DSRC) $(DOBJ) $(DMOD)
-MKDIRS  = $(DOBJ) $(DMOD) $(DEXE)
-LCEXES  = $(shell echo $(EXES) | tr '[:upper:]' '[:lower:]')
-EXESPO  = $(addsuffix .o,$(LCEXES))
-EXESOBJ = $(addprefix $(DOBJ),$(EXESPO))
+COMPILER ?= gnu
+BACKEND  ?= none
+MPI      ?= 0
 
-#auxiliary variables
-COTEXT  = "Compiling $(<F)"
-LITEXT  = "Assembling $@"
+# compiler templates (keep in sync with the fobos [template-*] sections)
+ifeq ($(COMPILER),gnu)
+   FC_DEF   = gfortran
+   MPIFC   ?= mpif90
+   MODFLAG  = -J
+   CPPFLAGS = -cpp -DCOMPILER_GNU
+   FFLAGS  ?= -O2
+   ifeq ($(BACKEND),oac)
+      CPPFLAGS += -DDEV_OAC
+      OFFLOAD   = -fopenacc
+   endif
+else ifeq ($(COMPILER),nvf)
+   FC_DEF   = nvfortran
+   MPIFC   ?= mpif90
+   MODFLAG  = -module
+   CPPFLAGS = -cpp -DCOMPILER_NVF
+   FFLAGS  ?= -fast
+   GPU     ?= cc89
+   ifeq ($(BACKEND),oac)
+      CPPFLAGS += -DDEV_OAC
+      OFFLOAD   = -acc -gpu=$(GPU)
+   endif
+else ifeq ($(COMPILER),ifx)
+   FC_DEF   = ifx
+   MPIFC   ?= mpiifx
+   MODFLAG  = -module
+   CPPFLAGS = -fpp
+   FFLAGS  ?= -O2
+   OFFLOAD  = -fiopenmp
+   ifeq ($(BACKEND),omp)
+      CPPFLAGS += -DDEV_OMP
+      OFFLOAD  += -fopenmp-targets=spir64
+   endif
+else ifeq ($(COMPILER),amd)
+   FC_DEF   = amdflang
+   MPIFC   ?= mpif90
+   MODFLAG  = -J
+   CPPFLAGS = -cpp
+   FFLAGS  ?= -O2
+   GPU     ?= gfx90a
+   OFFLOAD  = -fopenmp
+   ifeq ($(BACKEND),omp)
+      CPPFLAGS += -DDEV_OMP -DDEV_HIP
+      OFFLOAD  += --offload-arch=$(GPU)
+      LIBS     += -lamdhip64
+   endif
+else
+   $(error unknown COMPILER=$(COMPILER): use gnu, nvf, ifx or amd)
+endif
+# make predefines FC=f77: use the template compiler unless FC is given on the command line or in the environment
+ifeq ($(filter $(origin FC),default undefined),$(origin FC))
+   FC = $(FC_DEF)
+endif
+ifeq ($(filter $(BACKEND),none oac omp),)
+   $(error unknown BACKEND=$(BACKEND): use none, oac or omp)
+endif
+ifeq ($(MPI),1)
+   FC := $(MPIFC)
+endif
 
-firsrule: $(RULE)
+BUILD = build/$(COMPILER)-$(BACKEND)
+DOBJ  = $(BUILD)/obj
+DMOD  = $(BUILD)/mod
+DTST  = $(BUILD)/tests
+LIB   = $(BUILD)/libfundal.a
+COMPILE = $(FC) $(CPPFLAGS) $(FFLAGS) $(OFFLOAD) -Isrc/lib $(MODFLAG) $(DMOD) -c
 
-#building rules
-$(DEXE)FUNDAL_TASTE: $(MKDIRS) $(DOBJ)fundal_taste.o
-	@rm -f $(filter-out $(DOBJ)fundal_taste.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_TASTE
-$(DEXE)FUNDAL_EXTERNAL_ROUTINE_TEST: $(MKDIRS) $(DOBJ)fundal_external_routine_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_external_routine_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_EXTERNAL_ROUTINE_TEST
-$(DEXE)FUNDAL_DERIVED_TYPE_MEMCPY_TEST: $(MKDIRS) $(DOBJ)fundal_derived_type_memcpy_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_derived_type_memcpy_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_DERIVED_TYPE_MEMCPY_TEST
-$(DEXE)FUNDAL_ALLOC_FREE_TEST: $(MKDIRS) $(DOBJ)fundal_alloc_free_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_alloc_free_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_ALLOC_FREE_TEST
-$(DEXE)FUNDAL_USE_TEST: $(MKDIRS) $(DOBJ)fundal_use_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_use_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_USE_TEST
-$(DEXE)FUNDAL_DEVICE_HANDLING_TEST: $(MKDIRS) $(DOBJ)fundal_device_handling_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_device_handling_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_DEVICE_HANDLING_TEST
-$(DEXE)FUNDAL_SAVE_MEMORY_STATUS_TEST: $(MKDIRS) $(DOBJ)fundal_save_memory_status_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_save_memory_status_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_SAVE_MEMORY_STATUS_TEST
-$(DEXE)FUNDAL_ARRAY_ACCESS_TEST: $(MKDIRS) $(DOBJ)fundal_array_access_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_array_access_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_ARRAY_ACCESS_TEST
-$(DEXE)FUNDAL_ASSIGN_TEST: $(MKDIRS) $(DOBJ)fundal_assign_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_assign_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_ASSIGN_TEST
-$(DEXE)FUNDAL_MEMCPY_TEST: $(MKDIRS) $(DOBJ)fundal_memcpy_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_memcpy_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_MEMCPY_TEST
-$(DEXE)FUNDAL_MPI_DEV_ALLOC_TEST: $(MKDIRS) $(DOBJ)fundal_mpi_dev_alloc_test.o
-	@rm -f $(filter-out $(DOBJ)fundal_mpi_dev_alloc_test.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_MPI_DEV_ALLOC_TEST
-$(DEXE)FUNDAL_LAPLACE_DEV_INLINE: $(MKDIRS) $(DOBJ)fundal_laplace_dev_inline.o
-	@rm -f $(filter-out $(DOBJ)fundal_laplace_dev_inline.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_LAPLACE_DEV_INLINE
-$(DEXE)FUNDAL_LAPLACE_BASELINE: $(MKDIRS) $(DOBJ)fundal_laplace_baseline.o
-	@rm -f $(filter-out $(DOBJ)fundal_laplace_baseline.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_LAPLACE_BASELINE
-$(DEXE)FUNDAL_LAPLACE_DEV_ROUTINE: $(MKDIRS) $(DOBJ)fundal_laplace_dev_routine.o
-	@rm -f $(filter-out $(DOBJ)fundal_laplace_dev_routine.o,$(EXESOBJ))
-	@echo $(LITEXT)
-	@$(FC) $(OPTSL) $(DOBJ)*.o $(LIBS) -o $@
-EXES := $(EXES) FUNDAL_LAPLACE_DEV_ROUTINE
+# library modules in dependency order, with their module dependencies (the .INC files and fundal.H are common deps)
+LIBMODS = fundal_env fundal_utilities fundal_registry fundal_transpose_array fundal_dev_handling \
+          fundal_dev_alloc fundal_dev_free fundal_dev_alloc_replace fundal_dev_alloc_unstructured \
+          fundal_dev_free_unstructured fundal_dev_memcpy fundal_dev_memcpy_unstructured fundal_dev_assign fundal
+ifeq ($(MPI),1)
+   LIBMODS += fundal_mpih_object
+endif
+LIBOBJS = $(addprefix $(DOBJ)/,$(addsuffix .o,$(LIBMODS)))
+COMMON  = src/lib/fundal.H $(wildcard src/lib/*.INC)
 
-FUNDAL: $(MKDIRS) $(DOBJ)fundal.o
-	@echo $(LITEXT)
-	@$(MAKELIB)
+$(DOBJ)/fundal_registry.o:          $(DOBJ)/fundal_env.o
+$(DOBJ)/fundal_dev_handling.o:      $(DOBJ)/fundal_env.o
+$(DOBJ)/fundal_dev_alloc.o:         $(DOBJ)/fundal_env.o $(DOBJ)/fundal_registry.o $(DOBJ)/fundal_utilities.o
+$(DOBJ)/fundal_dev_free.o:          $(DOBJ)/fundal_env.o $(DOBJ)/fundal_registry.o
+$(DOBJ)/fundal_dev_alloc_replace.o: $(DOBJ)/fundal_dev_alloc.o $(DOBJ)/fundal_dev_free.o $(DOBJ)/fundal_registry.o
+$(DOBJ)/fundal_dev_memcpy.o:        $(DOBJ)/fundal_env.o $(DOBJ)/fundal_transpose_array.o $(DOBJ)/fundal_utilities.o
+$(DOBJ)/fundal_dev_assign.o:        $(DOBJ)/fundal_dev_alloc.o $(DOBJ)/fundal_dev_alloc_replace.o $(DOBJ)/fundal_dev_free.o \
+                                    $(DOBJ)/fundal_dev_memcpy.o $(DOBJ)/fundal_transpose_array.o
+$(DOBJ)/fundal.o:                   $(filter-out $(DOBJ)/fundal.o $(DOBJ)/fundal_mpih_object.o,$(LIBOBJS))
+$(DOBJ)/fundal_mpih_object.o:       $(DOBJ)/fundal.o
 
-#compiling rules
-$(DOBJ)fundal_taste.o: src/examples/fundal_taste.F90 \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+# tests: every top-level program of src/tests (the agnostic .INC files live next to them)
+TESTSRC = $(wildcard src/tests/fundal_*_test.F90)
+TESTS   = $(addprefix $(DTST)/,$(notdir $(TESTSRC:.F90=)))
 
-$(DOBJ)fundal_external_routine_test.o: src/tests/fundal_external_routine_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+.PHONY: all lib tests clean
+all: lib
+lib: $(LIB)
+tests: $(TESTS)
 
-$(DOBJ)fundal_derived_type_memcpy_test.o: src/tests/fundal_derived_type_memcpy_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+$(LIB): $(LIBOBJS)
+	ar -rcs $@ $^
 
-$(DOBJ)fundal_alloc_free_test.o: src/tests/fundal_alloc_free_test.F90 \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+$(DOBJ)/%.o: src/lib/%.F90 $(COMMON) | $(DOBJ) $(DMOD)
+	$(COMPILE) $< -o $@
 
-$(DOBJ)fundal_use_test.o: src/tests/fundal_use_test.F90 \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+$(DTST)/%: src/tests/%.F90 $(LIB) | $(DTST)
+	$(FC) $(CPPFLAGS) $(FFLAGS) $(OFFLOAD) -Isrc/lib -Isrc/tests -I$(DMOD) $(MODFLAG) $(DTST) $< $(LIB) $(LIBS) -o $@
 
-$(DOBJ)fundal_device_handling_test.o: src/tests/fundal_device_handling_test.F90 \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
+$(DOBJ) $(DMOD) $(DTST):
+	mkdir -p $@
 
-$(DOBJ)fundal_save_memory_status_test.o: src/tests/fundal_save_memory_status_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_array_access_test.o: src/tests/fundal_array_access_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_assign_test.o: src/tests/fundal_assign_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_memcpy_test.o: src/tests/fundal_memcpy_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_mpi_dev_alloc_test.o: src/tests/mpi/fundal_mpi_dev_alloc_test.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o \
-	$(DOBJ)fundal_mpih_object.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_laplace_dev_inline.o: src/tests/laplace/fundal_laplace_dev_inline.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_laplace_baseline.o: src/tests/laplace/fundal_laplace_baseline.F90
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_laplace_dev_routine.o: src/tests/laplace/fundal_laplace_dev_routine.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_assign.o: src/lib/fundal_dev_assign.F90 src/lib/fundal.H \
-	$(DOBJ)fundal_dev_alloc.o \
-	$(DOBJ)fundal_dev_free.o \
-	$(DOBJ)fundal_dev_memcpy.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_handling.o: src/lib/fundal_dev_handling.F90 src/lib/fundal.H \
-	$(DOBJ)fundal_env.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_utilities.o: src/lib/fundal_utilities.F90
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_free_unstructured.o: src/lib/fundal_dev_free_unstructured.F90 src/lib/fundal.H
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_memcpy_unstructured.o: src/lib/fundal_dev_memcpy_unstructured.F90 src/lib/fundal.H
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal.o: src/lib/fundal.F90 \
-	$(DOBJ)fundal_dev_alloc_unstructered.o \
-	$(DOBJ)fundal_dev_alloc.o \
-	$(DOBJ)fundal_dev_free_unstructured.o \
-	$(DOBJ)fundal_dev_free.o \
-	$(DOBJ)fundal_dev_memcpy_unstructured.o \
-	$(DOBJ)fundal_dev_memcpy.o \
-	$(DOBJ)fundal_dev_assign.o \
-	$(DOBJ)fundal_dev_handling.o \
-	$(DOBJ)fundal_env.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_mpih_object.o: src/lib/fundal_mpih_object.F90 src/lib/fundal.H \
-	$(DOBJ)fundal.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_env.o: src/lib/fundal_env.F90
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_free.o: src/lib/fundal_dev_free.F90 src/lib/fundal.H \
-	$(DOBJ)fundal_env.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_memcpy.o: src/lib/fundal_dev_memcpy.F90 src/lib/fundal.H \
-	$(DOBJ)fundal_env.o \
-	$(DOBJ)fundal_utilities.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_alloc.o: src/lib/fundal_dev_alloc.F90 src/lib/fundal.H \
-	$(DOBJ)fundal_env.o \
-	$(DOBJ)fundal_utilities.o
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-$(DOBJ)fundal_dev_alloc_unstructered.o: src/lib/fundal_dev_alloc_unstructered.F90 src/lib/fundal.H
-	@echo $(COTEXT)
-	@$(FC) $(OPTSC) -Isrc/lib  $< -o $@
-
-#phony auxiliary rules
-.PHONY : $(MKDIRS)
-$(MKDIRS):
-	@mkdir -p $@
-.PHONY : cleanobj
-cleanobj:
-	@echo deleting objects
-	@rm -fr $(DOBJ)
-.PHONY : cleanmod
-cleanmod:
-	@echo deleting mods
-	@rm -fr $(DMOD)
-.PHONY : cleanexe
-cleanexe:
-	@echo deleting exes
-	@rm -f $(addprefix $(DEXE),$(EXES))
-.PHONY : clean
-clean: cleanobj cleanmod
-.PHONY : cleanall
-cleanall: clean cleanexe
+clean:
+	rm -rf $(BUILD)

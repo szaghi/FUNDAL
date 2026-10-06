@@ -59,12 +59,12 @@ modes = fundal-test-nvf
         fundal-test-omp-mpi-ifx
         fundal-void-nvf
         fundal-void-oac-nvf
-        fundal-void-omp-nvf
         fundal-void-gnu
         fundal-void-oac-gnu
         fundal-void-amd
-        fundal-void-oac-amd
+        fundal-void-omp-amd
         fundal-void-ifx
+        fundal-void-omp-ifx
 
 # modes to build library and tests
 [fundal-test-nvf]
@@ -282,98 +282,98 @@ rule_1 = scripts/run_tests.sh
 
 [rule-build-run-tests-oac-nvf]
 help   = Build and Run all tests with OpenACC-NVF
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-oac-nvf
-rule_3 = FoBiS.py rule -ex run-tests
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-test-oac-nvf
+rule_3 = fobis rule --ex run-tests
 
 [rule-build-run-tests-omp-ifx]
 help   = Build and Run all tests with OpenMP-IFX
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-omp-ifx
-rule_3 = FoBiS.py rule -ex run-tests
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-test-omp-ifx
+rule_3 = fobis rule --ex run-tests
 
 [rule-build-run-tests-oac-gnu]
 help   = Build and Run all tests with OpenACC-GNU
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-oac-gnu
-rule_3 = FoBiS.py rule -ex run-tests
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-test-oac-gnu
+rule_3 = fobis rule --ex run-tests
 
 [rule-build-run-tests-omp-amd]
 help   = Build and Run all tests with OpenMP-AMD Flang
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-test-omp-amd
-rule_3 = FoBiS.py rule -ex run-tests
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-test-omp-amd
+rule_3 = fobis rule --ex run-tests
 
 [rule-build-laplace-baseline-nvf]
 help   = Build laplace test with NVF (without pragmas)
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-nvf -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-nvf --target src/tests/laplace/fundal_laplace_baseline.F90 --src src/
 
 [rule-build-laplace-oac-nvf]
 help   = Build laplace test with OpenACC-NVF
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
-rule_4 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-nvf --target src/tests/laplace/fundal_laplace_dev_inline.F90 --src src/
+rule_4 = fobis build --mode fundal-void-oac-nvf --target src/tests/laplace/fundal_laplace_dev_routine.F90 --src src/
 
 [rule-build-laplace-baseline-ifx]
 help   = Build laplace test with IFX (without pragmas)
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-ifx -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-ifx --target src/tests/laplace/fundal_laplace_baseline.F90 --src src/
 
-[rule-build-laplace-oac-ifx]
+[rule-build-laplace-omp-ifx]
 help   = Build laplace test with OpenMP-ifx
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
-rule_4 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-omp-ifx --target src/tests/laplace/fundal_laplace_dev_inline.F90 --src src/
+rule_4 = fobis build --mode fundal-void-omp-ifx --target src/tests/laplace/fundal_laplace_dev_routine.F90 --src src/
 
 [rule-build-laplace-baseline-gnu]
 help   = Build laplace test with GNU (without pragmas)
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-gnu -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-gnu --target src/tests/laplace/fundal_laplace_baseline.F90 --src src/
 
 [rule-build-laplace-oac-gnu]
 help   = Build laplace test with OpenACC-GNU
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
-rule_3 = FoBiS.py build -mode fundal-void-oac-gnu -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-gnu --target src/tests/laplace/fundal_laplace_dev_inline.F90 --src src/
+rule_3 = fobis build --mode fundal-void-oac-gnu --target src/tests/laplace/fundal_laplace_dev_routine.F90 --src src/
 
 [rule-build-laplace-baseline-amd]
 help   = Build laplace test with AMD Flang (without pragmas)
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-ifx -t src/tests/laplace/fundal_laplace_baseline.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-amd --target src/tests/laplace/fundal_laplace_baseline.F90 --src src/
 
-[rule-build-laplace-oac-amd]
+[rule-build-laplace-omp-amd]
 help   = Build laplace test with OpenMP-AMD Flang
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_inline.F90 -s src/
-rule_4 = FoBiS.py build -mode fundal-void-omp-ifx -t src/tests/laplace/fundal_laplace_dev_routine.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-omp-amd --target src/tests/laplace/fundal_laplace_dev_inline.F90 --src src/
+rule_4 = fobis build --mode fundal-void-omp-amd --target src/tests/laplace/fundal_laplace_dev_routine.F90 --src src/
 
 [rule-build-assign-lb-oac-nvf]
 help   = Build assign with lower-bounds-passed test with OpenACC-NVF
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/fundal_assign_lb_test.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-nvf --target src/tests/fundal_assign_lb_test.F90 --src src/
 
 [rule-build-memcpy-tra-oac-nvf]
 help   = Build memcpy transposed test with OpenACC-NVF
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t src/tests/fundal_memcpy_transposed_test.F90 -s src/
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-nvf --target src/tests/fundal_memcpy_transposed_test.F90 --src src/
 
 [rule-build-compilers-proofs-oac-nvf]
 help   = Build compilers proofs test with OpenACC-NVF
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-nvf -t ./compilers_proofs/oac/test_deviceptr.f90
-rule_3 = FoBiS.py build -mode fundal-void-oac-nvf -t ./compilers_proofs/oac/test_present.f90
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-nvf --target ./compilers_proofs/oac/test_deviceptr.f90
+rule_3 = fobis build --mode fundal-void-oac-nvf --target ./compilers_proofs/oac/test_present.f90
 
 [rule-build-compilers-proofs-oac-gnu]
 help   = Build compilers proofs test with OpenACC-GNU
-rule_1 = FoBiS.py clean
-rule_2 = FoBiS.py build -mode fundal-void-oac-gnu -t ./compilers_proofs/oac/test_deviceptr.f90
-rule_3 = FoBiS.py build -mode fundal-void-oac-gnu -t ./compilers_proofs/oac/test_present.f90
+rule_1 = fobis clean
+rule_2 = fobis build --mode fundal-void-oac-gnu --target ./compilers_proofs/oac/test_deviceptr.f90
+rule_3 = fobis build --mode fundal-void-oac-gnu --target ./compilers_proofs/oac/test_present.f90
 
 [rule-makedoc]
 help   = Build documentation with formal + VitePress
 rule_1 = formal generate --mirror-sources --diagrams --project docs/ford.md --output docs/api
-rule_2 = cd docs && npm ci && npm run docs:build
+rule_2 = cd docs && npm install && npm run docs:build
 
 [rule-deldoc]
 help = Delete documentation build artifacts
@@ -385,23 +385,23 @@ rule = rm -rf exe/
 
 [rule-clean]
 help = Clean the project tree
-rule_1 = FoBiS.py rule -ex deldoc
-rule_2 = FoBiS.py rule -ex delexe
+rule_1 = fobis rule --ex deldoc
+rule_2 = fobis rule --ex delexe
 rule_3 = rm -f *.gcov
 
 [rule-maketar]
 help = Make tar archive of the project
-rule = tar --xform="s%^%FUNDAL/%" -czf FiNeR.tar.gz *
+rule = tar --xform="s%^%FUNDAL/%" -czf FUNDAL.tar.gz *
 
 [rule-makecoverage]
 help   = Perform coverage analysis
-rule_1 = FoBiS.py rule -ex delexe
-rule_2 = FoBiS.py build -mode fundal-test-oac-gnu -coverage
-rule_3 = FoBiS.py rule -ex run-tests
+rule_1 = fobis rule --ex delexe
+rule_2 = fobis build --mode fundal-test-oac-gnu --coverage
+rule_3 = fobis rule --ex run-tests
 rule_4 = ./scripts/compute-coverage.sh
 
 [rule-makecoverage-analysis]
 help   = Perform coverage analysis and saving reports in markdown
-rule_1 = FoBiS.py rule -ex makecoverage
-rule_2 = FoBiS.py rule --gcov-analyzer docs/guide/ --gcov-analyzer coverage-analysis
+rule_1 = fobis rule --ex makecoverage
+rule_2 = fobis rule --gcov-analyzer docs/guide/ --gcov-analyzer coverage-analysis
 rule_3 = rm -f *.gcov
