@@ -1,0 +1,3 @@
+$ debugging leak
+FUNDAL live allocation: address=0x<address> bytes=64 device=0 label="halo buffer"
+FUNDAL live allocations: 1 (64 bytes)

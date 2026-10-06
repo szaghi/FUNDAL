@@ -1,0 +1,4 @@
+$ memory assign
+device bounds: 0:3 -2:2
+host bounds:   0:3 -2:2
+same values: T

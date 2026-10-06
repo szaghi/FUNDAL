@@ -1,0 +1,2 @@
+$ memory kinds
+device memory in use: 500 bytes (100 x 1 + 100 x 4)

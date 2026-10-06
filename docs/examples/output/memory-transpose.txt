@@ -1,0 +1,4 @@
+$ memory transpose
+at == transpose(a): T
+shape of bt: 4 3 2
+bt(k,j,i) == b(i,j,k): T

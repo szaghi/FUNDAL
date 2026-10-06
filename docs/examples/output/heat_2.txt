@@ -1,0 +1,10 @@
+$ heat_2
+device array bounds: 0:5
+after the refinement: 0:9
+live device allocations: 1 (80 bytes)
+dev_assign_to_device(dst, src):          1:10
+dev_assign_to_device(lbounds, dst, src): 0:9
+dev_assign_from_device(dst, src):          1:10
+dev_assign_from_device(lbounds, dst, src): 0:9
+temperature:  0.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0 20.0  0.0
+live device allocations: 0

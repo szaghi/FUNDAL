@@ -1,0 +1,7 @@
+$ heat_7 --double-free
+running on the host: T
+live device allocations: 2 (272 bytes)
+temperature at the centre after 50 steps: 0.61712
+FUNDAL live allocations: 0 (0 bytes)
+dev_free(alias): error 103, not a live FUNDAL allocation, nothing freed
+[exit status 1]

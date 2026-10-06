@@ -1,0 +1,3 @@
+$ mpirun --oversubscribe -np 2 mpi devices
+rank 0: local rank 0, device 0
+rank 1: local rank 1, device 0

@@ -1,0 +1,3 @@
+$ debugging double-free
+first dev_free: 0
+second dev_free: 103, FUNDAL_ERR_NOT_REGISTERED: T

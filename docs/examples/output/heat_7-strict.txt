@@ -1,0 +1,3 @@
+$ heat_7 --require-device
+no device available and the host fallback is forbidden: stop
+[exit status 1]

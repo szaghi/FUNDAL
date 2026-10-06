@@ -1,9 +1,70 @@
 import { withMermaid } from 'vitepress-plugin-mermaid'
 import apiSidebar from '../api/_sidebar.json'
 
+// one sidebar for every page but the API, in reading order: the "previous" and "next" links at the bottom of a page
+// follow it, so the documentation reads from the first page to the last
+const docs = [
+  {
+    text: 'Start here',
+    items: [
+      { text: 'About',        link: '/guide/' },
+      { text: 'Installation', link: '/guide/install' },
+      { text: 'Concepts',     link: '/guide/concepts' },
+    ],
+  },
+  {
+    text: 'Tutorial',
+    items: [
+      { text: 'Overview',                     link: '/guide/tutorial/' },
+      { text: '1. A first device array',      link: '/guide/tutorial/01-first-device-array' },
+      { text: '2. Bounds, resizing, copies',  link: '/guide/tutorial/02-bounds-resizing' },
+      { text: '3. Portable kernels',          link: '/guide/tutorial/03-portable-kernels' },
+      { text: '4. Routines and types',        link: '/guide/tutorial/04-routines-types' },
+      { text: '5. The unstructured model',    link: '/guide/tutorial/05-unstructured' },
+      { text: '6. Several devices with MPI',  link: '/guide/tutorial/06-mpi' },
+      { text: '7. Production runs',           link: '/guide/tutorial/07-production' },
+    ],
+  },
+  {
+    text: 'Cookbook',
+    items: [
+      { text: 'Overview',      link: '/cookbook/' },
+      { text: 'Device memory', link: '/cookbook/memory' },
+      { text: 'Kernels',       link: '/cookbook/kernels' },
+      { text: 'MPI',           link: '/cookbook/mpi' },
+      { text: 'Debugging',     link: '/cookbook/debugging' },
+    ],
+  },
+  {
+    text: 'Reference',
+    items: [
+      { text: 'Feature map',                  link: '/reference/' },
+      { text: 'Initialization and devices',   link: '/reference/devices' },
+      { text: 'Structured memory',            link: '/reference/structured' },
+      { text: 'Unstructured memory',          link: '/reference/unstructured' },
+      { text: 'Registry and statistics',      link: '/reference/registry' },
+      { text: 'MPI handler',                  link: '/reference/mpi' },
+      { text: 'Macros',                       link: '/reference/macros' },
+      { text: 'Errors and constants',         link: '/reference/errors' },
+      { text: 'Global variables',             link: '/reference/globals' },
+      { text: 'Standards',                    link: '/reference/standards' },
+    ],
+  },
+  {
+    text: 'Project',
+    items: [
+      { text: 'Upgrading',    link: '/project/upgrading' },
+      { text: 'Changelog',    link: '/project/changelog' },
+      { text: 'Contributing', link: '/guide/contributing' },
+    ],
+  },
+]
+
 export default withMermaid({
   title: 'FUNDAL Documentation',
   base: '/FUNDAL/',
+  // ford.md is the configuration of the API generator (formal), not a page
+  srcExclude: ['ford.md'],
   markdown: {
     math: true,
     languages: ['fortran-free-form', 'fortran-fixed-form'],
@@ -19,49 +80,26 @@ export default withMermaid({
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Start here', link: '/guide/', activeMatch: '^/guide/(index|install|concepts)?$' },
+      { text: 'Tutorial', link: '/guide/tutorial/', activeMatch: '^/guide/tutorial/' },
+      { text: 'Cookbook', link: '/cookbook/', activeMatch: '^/cookbook/' },
+      { text: 'Reference', link: '/reference/', activeMatch: '^/reference/' },
+      { text: 'API', link: '/api/' },
       {
-        text: 'Guide',
+        text: 'Project',
         items: [
-          { text: 'About',          link: '/guide/' },
-          { text: 'Features',       link: '/guide/features' },
-          { text: 'Installation',   link: '/guide/installation' },
-          { text: 'Usage',          link: '/guide/usage' },
-          { text: 'API Reference',  link: '/guide/api-reference' },
-          { text: 'Contributing',      link: '/guide/contributing' },
-          { text: 'Changelog',         link: '/guide/changelog' },
-          { text: 'Coverage Analysis', link: '/guide/coverage-analysis' },
+          { text: 'Upgrading',    link: '/project/upgrading' },
+          { text: 'Changelog',    link: '/project/changelog' },
+          { text: 'Contributing', link: '/guide/contributing' },
         ],
       },
-      { text: 'Standards', link: '/standards' },
-      { text: 'API', link: '/api/' },
       { text: 'GitHub', link: 'https://github.com/szaghi/FUNDAL' },
     ],
     sidebar: {
-      '/guide/': [
-        {
-          text: 'Introduction',
-          items: [
-            { text: 'About',    link: '/guide/' },
-            { text: 'Features', link: '/guide/features' },
-          ],
-        },
-        {
-          text: 'Getting Started',
-          items: [
-            { text: 'Installation',  link: '/guide/installation' },
-            { text: 'Usage',         link: '/guide/usage' },
-            { text: 'API Reference', link: '/guide/api-reference' },
-          ],
-        },
-        {
-          text: 'Project',
-          items: [
-            { text: 'Contributing',      link: '/guide/contributing' },
-            { text: 'Changelog',         link: '/guide/changelog' },
-            { text: 'Coverage Analysis', link: '/guide/coverage-analysis' },
-          ],
-        },
-      ],
+      '/guide/': docs,
+      '/cookbook/': docs,
+      '/reference/': docs,
+      '/project/': docs,
       '/api/': [
         {
           text: 'API Reference',
@@ -78,6 +116,11 @@ export default withMermaid({
   },
   mermaid: {},
   vite: {
+    // Build with an explicit modern JS target so the docs compile regardless of
+    // which mermaid/vitepress/esbuild versions npm resolves. Vite's default
+    // es2020 target forces esbuild to down-level modern syntax (e.g. the
+    // destructuring mermaid 11.16+ emits), which it refuses to do and the build
+    // dies. es2022 needs no lowering and is within VitePress's browser floor.
     build: {
       target: 'es2022',
     },

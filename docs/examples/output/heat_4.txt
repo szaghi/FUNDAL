@@ -1,0 +1,3 @@
+$ heat_4
+temperature at the centre after 50 steps: 0.61712
+equal to the exact discrete solution: T

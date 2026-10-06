@@ -1,101 +1,90 @@
-### FUNDAL TESTS
+# FUNDAL tests
 
-FUNDAL is a Test-Driven project, this subdirectory contains FUNDAL tests.
+Every top-level program of this directory is a test. The `*_agnostic.INC` files hold the kind/rank-generic bodies that
+some tests include.
 
-+ `fundal_alloc_free_test.F90`, test allocation and free of device memory;
-+ `fundal_array_access_test.F90`, test different methods to access arrays memory;
-+ `fundal_derived_type_memcpy_test.F90`, test device acceleration with derived type;
-+ `fundal_device_handling_test.F90`, test routines for device handling;
-+ `fundal_memcpy_test.F90`, test routint for memory copy from/to device;
-+ `fundal_use_test.F90`, test use FUNDAL module;
-+ laplace: the *case study* proposed into the OpenACC documentation, this is used for profiling study:
-  - `fundal_laplace_baseline.F90`, baseline test without device acceleration;
-  - `fundal_laplace_dev_inline.F90 `, test with device acceleration, all *inline*;
-  - `fundal_laplace_dev_routine.F90`, test with device acceleration, parallel loop in external module;
+| Test | What it checks |
+|---|---|
+| `fundal_alloc_free_test` | `dev_alloc`/`dev_free` for every kind and rank, zero live allocations at the end |
+| `fundal_alloc_replace_test` | `dev_alloc_replace`: bounds, values, exact allocation counters, a replace/assign loop |
+| `fundal_array_access_test` | kernels with different loop orders and collapse depths on rank-4 device arrays (prints timings) |
+| `fundal_assign_test` | `dev_assign_to_device`/`dev_assign_from_device` for every kind and rank |
+| `fundal_assign_lb_test` | the lower-bounds-first `dev_assign_*` forms, lower bound -2 |
+| `fundal_compat_test` | legacy call forms and legacy behaviour under the registry policies |
+| `fundal_derived_type_memcpy_test` | device arrays as components of a derived type, kernel in a procedure |
+| `fundal_device_handling_test` | device queries: selects each device in turn and prints its properties |
+| `fundal_external_routine_test` | kernels in procedures: structured (`DEVICEVAR`) and unstructured (`present`) arrays |
+| `fundal_host_fallback_test` | `dev_init` policy: fallback warning, `require_device`, `local_rank` without devices |
+| `fundal_memcpy_test` | `dev_memcpy_to_device`/`dev_memcpy_from_device` for every kind and rank |
+| `fundal_memcpy_transposed_test` | transposed copies, lower bound -2 |
+| `fundal_registry_test` | the allocation registry itself (host only, no device memory) |
+| `fundal_registry_behaviour_test` | labels, statistics, report, misuse detection through `ierr` |
+| `fundal_registry_two_devices_test` | a buffer freed on the device where it lives (skipped with fewer than two devices) |
+| `fundal_registry_xfail_double_free_test` | expected failure: a double free under policy `error` must `error stop` |
+| `fundal_save_memory_status_test` | `save_memory_status` |
+| `fundal_use_test` | `use fundal` compiles and links |
 
----
-#### Build tests
+Subdirectories:
 
-To build all tests do:
+- `mpi/fundal_mpi_dev_alloc_test.F90`: device memory and MPI transfers on 2 ranks, through `mpih_object`; built only by
+  the `mpi` modes (`fundal-test-oac-mpi-nvf`, `-oac-mpi-gnu`, `-omp-mpi-ifx`, `-omp-mpi-amd`).
+- `laplace/`: a profiling case study (the Laplace example of the OpenACC documentation): `fundal_laplace_baseline`
+  (serial), `fundal_laplace_dev_inline` (kernels inline), `fundal_laplace_dev_routine` (kernels in a module).
+- `precision/`: a WENO5 mixed-precision benchmark, see its [README](precision/README.md).
 
-##### OpenACC-NVF
-```shell
-FoBiS.py build -mode fundal-test-oac-nvf
+## Build
+
+```bash
+fobis build --lmodes                       # the modes
+fobis build --mode fundal-test-oac-nvf     # nvfortran + OpenACC
+fobis build --mode fundal-test-omp-ifx     # ifx + OpenMP offload
+fobis build --mode fundal-test-oac-gnu     # gfortran + OpenACC
+fobis build --mode fundal-test-omp-amd     # amdflang + OpenMP offload
+fobis build --mode fundal-test-gnu         # gfortran, compile-time CPU mode
 ```
 
-##### OpenMP-IFX
-```shell
-FoBiS.py build -mode fundal-test-omp-ifx
+The test programs go to `exe/`. Every non-MPI mode excludes `mpi/`; `fundal-test-oac-gnu` (used by CI for coverage)
+also excludes `laplace/` and `precision/`, which are too slow in an unoptimized, instrumented host build. `exe/` is
+shared: `fobis clean` before switching mode.
+
+Without FoBiS: `make COMPILER=gnu BACKEND=oac tests` builds the top-level tests (not `laplace/`, `precision/`, `mpi/`)
+into `build/gnu-oac/tests/`.
+
+## Run
+
+```bash
+bash scripts/run_tests.sh                  # every program of exe/
+fobis rule --ex run-tests                  # the same
+fobis rule --ex build-run-tests-oac-nvf    # clean, build and run (also -omp-ifx, -oac-gnu, -omp-amd)
 ```
 
-##### OpenACC-GNU
-```shell
-FoBiS.py build -mode fundal-test-oac-gnu
+`scripts/run_tests.sh` runs every executable of `exe/`, those with `mpi` in their name under `mpirun -np 2` (`--np N`
+changes it), and reports:
+
+- a regular test **passes** when it exits with status 0 and, if a `<name>.result` file exists, prints its content
+  (leading and trailing blanks ignored). The text `test passed` the tests print is not checked;
+- a test with `_xfail_` in its name is an **expected failure**: it passes when it exits with a non-zero status.
+
+The script exits with the number of failures. Several older tests end with a plain `stop` (exit status 0) when a check
+fails: read their output, or fix them to `error stop`. New tests should `error stop` on any failure.
+
+## Laplace case study
+
+```bash
+fobis rule --ex build-laplace-baseline-nvf && fobis rule --ex build-laplace-oac-nvf
+fobis rule --ex build-laplace-baseline-gnu && fobis rule --ex build-laplace-oac-gnu
+fobis rule --ex build-laplace-baseline-ifx && fobis rule --ex build-laplace-omp-ifx
+fobis rule --ex build-laplace-baseline-amd && fobis rule --ex build-laplace-omp-amd
 ```
 
----
-#### Build and Run tests (except laplace profiling study)
+Each rule cleans `exe/` first, so build and run one variant at a time.
 
-To build and run all tests do:
+## Compiler proofs
 
-##### OpenACC-NVF
-```shell
-FoBiS.py rule -ex build-run-tests-oac-nvf
-```
+`compilers_proofs/` holds standalone programs that check compiler support for offloading features (see its
+[README](../../compilers_proofs/README.md)):
 
-##### OpenMP-IFX
-```shell
-FoBiS.py rule -ex build-run-tests-omp-ifx
-```
-
-##### OpenACC-GNU
-```shell
-FoBiS.py rule -ex build-run-tests-oac-gnu
-```
-
-To only run all-in-once pre-built tests  do:
-```shell
-./util/run_tests.sh
-```
-
----
-### Laplace iteration, profiling case study
-The `./src/tests/laplace/` contains tests used for profiling FUNDAL in a more complex scenario, in particular there are:
-- `fundal_laplace_baseline.F90`, baseline test without device acceleration;
-- `fundal_laplace_dev_inline.F90 `, test with device acceleration, all *inline*;
-- `fundal_laplace_dev_routine.F90`, test with device acceleration, parallel loop in external module;
-
-To build laplace profiling tests do:
-
-##### OpenACC-NVF
-```shell
-FoBiS.py rule -ex build-laplace-baseline-nvf
-FoBiS.py rule -ex build-laplace-oac-nvf
-```
-
-##### OpenMP-IFX
-```shell
-FoBiS.py rule -ex build-laplace-baseline-ifx
-FoBiS.py rule -ex build-laplace-omp-ifx
-```
-
-##### OpenACC-GNU
-```shell
-FoBiS.py rule -ex build-laplace-baseline-gnu
-FoBiS.py rule -ex build-laplace-oac-gnu
-```
-
----
-### Compilers Proofs
-Aside FUNDAL tests there are tests dedicated to only test compilers support for latest OpenACC/OpenMP specs. These tests are contained in
-`compilers_proofs` directory. To build these proofs do:
-
-##### OpenACC-NVF
-```shell
-FoBiS.py rule -ex build-compilers-proofs-oac-nvf
-```
-
-##### OpenACC-GNU
-```shell
-FoBiS.py rule -ex build-compilers-proofs-oac-gnu
+```bash
+fobis rule --ex build-compilers-proofs-oac-nvf
+fobis rule --ex build-compilers-proofs-oac-gnu
 ```

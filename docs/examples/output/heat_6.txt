@@ -1,0 +1,5 @@
+$ mpirun --oversubscribe -np 2 heat_6
+rank 0 owns the cells 1 to 7
+rank 1 owns the cells 8 to 15
+temperature at the centre after 50 steps: 0.61712
+equal to the exact discrete solution: T

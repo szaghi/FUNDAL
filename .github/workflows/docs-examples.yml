@@ -1,0 +1,32 @@
+name: Docs examples
+
+# Every code sample and output shown in the documentation is generated from docs/examples/src by
+# scripts/docs_examples.sh (gfortran + OpenACC through the Open MPI wrapper mpif90, runs on the host, MPI examples on
+# 2 ranks). This job regenerates them and fails if the committed snippets/outputs differ, so the documentation cannot
+# drift from the code.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  docs-examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install gfortran and Open MPI
+        run: sudo apt-get update && sudo apt-get install -y gfortran openmpi-bin libopenmpi-dev
+
+      - name: Regenerate the documentation examples
+        run: bash scripts/docs_examples.sh
+
+      - name: Check that the committed examples are up to date
+        run: |
+          if [ -n "$(git status --porcelain -- docs/examples)" ]; then
+            git status --porcelain -- docs/examples
+            git diff -- docs/examples
+            echo "docs/examples is out of date: run 'bash scripts/docs_examples.sh' and commit the result" >&2
+            exit 1
+          fi

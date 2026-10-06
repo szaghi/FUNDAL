@@ -1,0 +1,3 @@
+$ debugging dev-id
+dev_free(dev_id=mydev+1): 104, FUNDAL_ERR_DEV_ID_MISMATCH: T, live allocations: 1
+dev_free: 0, live allocations: 0

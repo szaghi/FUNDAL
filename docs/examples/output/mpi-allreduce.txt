@@ -1,0 +1,3 @@
+$ mpirun --oversubscribe -np 2 mpi allreduce
+global sum:   20100.0
+equal to m (m+1) / 2, m = n procs: T

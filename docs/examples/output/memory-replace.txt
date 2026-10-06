@@ -1,0 +1,3 @@
+$ memory replace
+size: 40, live device allocations: 1
+first values (set by init_value, not preserved from the previous buffer): 40.0 40.0 40.0 40.0

@@ -1,0 +1,3 @@
+$ kernels reduction
+sum:  500500.0, max:  1000.0
+sum == n (n+1) / 2: T

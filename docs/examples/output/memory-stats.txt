@@ -1,0 +1,4 @@
+$ memory stats
+live: 2 allocations, 12000 bytes
+on this device: 2 allocations, 12000 bytes
+after the frees: 0

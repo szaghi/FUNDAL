@@ -1,0 +1,3 @@
+$ FUNDAL_REGISTRY=error debugging misuse
+freeing the buffer a second time, through alias
+[exit status 1]
