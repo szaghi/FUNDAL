@@ -85,7 +85,7 @@ integer(I4P), intent(in), optional :: unit
 |---|---|---|
 | `unit` | in, optional | Output unit (default standard output) |
 
-Writes one line per live allocation, in no particular order, then a summary:
+Writes one line per live allocation, in ascending address order, then a summary:
 
 | Line | Content |
 |---|---|

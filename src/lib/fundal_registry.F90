@@ -198,19 +198,21 @@ contains
    endsubroutine registry_stats
 
    subroutine registry_report(unit)
-   !< Write the live allocations (address, bytes, device, label), one per line, followed by a summary line.
+   !< Write the live allocations (address, bytes, device, label), one per line in ascending address order, followed by a
+   !< summary line.
    integer(I4P), intent(in), optional :: unit  !< Output unit (default standard output).
    integer(I4P)                       :: unit_ !< Output unit, local var.
-   integer(I8P)                       :: s     !< Slot counter.
+   integer(I8P)                       :: k     !< Counter of the sorted base addresses.
+   integer(I8P)                       :: s     !< Slot of an address.
+   logical                            :: found !< Address present (always, the structures agree).
 
    unit_ = output_unit ; if (present(unit)) unit_ = unit
    !$omp critical (fundal_registry)
    if (allocated(table)) then
-      do s=0_I8P, size(table, kind=I8P) - 1_I8P
-         if (table(s)%addr /= 0_c_intptr_t) then
-            write(unit_, '(A,Z16.16,A,I0,A,I0,A)') 'FUNDAL live allocation: address=0x', table(s)%addr, &
-               ' bytes=', table(s)%bytes, ' device=', table(s)%dev_id, ' label="'//trim(table(s)%label)//'"'
-         endif
+      do k=1_I8P, used
+         call table_find(sorted(k), s, found)
+         write(unit_, '(A,Z16.16,A,I0,A,I0,A)') 'FUNDAL live allocation: address=0x', table(s)%addr, &
+            ' bytes=', table(s)%bytes, ' device=', table(s)%dev_id, ' label="'//trim(table(s)%label)//'"'
       enddo
    endif
    write(unit_, '(A,I0,A,I0,A)') 'FUNDAL live allocations: ', dev_allocs_live, ' (', dev_bytes_live, ' bytes)'

@@ -99,15 +99,16 @@ call check(dev_allocs_live == 0_I8P .and. dev_bytes_live == 0_I8P, 'drained')
 call registry_insert(0_c_intptr_t, 8_I8P, 0_I4P)
 call check(dev_allocs_live == 0_I8P, 'null address not registered')
 
-print '(A)', 'report'
-call registry_insert(addr(1), 64_I8P, 1_I4P, label='rho')
+print '(A)', 'report, in ascending address order'
 call registry_insert(addr(2), 32_I8P, 0_I4P)
+call registry_insert(addr(1), 64_I8P, 1_I4P, label='rho')
 open(newunit=u, status='scratch')
 call registry_report(unit=u)
 rewind(u) ; nlines = 0
 do
    read(u, '(A)', iostat=ierr) line ; if (ierr /= 0) exit
    nlines = nlines + 1
+   if (nlines == 1) call check(index(line, 'label="rho"') > 0, 'lowest address first')
    if (index(line, 'label="rho"') > 0) call check(index(line, 'bytes=64') > 0 .and. index(line, 'device=1') > 0, &
                                                   'report line content')
 enddo
