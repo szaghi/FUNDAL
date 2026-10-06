@@ -27,7 +27,7 @@ use            :: openacc,         only :                      acc_get_device_nu
 use            :: omp_lib,         only : dev_get_device_num =>omp_get_default_device, &
                                           dev_get_host_num   =>omp_get_initial_device, &
                                           dev_get_num_devices=>omp_get_num_devices,    &
-                                          dev_set_device_num =>omp_set_default_device
+                                          omp_set_default_device
 use            :: fundal_env,      only : FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
 #endif
 use            :: fundal_env,      only : devs_number, mydev, devtype, dev_memory_avail, dev_memory_total, myhos, &
@@ -275,12 +275,13 @@ contains
    endsubroutine dev_init
 
    subroutine dev_set_device_num(dev_num)
-   !< Set the runtime for the specified device type and device number.
+   !< Set the runtime for the specified device type and device number, and make it the default device of FUNDAL (mydev).
    !< Note: the device type environment global variable, devtype, must be set before use this routine. By default it is seto to
    !< acc_device_default.
    integer, value, intent(in) :: dev_num !< Device ID.
 
    call acc_set_device_num(dev_num, devtype)
+   mydev = dev_get_device_num()
    endsubroutine dev_set_device_num
 #elif defined DEV_OMP
    subroutine dev_get_device_memory_info(mem_free, mem_total)
@@ -411,6 +412,14 @@ contains
    ! Both are published; consumers choose.
    call dev_get_device_memory_info(mem_free=dev_memory_avail, mem_total=dev_memory_total)
    endsubroutine dev_init
+
+   subroutine dev_set_device_num(dev_num)
+   !< Set the default device of the OpenMP runtime, and make it the default device of FUNDAL (mydev).
+   integer, value, intent(in) :: dev_num !< Device ID.
+
+   call omp_set_default_device(dev_num)
+   mydev = dev_get_device_num()
+   endsubroutine dev_set_device_num
 #else
    subroutine dev_get_device_memory_info(mem_free, mem_total)
    !< Get the current device memory status.
@@ -473,9 +482,11 @@ contains
    endsubroutine dev_get_property_string
 
    subroutine dev_set_device_num(dev_num)
-   !< Set the runtime for the specified device type and device number.
-   !< Note: host fallback does not provide such a runtime routine, added only for seamless unified API.
+   !< Set the runtime for the specified device type and device number, and make it the default device of FUNDAL (mydev).
+   !< Note: host fallback does not provide such a runtime routine, added only for seamless unified API: mydev stays 0.
    integer, value, intent(in) :: dev_num !< Device ID.
+
+   mydev = dev_get_device_num()
    endsubroutine dev_set_device_num
 
    subroutine dev_init(local_rank, require_device, ierr)

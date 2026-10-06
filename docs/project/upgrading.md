@@ -9,11 +9,20 @@ calls compile unchanged. The full list of commits is in the [changelog](./change
 
 ## Unreleased
 
+- **`dev_set_device_num` updates `mydev`** in every backend, so after `call dev_set_device_num(1)` OpenMP allocates and
+  copies on device 1, as OpenACC already did (before, OpenMP kept using the old `mydev`). The usual
+  `mydev = dev_get_device_num()` after the call is now redundant and harmless. On OpenMP the routine is no longer a
+  rename of `omp_set_default_device`: `dev_set_device_num(dev_num=1)` now compiles, the OpenMP keyword `device_num=`
+  does not.
+
+## 2.1.4 and 2.1.5
+
 - **CMake and fpm builds.** `CMakeLists.txt` builds the library and the tests (`-DFUNDAL_BACKEND=none|oac|omp`,
   `-DFUNDAL_GPU`, `-DFUNDAL_MPI=ON`) and installs a package: `find_package(FUNDAL)` and link `FUNDAL::fundal`, which
   carries the backend macros and offload flags. `fpm.toml` builds the library in the compile-time CPU mode (a backend
   through `--flag`), without the MPI handler. See [Installation](/guide/install#build-with-cmake). Nothing changes for
   FoBiS and make builds.
+- 2.1.5 shortens test source lines over 132 columns, which gfortran 13 rejects (the CMake build compiles the tests).
 
 ## 2.1.3
 

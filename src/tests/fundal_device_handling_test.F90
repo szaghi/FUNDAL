@@ -16,11 +16,20 @@ devs_number = dev_get_num_devices()
 print '("total number of devices available =",i3)', devs_number
 do i=0, devs_number - 1
    call dev_set_device_num(i)
-   mydev = dev_get_device_num()
+   if (mydev /= i .or. mydev /= dev_get_device_num()) then
+      print '("error: mydev=",i3," does not follow dev_set_device_num(",i3,")")', mydev, i
+      error stop 1
+   endif
    print '("   current thread device ID       =",i3)', mydev
    call dev_get_property_string(dev_num=mydev, string=property_string, prefix='      ')
    print '("   current thread device property = ",A)', new_line('a')//trim(property_string)
 enddo
+
+call dev_set_device_num(dev_num=0) ! keyword accepted by every backend
+if (mydev /= 0) then
+   print '(A)', 'error: mydev does not follow dev_set_device_num(dev_num=0)'
+   error stop 1
+endif
 
 print '(A)', 'test passed'
 endprogram fundal_devices_handling_test

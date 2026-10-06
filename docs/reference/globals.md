@@ -9,7 +9,7 @@ sets them. Read them; change them only if you know why (FUNDAL uses `mydev`, `my
 
 | Variable | Type | Set by | Description |
 |---|---|---|---|
-| `mydev` | `integer(I4P)` | `dev_init` | Device of this process: default device for `dev_alloc` and copies on OpenMP, the device made current on OpenACC |
+| `mydev` | `integer(I4P)` | `dev_init`, `dev_set_device_num` | Device of this process: default device for `dev_alloc` and copies on OpenMP, the device made current on OpenACC |
 | `myhos` | `integer(I4P)` | `dev_init` | Host device number (`omp_get_initial_device()`, `acc_get_device_num(acc_device_host)`) |
 | `devtype` | `integer(IDK)` | `dev_init`, OpenACC only | OpenACC device type of the queries; default `acc_device_default`. 0 and unused on OpenMP and in the CPU mode |
 | `IDK` | `integer, parameter` | | Kind of `devtype`: `acc_device_kind` on OpenACC, `I4P` otherwise |

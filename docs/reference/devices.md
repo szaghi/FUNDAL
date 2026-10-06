@@ -100,10 +100,9 @@ integer, value, intent(in) :: dev_num
 |---|---|---|
 | `dev_num` | in, value | Device to make current |
 
-`acc_set_device_num(dev_num, devtype)` (OpenACC), no-op (CPU mode). On OpenMP `dev_set_device_num` *is*
-`omp_set_default_device`, renamed: its dummy argument has the name of the OpenMP library, so pass the device
-positionally, `call dev_set_device_num(1)`. It does not change `mydev`, which `dev_alloc` uses as the default device on
-OpenMP.
+`acc_set_device_num(dev_num, devtype)` (OpenACC), `omp_set_default_device(dev_num)` (OpenMP), nothing (CPU mode);
+then `mydev` is set to the current device, `dev_get_device_num()`. Every backend then works on `dev_num`: OpenACC
+allocates on the current device, OpenMP allocates and copies on `mydev` by default. In the CPU mode `mydev` stays 0.
 
 ## dev_get_host_num {#dev-get-host-num}
 
