@@ -43,7 +43,9 @@ $GPU_ARCH = gfx1030
 $GPU_ARCH = gfx1100
 
 [modes]
-modes = fundal-test-nvf
+# the first mode is the default (`fobis build`, scripts/install.sh): a library build that any gfortran can do
+modes = fundal-lib-gnu
+        fundal-test-nvf
         fundal-test-oac-nvf
         fundal-test-oac-nvf-debug
         fundal-test-oac-mpi-nvf
@@ -67,6 +69,15 @@ modes = fundal-test-nvf
         fundal-void-omp-ifx
 
 # modes to build library and tests
+[fundal-lib-gnu]
+help      = Build the FUNDAL static library with GNU, compile-time CPU mode (default mode)
+template  = template-gnu
+src       = ./src/lib/
+target    = fundal.F90
+mklib     = static
+output    = libfundal.a
+build_dir = ./build/fobis-lib-gnu/
+
 [fundal-test-nvf]
 help          = Build FUNDAL tests with NVF
 template      = template-nvf
