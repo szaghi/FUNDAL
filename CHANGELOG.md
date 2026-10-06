@@ -4,6 +4,19 @@ All notable changes to this project are documented here.
 Versions follow [Semantic Versioning](https://semver.org/).
 Format follows [Keep a Changelog](https://keepachangelog.com/).
 
+## [2.2.0] — 2026-10-06
+### Added
+- **dev**: Copy on the device where the buffer lives
+
+
+### Fixed
+- **dev**: Make dev_set_device_num update mydev in every backend
+
+- **examples**: Free memory and check results in fundal_taste
+
+- **docs**: Build the site without the generated API pages
+
+
 ## [2.1.5] — 2026-10-06
 ### Fixed
 - **tests**: Keep test lines within 132 columns
