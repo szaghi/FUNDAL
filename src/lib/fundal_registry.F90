@@ -11,7 +11,8 @@ module fundal_registry
 !< Updates are serialized by an OpenMP critical section: thread-safe only when the library is compiled with OpenMP.
 use, intrinsic :: iso_c_binding,   only : c_intptr_t, c_ptr
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64, output_unit, error_unit
-use            :: fundal_env,      only : dev_allocs_live, dev_bytes_live
+use            :: fundal_env,      only : dev_allocs_live, dev_bytes_live, FUNDAL_ERR_NOT_REGISTERED, &
+                                          FUNDAL_ERR_DEV_ID_MISMATCH
 
 implicit none
 private
@@ -33,8 +34,6 @@ integer(I4P), parameter :: FUNDAL_REGISTRY_OFF   = 0_I4P !< Registry checks disa
 integer(I4P), parameter :: FUNDAL_REGISTRY_WARN  = 1_I4P !< Misuse is reported on stderr, behaviour unchanged (default).
 integer(I4P), parameter :: FUNDAL_REGISTRY_ERROR = 2_I4P !< Misuse is an error (error code or error stop).
 
-integer(I4P), parameter :: FUNDAL_ERR_NOT_REGISTERED  = 103_I4P !< Error flag, pointer not allocated by FUNDAL.
-integer(I4P), parameter :: FUNDAL_ERR_DEV_ID_MISMATCH = 104_I4P !< Error flag, dev_id differs from the recorded device.
 
 integer(I4P), parameter :: LABEL_LEN        = 32_I4P     !< Length of allocation labels.
 integer(I8P), parameter :: INITIAL_CAPACITY = 64_I8P     !< Initial number of slots (power of 2).

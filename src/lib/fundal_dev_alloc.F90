@@ -25,7 +25,6 @@ private
 public :: dev_alloc
 public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED
 
-integer(I4P), parameter :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101 !< Error flag, not allocated device memory.
 
 interface dev_alloc
    !< Allocate device memory.

@@ -19,6 +19,8 @@ public :: mydev
 public :: myhos
 public :: devtype
 public :: IDK
+public :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED, FUNDAL_ERR_NO_DEVICE, FUNDAL_ERR_NOT_REGISTERED, FUNDAL_ERR_DEV_ID_MISMATCH
+public :: dev_error_message
 public :: FUNDAL_DEVICE_HOST
 public :: FUNDAL_DEVICE_GPU
 
@@ -31,6 +33,11 @@ integer(I8P), target :: dev_memory_total=0_I8P     !< Device memory TOTAL, a mac
 integer(I4P), target :: local_comm=0_I4P           !< Local communicator.
 integer(I4P), target :: mydev=0_I4P                !< Device ID.
 integer(I4P), target :: myhos=0_I4P                !< Host ID.
+! Error codes returned through ierr (dev_error_message gives their description).
+integer(I4P), parameter :: FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED=101_I4P !< Device memory not allocated.
+integer(I4P), parameter :: FUNDAL_ERR_NO_DEVICE=102_I4P              !< No device available, host fallback forbidden.
+integer(I4P), parameter :: FUNDAL_ERR_NOT_REGISTERED=103_I4P         !< Pointer not allocated by FUNDAL.
+integer(I4P), parameter :: FUNDAL_ERR_DEV_ID_MISMATCH=104_I4P        !< dev_id differs from the recorded device.
 ! Device types returned by dev_get_device_type on the OpenMP backend (OpenACC returns acc_device_* values) and in CPU mode.
 integer(I4P), parameter :: FUNDAL_DEVICE_HOST=0_I4P !< Device type: host (no offload device available).
 integer(I4P), parameter :: FUNDAL_DEVICE_GPU =1_I4P !< Device type: accelerator/GPU offload device.
@@ -41,4 +48,28 @@ integer(IDK), target :: devtype=ACC_DEVICE_DEFAULT !< OpenACC device type.
 integer, parameter      :: IDK=I4P                  !< Kind parameter for device type definitio.
 integer(IDK), target    :: devtype=0_I4P            !< Device type.
 #endif
+
+contains
+   pure function dev_error_message(ierr) result(msg)
+   !< Return the description of a FUNDAL error code (as returned through ierr).
+   integer(I4P), intent(in)  :: ierr !< Error code.
+   character(:), allocatable :: msg  !< Description.
+   character(16)             :: code !< Code as text.
+
+   select case(ierr)
+   case(0)
+      msg = 'no error'
+   case(FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED)
+      msg = 'device memory not allocated (the device allocator failed)'
+   case(FUNDAL_ERR_NO_DEVICE)
+      msg = 'no device available and host fallback forbidden'
+   case(FUNDAL_ERR_NOT_REGISTERED)
+      msg = 'pointer not allocated by FUNDAL (double free, foreign or section pointer): nothing freed'
+   case(FUNDAL_ERR_DEV_ID_MISMATCH)
+      msg = 'dev_id differs from the device where the buffer lives: nothing freed'
+   case default
+      write(code, '(I0)') ierr
+      msg = 'unknown FUNDAL error code '//trim(code)
+   endselect
+   endfunction dev_error_message
 endmodule fundal_env

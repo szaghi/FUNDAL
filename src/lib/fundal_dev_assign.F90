@@ -10,6 +10,8 @@ use            :: fundal_dev_alloc_replace
 use            :: fundal_dev_free
 use            :: fundal_dev_memcpy
 use            :: fundal_transpose_array
+use            :: fundal_env,      only : dev_error_message
+use, intrinsic :: iso_fortran_env, only : error_unit
 
 implicit none
 private
@@ -267,6 +269,15 @@ interface dev_assign_to_device
 endinterface dev_assign_to_device
 
 contains
+   subroutine assign_error_stop(ierr)
+   !< Stop dev_assign_to_device called without ierr, reporting the actual error of the (re)allocation of dst: an allocation
+   !< failure, or (registry policy error) a dst not allocated by FUNDAL, which is neither freed nor reallocated.
+   integer(I4P), intent(in) :: ierr !< Error code returned by dev_alloc_replace.
+
+   write(error_unit, '(A)') 'FUNDAL error: dev_assign_to_device: '//dev_error_message(ierr)
+   error stop 'FUNDAL: dev_assign_to_device failed'
+   endsubroutine assign_error_stop
+
 #define KKP R8P
 #define VARTYPE real
 #define DEV_ASSIGN_FROM_DEVICE_KKP_1D dev_assign_from_device_R8P_1D

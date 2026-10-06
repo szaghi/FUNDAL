@@ -31,7 +31,7 @@ use            :: omp_lib,         only : dev_get_device_num =>omp_get_default_d
 use            :: fundal_env,      only : FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
 #endif
 use            :: fundal_env,      only : devs_number, mydev, devtype, dev_memory_avail, dev_memory_total, myhos, &
-                                          dev_host_fallback
+                                          dev_host_fallback, FUNDAL_ERR_NO_DEVICE
 
 implicit none
 private
@@ -46,7 +46,6 @@ public :: dev_is_host_fallback
 public :: dev_set_device_num
 public :: FUNDAL_ERR_NO_DEVICE
 
-integer(I4P), parameter :: FUNDAL_ERR_NO_DEVICE=102 !< Error flag, no device available and host fallback forbidden.
 logical :: fallback_warned=.false. !< Host fallback warning already issued (once per process).
 #if defined DEV_OAC
 logical :: acc_initialized=.false. !< acc_init already called: some runtimes (libgomp) abort on a second acc_init.

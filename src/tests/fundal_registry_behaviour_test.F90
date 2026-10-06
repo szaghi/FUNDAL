@@ -67,6 +67,23 @@ call dev_free(a, dev_id=mydev + 1_I4P, ierr=ierr)
 call check(ierr == FUNDAL_ERR_DEV_ID_MISMATCH .and. associated(a), 'mismatch detected')
 call dev_free(a, dev_id=mydev, ierr=ierr) ; call check(ierr == 0 .and. .not.associated(a), 'matching dev_id frees')
 
+print '(A)', 'dev_assign_to_device on a pointer not allocated by FUNDAL (policy error) -> FUNDAL_ERR_NOT_REGISTERED'
+call dev_set_registry_policy('error')
+p => h
+call dev_assign_to_device(dst=p, src=h, ierr=ierr)
+call check(ierr == FUNDAL_ERR_NOT_REGISTERED, 'assign reports 103, not an allocation failure')
+call check(associated(p, h), 'dst left untouched')
+nullify(p)
+call dev_set_registry_policy('warn')
+
+print '(A)', 'dev_error_message describes every code'
+call check(index(dev_error_message(FUNDAL_ERR_FPTR_DEV_NOT_ALLOCATED), 'not allocated') > 0, 'message 101')
+call check(index(dev_error_message(FUNDAL_ERR_NO_DEVICE), 'no device') > 0, 'message 102')
+call check(index(dev_error_message(FUNDAL_ERR_NOT_REGISTERED), 'not allocated by FUNDAL') > 0, 'message 103')
+call check(index(dev_error_message(FUNDAL_ERR_DEV_ID_MISMATCH), 'dev_id') > 0, 'message 104')
+call check(dev_error_message(0) == 'no error', 'message 0')
+call check(index(dev_error_message(999), '999') > 0, 'unknown code')
+
 print '(A)', 'dev_alloc_replace keeps exactly one registered buffer'
 call dev_alloc_replace(fptr_dev=a, ubounds=[5], ierr=ierr, label='r1') ; call check(ierr == 0, 'replace 1')
 call dev_alloc_replace(fptr_dev=a, ubounds=[7], ierr=ierr, label='r2') ; call check(ierr == 0, 'replace 2')

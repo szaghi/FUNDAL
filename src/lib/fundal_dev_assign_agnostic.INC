@@ -334,7 +334,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_1D
 
@@ -350,7 +350,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_2D
 
@@ -366,7 +366,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_3D
 
@@ -382,7 +382,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_4D
 
@@ -398,7 +398,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_5D
 
@@ -414,7 +414,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_6D
 
@@ -430,7 +430,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_7D
 
@@ -452,7 +452,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_2D_T
 
@@ -475,7 +475,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_3D_T
 
@@ -499,7 +499,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_4D_T
 
@@ -524,7 +524,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_5D_T
 
@@ -550,7 +550,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_6D_T
 
@@ -577,7 +577,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_7D_T
 
@@ -594,7 +594,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_1D_LB
 
@@ -612,7 +612,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_2D_LB
 
@@ -631,7 +631,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_3D_LB
 
@@ -651,7 +651,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_4D_LB
 
@@ -672,7 +672,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_5D_LB
 
@@ -694,7 +694,7 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_6D_LB
 
@@ -717,6 +717,6 @@
    if (present(ierr)) then
       ierr = ierr_
    elseif (ierr_ /= 0) then
-      error stop 'error: dev_assign_to_device failed to allocate device memory'
+      call assign_error_stop(ierr_)
    endif
    endsubroutine DEV_ASSIGN_TO_DEVICE_KKP_7D_LB

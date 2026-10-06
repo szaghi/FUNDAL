@@ -20,6 +20,18 @@ Returned in `ierr`; 0 is success. The codes 101 to 104 are exported named consta
 use fundal, only : dev_free, FUNDAL_ERR_NOT_REGISTERED
 ```
 
+### dev_error_message {#dev-error-message}
+
+```fortran
+pure function dev_error_message(ierr) result(msg)   ! signature
+integer(I4P), intent(in)  :: ierr
+character(:), allocatable :: msg
+```
+
+Returns the description of an error code: `'no error'` for 0, a sentence for 101 to 104,
+`'unknown FUNDAL error code <n>'` otherwise. Use it to report an `ierr` instead of a bare number, e.g.
+`print '(A)', 'dev_free: '//dev_error_message(ierr)` after a call that returned a non-zero `ierr`.
+
 ## Stops and messages
 
 Without `ierr`, some errors stop the program. Messages go to standard error.
@@ -31,7 +43,7 @@ Without `ierr`, some errors stop the program. Messages go to standard error.
 | `dev_free` without `ierr`, misuse, policy `error` | `FUNDAL error: dev_free: ...` | `error stop 'FUNDAL: allocation registry misuse'` |
 | `dev_free` without `ierr`, misuse, policy `warn` | `FUNDAL warning: dev_free: ..., freed as before the allocation registry` (or `..., freed there`) | none |
 | `dev_alloc` on OpenACC with a `dev_id` that is not the current device | `FUNDAL warning: dev_alloc: dev_id=... is not used by the OpenACC backend, ...` | none |
-| `dev_assign_to_device` without `ierr`, allocation failed | | `error stop 'error: dev_assign_to_device failed to allocate device memory'` |
+| `dev_assign_to_device` without `ierr`, `dst` not reallocated | `FUNDAL error: dev_assign_to_device: <dev_error_message of the code>`: 101 (allocation failed) or, under policy `error`, 103 (`dst` not allocated by FUNDAL: nothing freed, nothing allocated) | `error stop 'FUNDAL: dev_assign_to_device failed'` |
 | `mpih_object%error_stop` | `<myrankstr>error stop <msg>` | `MPI_Finalize`, `stop 1` |
 | `mpih_object%abort` | `<myrankstr>abort <msg>` | `MPI_Abort` |
 

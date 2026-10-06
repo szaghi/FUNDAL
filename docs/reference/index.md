@@ -24,7 +24,7 @@ them: import them in your code (`use, intrinsic :: iso_fortran_env, only : I4P=>
 | Allocation registry | `dev_set_registry_policy`, `dev_get_alloc_stats`, `dev_alloc_report`, `FUNDAL_REGISTRY` | [Registry and statistics](./registry) |
 | MPI | `mpih_object` | [MPI handler](./mpi) |
 | Kernel directives | `DEVICEVAR`, `DEVICEPTR`, `OMPLOOP`, `DEVMODULE` | [Macros](./macros) |
-| Error codes and constants | `FUNDAL_ERR_*`, `FUNDAL_REGISTRY_*`, `FUNDAL_DEVICE_*` | [Errors and constants](./errors) |
+| Error codes and constants | `FUNDAL_ERR_*`, [`dev_error_message`](./errors#dev-error-message), `FUNDAL_REGISTRY_*`, `FUNDAL_DEVICE_*` | [Errors and constants](./errors) |
 | Global state | `mydev`, `myhos`, `devtype`, `IDK`, `devs_number`, `dev_memory_avail`, `dev_memory_total`, `local_comm` | [Global variables](./globals) |
 | Specifications | OpenACC, OpenMP | [Standards](./standards) |
 

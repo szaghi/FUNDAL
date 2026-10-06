@@ -24,7 +24,8 @@ use            :: fundal_dev_handling,            only : dev_get_device_memory_i
                                                          FUNDAL_ERR_NO_DEVICE,       &
                                                          dev_set_device_num
 use            :: fundal_env,                     only : devs_number, dev_memory_avail, dev_memory_total, local_comm, &
-                                                        mydev, myhos, devtype, IDK, FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU
+                                                        mydev, myhos, devtype, IDK, FUNDAL_DEVICE_HOST, FUNDAL_DEVICE_GPU, &
+                                                        dev_error_message
 use, intrinsic :: iso_fortran_env, only : I4P=>int32, I8P=>int64
 
 implicit none
@@ -54,6 +55,7 @@ public :: dev_get_alloc_stats
 public :: dev_set_registry_policy
 public :: FUNDAL_REGISTRY_OFF, FUNDAL_REGISTRY_WARN, FUNDAL_REGISTRY_ERROR
 public :: FUNDAL_ERR_NOT_REGISTERED, FUNDAL_ERR_DEV_ID_MISMATCH
+public :: dev_error_message
 public :: save_memory_status
 ! environment global variables
 public :: devs_number

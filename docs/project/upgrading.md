@@ -16,6 +16,13 @@ calls compile unchanged. The full list of commits is in the [changelog](./change
   `dev_get_device_type` on OpenMP with them instead of 0 and 1.
 - **`mpih_object%initialize(..., require_device)`**: the new optional argument is passed to `dev_init`, so an MPI code
   can forbid the host fallback on every rank.
+- **`dev_error_message(ierr)`** (new) returns the description of an error code. The codes 101-104 are now defined in
+  one place (`fundal_env`) and re-exported under the same names: existing `use` statements are unaffected.
+- **`dev_assign_to_device` without `ierr` reports the actual error.** Under policy `error`, a `dst` not allocated by
+  FUNDAL (code 103: nothing is freed or allocated) stopped with "failed to allocate device memory"; it now prints
+  `FUNDAL error: dev_assign_to_device: <description>` and stops with `FUNDAL: dev_assign_to_device failed`.
+- **Tests exit non-zero on failure.** Several tests ended a failed check with a plain `stop` (exit status 0), so the
+  test runner and CI counted them as passed; they now use `error stop 1`.
 - fobos: the AMD and Intel laplace rules are now `build-laplace-omp-amd` and `build-laplace-omp-ifx`, the `[modes]` list
   matches the defined modes, and every rule uses the double-dash `fobis` CLI.
 
