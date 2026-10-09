@@ -160,22 +160,24 @@ target_link_libraries(quickstart PRIVATE FUNDAL::fundal)
 `add_subdirectory(FUNDAL)` works as well (the tests are then off) and defines the same target. The variables
 `FUNDAL_BACKEND` and `FUNDAL_MPI` of the package tell how it was built.
 
-**fpm projects** declare the dependency, pinned to a release; `fundal.H` is on the include path of the dependents:
+**fpm projects** declare the dependency; `fundal.H` is on the include path of the dependents:
 
 ```toml
 [dependencies]
-FUNDAL = { git = "https://github.com/szaghi/FUNDAL", tag = "v2.1.3" }
+FUNDAL = { git = "https://github.com/szaghi/FUNDAL", branch = "main" }
 ```
+
+This follows `main`, which always has the features of this documentation. For a fixed version, use `tag = "vX.Y.Z"`
+with a [release](https://github.com/szaghi/FUNDAL/releases) (`:: tag=vX.Y.Z` in a `fobos`).
 
 The dependency is built in the compile-time CPU mode; for a backend, pass the macros and offload flags with `--flag`
 to the fpm commands of your project.
 
 **FoBiS projects** can fetch FUNDAL as a dependency and compile its sources with their own: declare it in your `fobos`,
-pinned to a release,
 
 ```ini
 [dependencies]
-FUNDAL = https://github.com/szaghi/FUNDAL :: tag=v2.1.3
+FUNDAL = https://github.com/szaghi/FUNDAL
 ```
 
 run `fobis fetch` (it clones into `.fobis_deps/FUNDAL`), and in your build mode add the macros to `preproc`,
