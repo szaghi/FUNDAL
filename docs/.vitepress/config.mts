@@ -69,6 +69,19 @@ const docs = [
 export default withMermaid({
   title: 'FUNDAL Documentation',
   base: '/FUNDAL/',
+  // the Sumi identity: favicons (base-prefixed by hand: head entries are not rewritten) and the fonts of the family
+  head: [
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/FUNDAL/favicon.svg' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/FUNDAL/favicon-32.png' }],
+    ['link', { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/FUNDAL/favicon-16.png' }],
+    ['link', { rel: 'alternate icon', href: '/FUNDAL/favicon.ico' }],
+    ['link', { rel: 'apple-touch-icon', sizes: '180x180', href: '/FUNDAL/apple-touch-icon.png' }],
+    ['meta', { name: 'theme-color', content: '#f3ede1', media: '(prefers-color-scheme: light)' }],
+    ['meta', { name: 'theme-color', content: '#0c111b', media: '(prefers-color-scheme: dark)' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@800&family=Inter:wght@400;500;600&family=JetBrains+Mono&display=swap' }],
+  ],
   // ford.md is the configuration of the API generator (formal), not a page
   srcExclude: ['ford.md'],
   ignoreDeadLinks: apiGenerated ? false : [/^\/api\//],
@@ -85,6 +98,8 @@ export default withMermaid({
     },
   },
   themeConfig: {
+    logo: { light: '/logo-nav.svg', dark: '/logo-nav-dark.svg', alt: 'FUNDAL' },
+    siteTitle: 'FUNDAL',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Start here', link: '/guide/', activeMatch: '^/guide/(index|install|concepts)?$' },
