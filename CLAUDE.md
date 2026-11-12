@@ -73,6 +73,11 @@ Every Fortran sample and output in `docs/` is included from `docs/examples/snipp
 `ACC_DEVICE_TYPE=host`, MPI examples on 2 ranks). The `docs-examples.yml` workflow fails if they are stale. Never
 hand-write Fortran in the pages except reference signatures.
 
+CI: `ci.yml` (coverage, `fundal-test-oac-gnu`) and the build job of `docs.yml` run in the container
+`ghcr.io/szaghi/fortran-toolchains:gnu-16.2` (gfortran 16.2, Open MPI 5.0.11, FoBiS, formal; `[scaffold]
+toolchain_image` in `fobos`, synced by `fobis scaffold sync`). `docs-examples.yml` (not scaffold-managed) runs on the
+runner with Ubuntu's default `gfortran` and Open MPI from apt.
+
 ## Architecture
 
 ### Backend abstraction via C preprocessor

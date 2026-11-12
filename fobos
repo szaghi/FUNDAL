@@ -7,6 +7,9 @@ website    = https://szaghi.github.io/FUNDAL
 email      = stefano.zaghi@gmail.it
 authors    = Stefano Zaghi
 
+[scaffold]
+toolchain_image = ghcr.io/szaghi/fortran-toolchains:gnu-16.2
+
 # user-tunable variables (FoBiS fobos variables)
 [common-variables]
 # AMD GPU target architecture(s) for amdflang OpenMP offload.
