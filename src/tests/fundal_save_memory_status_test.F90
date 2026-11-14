@@ -24,6 +24,6 @@ inquire(file='device_memory_status.log', exist=does_exist)
 if (does_exist) then
    print '(A)', 'test passed'
 else
-   print '(A)', 'error: something is not working...'
+   error stop 'error: something is not working...'
 endif
 endprogram fundal_save_memory_status_test
