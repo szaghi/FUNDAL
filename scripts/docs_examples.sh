@@ -14,9 +14,9 @@
 # depend on the machine: the examples must print only values (use explicit formats), never device names, memory sizes or
 # timings, and an MPI example prints from rank 0 only, after gathering the results there. Run-dependent values (buffer
 # addresses in dev_alloc_report) are replaced by placeholders. Each run happens in a scratch directory with a minimal
-# environment (PATH: the examples, the directory of mpirun, /usr/bin, /bin), no standard input (mpirun would read it)
-# and no GPU visible. The Docs examples workflow fails when the committed snippets or outputs differ from the regenerated
-# ones.
+# environment (PATH: the examples, the directory of mpirun, /usr/bin, /bin; Open MPI's permission to run as root, when
+# set), no standard input (mpirun would read it) and no GPU visible. The Docs examples workflow fails when the committed
+# snippets or outputs differ from the regenerated ones.
 #
 # Usage: bash scripts/docs_examples.sh      (MPIFC=/path/to/mpif90 bash scripts/docs_examples.sh: another MPI wrapper;
 #                                            the wrapper must wrap gfortran, and its mpirun must be next to it or on PATH)
@@ -65,6 +65,12 @@ done
 
 # runs, in the order of the files and of the lines
 path=$build/bin:$(dirname "$mpirun")
+# Open MPI refuses to run as root unless allowed: a container runs as root (the fortran-toolchains images allow it in
+# their environment), so the permission is passed through the minimal environment of the runs
+ompi_root=()
+for v in OMPI_ALLOW_RUN_AS_ROOT OMPI_ALLOW_RUN_AS_ROOT_CONFIRM; do
+  if [ -n "${!v:-}" ]; then ompi_root+=("$v=${!v}"); fi
+done
 run() { # run [-s] ID COMMAND
   local show=0 status=0
   if [ "$1" = -s ]; then show=1; shift; fi
@@ -74,7 +80,7 @@ run() { # run [-s] ID COMMAND
     printf '$ %s\n' "$cmd"
     (cd "$run_dir" && env -i HOME="$run_dir" PATH="$path:/usr/bin:/bin" SHELL=/bin/bash LC_ALL=C \
                      ACC_DEVICE_TYPE=host CUDA_VISIBLE_DEVICES= OMP_NUM_THREADS=1 \
-                     GFORTRAN_UNBUFFERED_PRECONNECTED=y bash -c "$cmd" < /dev/null 2>/dev/null) || status=$?
+                     GFORTRAN_UNBUFFERED_PRECONNECTED=y ${ompi_root[@]+"${ompi_root[@]}"} bash -c "$cmd" < /dev/null 2>/dev/null) || status=$?
     if [ $show = 1 ]; then printf '[exit status %d]\n' "$status"; fi
   } | sed -E -e "s|$run_dir|$home|g" -e 's/address=0x[0-9A-F]{16}/address=0x<address>/g' > "$ex/output/$id.txt"
 }
