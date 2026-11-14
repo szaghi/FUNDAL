@@ -73,10 +73,11 @@ Every Fortran sample and output in `docs/` is included from `docs/examples/snipp
 `ACC_DEVICE_TYPE=host`, MPI examples on 2 ranks). The `docs-examples.yml` workflow fails if they are stale. Never
 hand-write Fortran in the pages except reference signatures.
 
-CI: `ci.yml` (coverage, `fundal-test-oac-gnu`) and the build job of `docs.yml` run in the container
-`ghcr.io/szaghi/fortran-toolchains:gnu-16.2` (gfortran 16.2, Open MPI 5.0.11, FoBiS, formal; `[scaffold]
-toolchain_image` in `fobos`, synced by `fobis scaffold sync`). `docs-examples.yml` (not scaffold-managed) runs on the
-runner with Ubuntu's default `gfortran` and Open MPI from apt.
+CI: every workflow is a thin caller of a reusable workflow of `szaghi/fortran-toolchains` pinned at `@v1` (repo
+`~/fortran/fortran-toolchains`), rendered by `fobis scaffold sync` from `fobos` `[scaffold]`: `toolchain = linux-gnu`
+(the `gnu-16.2` image: gfortran 16.2, Open MPI 5.0.11, FoBiS, formal) runs `ci.yml` (coverage, `fundal-test-oac-gnu`),
+`docs.yml`, `fpm.yml` (`fpm = true`) and `docs-examples.yml` (`docs_examples = docs/examples`, with the image's
+`mpif90`). `release.yml` publishes a tag's release, then `install.yml` installs it on a fresh runner.
 
 ## Architecture
 

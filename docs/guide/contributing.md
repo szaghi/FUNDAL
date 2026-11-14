@@ -91,10 +91,15 @@ docs(tutorial): explain the halo exchange of chapter 6
 | Workflow | When | What |
 |---|---|---|
 | `ci.yml` | every push and pull request | builds the tests with gfortran and OpenACC (`fundal-test-oac-gnu`, coverage) and runs them, on the host |
-| `docs-examples.yml` | pushes to `main`, pull requests | runs `scripts/docs_examples.sh` and fails if `docs/examples` changes |
-| `docs.yml` | pushes to `main` | coverage, API pages (formal), VitePress build, deployment to GitHub Pages |
+| `fpm.yml` | every push and pull request | `fpm test` (the tests declared in `fpm.toml`) and `fpm build --profile release` |
+| `docs-examples.yml` | every push and pull request | runs `scripts/docs_examples.sh` and fails if `docs/examples` changes |
+| `docs.yml` | after a green CI on `main` | API pages (formal), VitePress build with CI's coverage, deployment to GitHub Pages |
 | `release.yml` | tags `vX.Y.Z` | release tarball and GitHub release with the changelog section and `install.sh`; it runs no tests |
-| `install.yml` | published releases | tries `install.sh` with make, CMake and fpm |
+| `install.yml` | called by `release.yml` | installs the published release on a fresh runner with make, CMake, FoBiS and fpm |
+
+Each one is a thin caller of a reusable workflow of [fortran-toolchains](https://github.com/szaghi/fortran-toolchains),
+pinned at `@v1` and rendered by `fobis scaffold sync` from the `fobos` `[scaffold]` section; all but `release.yml` and
+`install.yml` run in its `gnu-16.2` image (gfortran 16.2, Open MPI 5.0.11).
 
 ## Releases
 
