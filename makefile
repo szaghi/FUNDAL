@@ -15,6 +15,9 @@
 # Output: build/<COMPILER>-<BACKEND>/{libfundal.a, mod/, obj/, tests/}. Users compile against mod/ and link libfundal.a,
 # with the same -DDEV_* / -DCOMPILER_* macros and -I<path to src/lib> (for fundal.H) used here.
 
+# the default goal is the library: the module dependency rules below would otherwise be the first target
+.DEFAULT_GOAL := all
+
 COMPILER ?= gnu
 BACKEND  ?= none
 MPI      ?= 0
