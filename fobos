@@ -12,6 +12,14 @@ toolchain     = linux-gnu
 docs_examples = docs/examples
 fpm           = true
 
+# the one-line installer, scripts/install.sh (FoBiS#217): FUNDAL's library mode for the fobis build, where the make
+# build leaves the library and the modules (compile-time CPU mode, gfortran), the header of the kernel macros
+[installer]
+mode_gnu = fundal-lib-gnu
+make_lib = build/gnu-none
+make_mod = build/gnu-none/mod
+headers  = src/lib/fundal.H
+
 # user-tunable variables (FoBiS fobos variables)
 [common-variables]
 # AMD GPU target architecture(s) for amdflang OpenMP offload.

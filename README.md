@@ -115,17 +115,20 @@ See the
 [installation guide](https://szaghi.github.io/FUNDAL/guide/install) for every option and for using FUNDAL in your
 project.
 
-### install.sh
-
-Download and build the latest release in one step:
+### One-line install
 
 ```bash
-wget $(curl -s https://api.github.com/repos/szaghi/FUNDAL/releases/latest \
-  | jq -r '.assets[] | select(.name | test("install.sh";"i")) | .browser_download_url')
-chmod +x install.sh
-./install.sh --download wget --build fobis   # default mode: the library, build/fobis-lib-gnu/libfundal.a
-./install.sh --download wget --build make    # or the make build (CPU mode)
+curl -fsSL https://github.com/szaghi/FUNDAL/releases/latest/download/install.sh | bash
 ```
+
+It installs the latest release into `~/.local` with the build system you choose among those FUNDAL ships
+(`--build fobis|fpm|cmake|make`: a menu asks when you do not say), one install per compiler
+(`lib/fundal/<compiler>-<version>/`, `include/fundal/<compiler>-<version>/`, with `fundal.H` next to the modules), and
+makes it usable through pkg-config (`pkg-config --cflags --libs fundal`, with
+`PKG_CONFIG_PATH=$HOME/.local/lib/pkgconfig`). It builds the compile-time CPU mode with gfortran (no device backend, no
+MPI handler): for a device build or another compiler, build FUNDAL as below. Pass options after `bash -s --`, e.g.
+`... | bash -s -- --build cmake --prefix /opt/fundal`; `--help` lists them all, `--uninstall` removes the install.
+The installer is FoBiS's ([One-line installer](https://szaghi.github.io/FoBiS/cookbook/installer)).
 
 ---
 
